@@ -1,0 +1,5 @@
+plt.plot(x, y)
+plt.minorticks_on()
+plt.grid(which='minor', linestyle='--', color='gray')
+plt.grid(which='major', linestyle='-', color='black', alpha=0.2)
+plt.show()

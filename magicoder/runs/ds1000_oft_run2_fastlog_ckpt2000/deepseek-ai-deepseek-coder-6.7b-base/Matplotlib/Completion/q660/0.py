@@ -1,0 +1,6 @@
+fig, ax = plt.subplots()
+ax.plot(t, a, label='a')
+ax.plot(t, b, label='b')
+ax.plot(t, c, label='c')
+ax.legend()
+plt.show()

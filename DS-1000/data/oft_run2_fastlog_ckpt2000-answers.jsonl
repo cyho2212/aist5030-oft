@@ -1,0 +1,1000 @@
+{"id": 0, "code": "result = df.iloc[List]\nprint(result)\n"}
+{"id": 1, "code": "result = df.iloc[List]\n\n# Counting the number of rows with different Type\noriginal_types = df['Type'].unique()\nresult_types = result['Type'].unique()\ndifferent_types = len(set(original_types) ^ set(result_types))\n\nprint(result)\nprint(different_types)\n"}
+{"id": 2, "code": "\n# Get value counts for each column\nvalue_counts = df.apply(pd.Series.value_counts)\n\n# Create a mask for values that appear at least twice\nmask = value_counts >= 2\n\n# Replace values that appear less than twice with 'other'\ndf = df.where(mask, 'other')\n\n# Print the result\nprint(df)\n"}
+{"id": 3, "code": "\n# Get value counts for each column\nvalue_counts = df.apply(pd.Series.value_counts)\n\n# Create a mask for values that have at least 3 appearances\nmask = value_counts >= 3\n\n# Replace values in df with 'other' where mask is False\ndf.loc[~mask] = 'other'\n\n# Print the result\nprint(df)\n"}
+{"id": 4, "code": "    for col in df.columns:\n        value_counts = df[col].value_counts()\n        df[col] = df[col].apply(lambda x: 'other' if value_counts[x] < 2 else x)\n    return df\n\nprint(f())\n"}
+{"id": 5, "code": "\n# Create a dictionary to map old values to new values\nmapping = {'apple': 'other', 'potato': 'other', 'cheese': 'cheese', 'banana': 'other', 'egg': 'other'}\n\n# Apply the mapping to the dataframe\ndf = df.replace(mapping)\n\n# Print the result\nprint(df)\n"}
+{"id": 6, "code": "\n# Create a dictionary to map values to their counts\ncounts = {}\nfor col in df.columns:\n    counts[col] = df[col].value_counts()\n\n# Create a dictionary to map values to their replacement\nreplacements = {}\nfor col in df.columns:\n    replacements[col] = counts[col][counts[col] >= 2].index.tolist()\n\n# Replace values\nfor col in df.columns:\n    df[col] = df[col].replace(replacements[col], 'other')\n\n# Replace 'apple' with 'other'\ndf['Qu1'] = df['Qu1'].replace('apple', 'other')\n\n# Print the result\nprint(df)\n"}
+{"id": 7, "code": "result = df.drop_duplicates(subset='url', keep='first')\n\n# Print the result\nprint(result)\n"}
+{"id": 8, "code": "result = df.drop_duplicates(subset='url', keep='first')\n\nprint(result)\n"}
+{"id": 9, "code": "result = df.sort_values('keep_if_dup', ascending=False).drop_duplicates('url', keep='first')\n\nprint(result)\n"}
+{"id": 10, "code": "result = {}\nfor name, group in df.groupby('name'):\n    result[name] = group.set_index('v1').T.to_dict('index')\n\nprint(result)\n"}
+{"id": 11, "code": "df['datetime'] = df['datetime'].dt.tz_localize(None)\n\n# Export to Excel\ndf.to_excel('output.xlsx', index=False)\n"}
+{"id": 12, "code": "    df['datetime'] = df['datetime'].dt.tz_localize(None)\n    return df\n\nprint(f())\n"}
+{"id": 13, "code": "df['datetime'] = df['datetime'].dt.tz_localize(None)\ndf['datetime'] = df['datetime'].dt.strftime('%d-%b-%Y %H:%M:%S')\n\nprint(df)\n"}
+{"id": 14, "code": "df['datetime'] = df['datetime'].dt.tz_localize(None)\n\n# Export to Excel\ndf.to_excel('output.xlsx', index=False)\n"}
+{"id": 15, "code": "result = pd.concat([df, df['message'].str.extractall('(?P<key>\\w+):\\s*(?P<value>\\w+)')], axis=1)\nresult = result.drop('message', axis=1)\nresult = result.pivot(index=['name', 'status', 'number'], columns='key', values='value').reset_index()\nresult = result.fillna('none')\n\nprint(result)\n"}
+{"id": 16, "code": "df.loc[df['product'].isin(products), 'score'] *= 10\nprint(df)\n"}
+{"id": 17, "code": "df.loc[~df['product'].isin(products), 'score'] *= 10\nprint(df)\n"}
+{"id": 18, "code": "for product_list in products:\n    df.loc[df['product'].isin(product_list), 'score'] *= 10\n\nprint(df)\n"}
+{"id": 19, "code": "df.loc[df['product'].isin(products), 'score'] = 1\ndf.loc[~df['product'].isin(products), 'score'] = 0\nprint(df)\n"}
+{"id": 20, "code": "df['category'] = df.idxmax(axis=1)\n\nprint(df)\n"}
+{"id": 21, "code": "\ndef get_category(row):\n    if row['A'] == 0:\n        return 'A'\n    elif row['B'] == 0:\n        return 'B'\n    elif row['C'] == 0:\n        return 'C'\n    else:\n        return 'D'\n\ndf['category'] = df.apply(get_category, axis=1)\n\nprint(df)\n"}
+{"id": 22, "code": "df['category'] = df.apply(lambda x: [col for col in df.columns if x[col] == 1], axis=1)\n\nprint(df)\n"}
+{"id": 23, "code": "df['Date'] = df['Date'].dt.strftime('%b-%Y')\nprint(df)\n"}
+{"id": 24, "code": "df['Date'] = df['Date'].dt.strftime('%d-%b-%Y')\nprint(df)\n"}
+{"id": 25, "code": "df['Date'] = df['Date'].dt.strftime('%d-%b-%Y %A')\ndf = df[(df['Date'] >= List[0]) & (df['Date'] <= List[1])]\nprint(df)\n"}
+{"id": 26, "code": "df = df.shift(1, axis=0)\ndf.iloc[-1] = df.iloc[0]\nprint(df)\n"}
+{"id": 27, "code": "df = df.shift(1, axis=0)\ndf.iloc[-1] = df.iloc[0]\ndf = df.drop(df.index[0])\nprint(df)\n"}
+{"id": 28, "code": "df = df.shift(1, axis=0)\ndf.iloc[-1] = df.iloc[0]\ndf = df.shift(-1, axis=0)\ndf.iloc[0] = df.iloc[-1]\nprint(df)\n"}
+{"id": 29, "code": "df = df.shift(1)\ndf.iloc[0, 0] = df.iloc[-1, 0]\ndf.iloc[-1, 0] = df.iloc[0, 0]\ndf = df.shift(-1)\ndf.iloc[0, 0] = df.iloc[-1, 0]\ndf.iloc[-1, 0] = df.iloc[0, 0]\n\nprint(df)\n"}
+{"id": 30, "code": "df.columns = [col + 'X' for col in df.columns]\n\nprint(df)\n"}
+{"id": 31, "code": "df.columns = ['X' + col for col in df.columns]\nprint(df)\n"}
+{"id": 32, "code": "df.columns = ['X' + col if col != 'HeaderX' else col for col in df.columns]\n\nprint(df)\n"}
+{"id": 33, "code": "\n# Get all columns that contain 'val' in their names\nval_columns = [col for col in df.columns if 'val' in col]\n\n# Group by 'group' and aggregate the mean of all other columns\nresult = df.groupby('group').agg({\"group_color\": \"first\", **{col: \"mean\" for col in val_columns}})\n\nprint(result)\n"}
+{"id": 34, "code": "result = df.groupby('group').agg({\"group_color\": \"first\", **{col: \"sum\" for col in df.columns if \"val\" in col}})\nprint(result)\n"}
+{"id": 35, "code": "\n# Get the list of columns that end with '2'\ncols_to_mean = [col for col in df.columns if col.endswith('2')]\n\n# Get the list of columns that do not end with '2'\ncols_to_sum = [col for col in df.columns if col not in cols_to_mean]\n\n# Group by 'group' and aggregate\nresult = df.groupby('group').agg({\"group_color\": \"first\", **{col: \"mean\" for col in cols_to_mean}, **{col: \"sum\" for col in cols_to_sum}})\n\nprint(result)\n"}
+{"id": 36, "code": "result = df.loc[row_list, column_list].mean(axis=0)\nprint(result)\n"}
+{"id": 37, "code": "result = df.loc[row_list, column_list].sum(axis=0)\nprint(result)\n"}
+{"id": 38, "code": "result = df.loc[row_list, column_list].sum(axis=0)\nprint(result)\n"}
+{"id": 39, "code": "result = df.apply(pd.Series.value_counts).fillna(0).stack().astype(int)\nprint(result)\n"}
+{"id": 40, "code": "result = df.isnull().sum()\nprint(result)\n"}
+{"id": 41, "code": "result = ''\nfor col in df.columns:\n    result += f'---- {col} ----\\n{df[col].value_counts()}\\n\\n'\n\nprint(result)\n"}
+{"id": 42, "code": "result = df.iloc[0].append(df.iloc[1]).to_frame().T\nprint(result)\n"}
+{"id": 43, "code": "result = df.iloc[[0]].append(df.iloc[[1]])\nprint(result)\n"}
+{"id": 44, "code": "result = df.apply(lambda x : (x[x.notnull()].values.tolist()+x[x.isnull()].values.tolist()),1)\nprint(result)\n"}
+{"id": 45, "code": "result = df.apply(lambda x : (x[x.isnull()].values.tolist()+x[x.notnull()].values.tolist()),1)\nprint(result)\n"}
+{"id": 46, "code": "result = df.sort_values(by=['0','1','2'], ascending=False)\n\nprint(result)\n"}
+{"id": 47, "code": "result = df.loc[df['value'] < thresh]\nresult['value'] = result['value'].sum()\nresult = result.reset_index()\nresult.loc[0, 'lab'] = 'X'\nresult = result.set_index('lab')\nprint(result)\n"}
+{"id": 48, "code": "result = df.loc[df['value'] < thresh]\nresult.loc['X'] = result['value'].mean()\nresult = result.reset_index()\nprint(result)\n"}
+{"id": 49, "code": "df_section = df[(df['value'] >= section_left) & (df['value'] <= section_right)]\ndf_other = df[(df['value'] < section_left) | (df['value'] > section_right)]\ndf_other['value'] = df_other['value'].mean()\nresult = pd.concat([df_section, df_other])\nprint(result)\n"}
+{"id": 50, "code": "result = df.copy()\nfor col in df.columns:\n    result[f'inv_{col}'] = 1 / df[col]\n\nprint(result)\n"}
+{"id": 51, "code": "result = df.copy()\nfor col in df.columns:\n    result[f\"exp_{col}\"] = df[col].apply(lambda x: e**x)\n\nprint(result)\n"}
+{"id": 52, "code": "result = df.copy()\nfor col in df.columns:\n    result[f'inv_{col}'] = 1 / df[col]\n\nprint(result)\n"}
+{"id": 53, "code": "import numpy as np\n\ndef sigmoid(x):\n    return 1 / (1 + np.exp(-x))\n\nresult = df.copy()\nfor col in df.columns:\n    result[f'sigmoid_{col}'] = sigmoid(df[col])\n\nprint(result)\n"}
+{"id": 54, "code": "min_idx = df.idxmin()\nmax_idx = df.idxmax()\nresult = max_idx[max_idx > min_idx]\n"}
+{"id": 55, "code": "result = df.idxmin()\nresult.loc[df.idxmax().idxmin():]\n"}
+{"id": 56, "code": "result = pd.DataFrame({'user': df['user'].unique(), 'dt': pd.date_range(df['dt'].min(), df['dt'].max())})\nresult = result.merge(df, on=['user', 'dt'], how='left').fillna(0)\nprint(result)\n"}
+{"id": 57, "code": "result = pd.DataFrame({'user': df['user'].unique(), 'dt': pd.date_range(df['dt'].min(), df['dt'].max())})\nresult = result.merge(df, on=['user', 'dt'], how='left').fillna(0)\nprint(result)\n"}
+{"id": 58, "code": "\n# Get the min and max date\nmin_date = df['dt'].min()\nmax_date = df['dt'].max()\n\n# Create a new dataframe with all dates between min and max\nnew_df = pd.DataFrame({'dt': pd.date_range(min_date, max_date)})\n\n# Merge the two dataframes\nresult = pd.merge(new_df, df, on='dt', how='left').fillna(233)\n\nprint(result)\n"}
+{"id": 59, "code": "result = pd.DataFrame({'dt': pd.date_range(df['dt'].min(), df['dt'].max()), 'user': df['user'].unique()[0], 'val': df['val'].max()})\nprint(result)\n"}
+{"id": 60, "code": "\n# Get the minimum and maximum date\nmin_date = df['dt'].min()\nmax_date = df['dt'].max()\n\n# Create a new dataframe with all dates between min_date and max_date\nnew_df = pd.DataFrame({'dt': pd.date_range(min_date, max_date)})\n\n# Merge the new dataframe with the original dataframe\nresult = pd.merge(new_df, df, on='dt', how='left')\n\n# Fill the missing values in the 'val' column with the maximum value of 'val' for each 'user'\nresult['val'] = result.groupby('user')['val'].transform('max')\n\n# Format the 'dt' column\nresult['dt'] = result['dt'].dt.strftime('%d-%b-%Y')\n\nprint(result)\n"}
+{"id": 61, "code": "result = df.groupby('name').ngroup()\n\nprint(result)\n"}
+{"id": 62, "code": "result = df.groupby('name').ngroup() + 1\ndf['a'] = result\nprint(df)\n"}
+{"id": 63, "code": "    df['name'] = df['name'].astype('category').cat.codes\n    return df\n\nprint(f())\n"}
+{"id": 64, "code": "result = df.groupby('name').ngroup()\nresult = result.rename('ID').reset_index()\nresult = result.drop('name', axis=1)\nprint(result)\n"}
+{"id": 65, "code": "df = df.melt(id_vars=['user', 'someBool'], var_name='date', value_name='value')\n\nprint(df)\n"}
+{"id": 66, "code": "df = df.melt(id_vars=['user'], var_name='others', value_name='value')\n\nprint(df)\n"}
+{"id": 67, "code": "df = df.melt(id_vars=['user', 'someBool'], var_name='date', value_name='value')\ndf = df.dropna()\n\nprint(df)\n"}
+{"id": 68, "code": "result = df.loc[df['c'] > 0.5, columns]\n\n# Convert to numpy array\ntraining_set = result.values\n"}
+{"id": 69, "code": "result = df.loc[df['c'] > 0.45, columns]\n\n# Convert to numpy array\ntraining_set = result.values\n"}
+{"id": 70, "code": "    locs = [df.columns.get_loc(_) for _ in columns]\n    return df[df.c > 0.5][locs].values\n\n# Test\ndf = pd.DataFrame(np.random.rand(4,5), columns = list('abcde'))\nprint(f(df))\n"}
+{"id": 71, "code": "    df = df[df.c > 0.5][columns]\n    df['sum'] = df.sum(axis=1)\n    return df\n\n# Test\ndf = pd.DataFrame(np.random.rand(4,5), columns = list('abcde'))\nprint(f(df))\n"}
+{"id": 72, "code": "    locs = [df.columns.get_loc(_) for _ in columns]\n    return df[df.c > 0.5][locs]\n\n# Test\ndf = pd.DataFrame(np.random.rand(4,5), columns = list('abcde'))\nprint(f(df))\n"}
+{"id": 73, "code": "df['date'] = pd.to_datetime(df['date'], format='%m/%d/%y')\ndf = df.sort_values(by='date')\ndf = df.drop_duplicates(subset='date', keep='first')\ndf = df.set_index('date')\ndf = df.drop(df.index[df.index.duplicated(keep='first')])\ndf = df.reset_index()\n\nprint(df)\n"}
+{"id": 74, "code": "df['date'] = pd.to_datetime(df['date'], format='%m/%d/%y')\ndf = df.sort_values(by='date')\ndf['date_diff'] = df['date'].diff()\ndf['date_diff'] = df['date_diff'].dt.days\ndf = df[df['date_diff'] > X]\nresult = df.reset_index(drop=True)\n\nprint(result)\n"}
+{"id": 75, "code": "\ndf['date'] = pd.to_datetime(df['date'], format='%m/%d/%y')\ndf = df.sort_values(by='date')\n\ndef is_overlap(row1, row2, X):\n    return abs((row1['date'] - row2['date']).days) <= X\n\ndf = df.drop_duplicates(subset='date', keep='first')\n\nfor i in range(len(df)):\n    for j in range(i+1, len(df)):\n        if is_overlap(df.iloc[i], df.iloc[j], X):\n            df = df.drop(df.index[j])\n\ndf['date'] = df['date'].dt.strftime('%d-%b-%Y')\n\nprint(df)\n"}
+{"id": 76, "code": "result = df.groupby(df.index // 3).mean()\n\nprint(result)\n"}
+{"id": 77, "code": "result = df.groupby(df.index // 3).sum()\n\nprint(result)\n"}
+{"id": 78, "code": "result = df.groupby(df.index // 4).sum()\n\nprint(result)\n"}
+{"id": 79, "code": "result = df.rolling(3, min_periods=1).mean().iloc[::-1]\n\nprint(result)\n"}
+{"id": 80, "code": "result = pd.concat([df.groupby(df.index // 3).sum(), df.groupby(df.index // 3).mean()], axis=1)\n\nprint(result)\n"}
+{"id": 81, "code": "result = pd.concat([df.iloc[-3:].sum(), df.iloc[-2:].mean(), df.iloc[-3:].sum(), df.iloc[-2:].mean()])\n\nprint(result)\n"}
+{"id": 82, "code": "df['A'] = df['A'].fillna(method='ffill')\nprint(df)\n"}
+{"id": 83, "code": "df['A'] = df['A'].fillna(method='bfill')\nprint(df)\n"}
+{"id": 84, "code": "df['A'] = df['A'].fillna(method='ffill').fillna(method='bfill')\nprint(df)\n"}
+{"id": 85, "code": "df['number'] = df['duration'].str.extract('(\\d+)')\ndf['time'] = df['duration'].str.extract('(\\w+)')\ndf['time_days'] = df['time'].replace({'year': 365, 'month': 30, 'week': 7, 'day': 1})\n\nprint(df)\n"}
+{"id": 86, "code": "df['time'] = df['duration'].str.extract('(\\w+)')\ndf['number'] = df['duration'].str.extract('(\\d+)')\ndf['time_day'] = df['time'].replace({'year': 365, 'month': 30, 'week': 7, 'day': 1})\n\nprint(df)\n"}
+{"id": 87, "code": "    df['number'] = df['duration'].str.extract('(\\d+)')\n    df['time'] = df['duration'].str.extract('(\\w+)')\n    df['time_days'] = df['time'].replace({'year': 365, 'month': 30, 'week': 7, 'day': 1})\n    return df\n\nprint(f())\n"}
+{"id": 88, "code": "df['time'] = df['duration'].str.extract('(\\w+)')\ndf['number'] = df['duration'].str.extract('(\\d+)')\ndf['time_day'] = df['time'].replace({'year': 365, 'month': 30, 'week': 7, 'day': 1})\ndf['time_day'] = df['time_day'] * df['number'].astype(int)\n\nprint(df)\n"}
+{"id": 89, "code": "result = [df1[column] != df2[column] for column in columns_check_list]\nprint(result)\n"}
+{"id": 90, "code": "result = [df1[column] == df2[column] for column in columns_check_list]\nprint(result)\n"}
+{"id": 91, "code": "df.index = df.index.set_levels(pd.to_datetime(df.index.levels[1]), level=1)\nprint(df)\n"}
+{"id": 92, "code": "df.index = df.index.set_levels(pd.to_datetime(df.index.levels[1]), level=1)\nprint(df)\n"}
+{"id": 93, "code": "    df.index = pd.to_datetime(df.index)\n    return df.values\n\n# Test\ndf = pd.DataFrame({'x': [100, 90, 80], 'y': [7, 8, 9]}, index=['3/1/1994', '9/1/1994', '3/1/1995'])\nprint(f(df))\n"}
+{"id": 94, "code": "    df.index = pd.to_datetime(df.index)\n    df = df.swaplevel(0, 1, axis=0)\n    return df\n\n# Test\ndf = pd.DataFrame({'x': [100, 90, 80], 'y': [7, 8, 9]}, index=pd.MultiIndex.from_tuples([('3/1/1994', 'abc'), ('9/1/1994', 'abc'), ('3/1/1995', 'abc')]))\nprint(f(df))\n"}
+{"id": 95, "code": "df = pd.melt(df, id_vars=['Country', 'Variable'], var_name='year', value_name='value')\ndf = df.pivot(index=['Country', 'Variable', 'year'], columns='Variable', values='value').reset_index()\ndf.columns.name = None\n\nprint(df)\n"}
+{"id": 96, "code": "df = pd.melt(df, id_vars=['Country', 'Variable'], var_name='year', value_name='value')\ndf = df.sort_values('year', ascending=False)\ndf = df.reset_index(drop=True)\nprint(df)\n"}
+{"id": 97, "code": "df = df.loc[df.abs().lt(1).all(axis=1)]\nprint(df)\n"}
+{"id": 98, "code": "df_filtered = df.loc[df.abs().max(axis=1) > 1]\nprint(df_filtered)\n"}
+{"id": 99, "code": "df_filtered = df.loc[df.filter(like='Value_').abs().any(axis=1)]\ndf_filtered = df_filtered.rename(columns=lambda x: x.split('_')[1])\nprint(df_filtered)\n"}
+{"id": 100, "code": "df = df.replace('&AMP;', '&', regex=True)\n\nprint(df)\n"}
+{"id": 101, "code": "df = df.replace('&LT;', '<', regex=True)\n\nprint(df)\n"}
+{"id": 102, "code": "    for col in df.columns:\n        df[col] = df[col].str.replace('&AMP;', '&')\n    return df\n\nprint(f())\n"}
+{"id": 103, "code": "df['A'] = df['A'].str.replace('&AMP;', '&')\ndf['B'] = df['B'].astype(str).str.replace('&AMP;', '&')\ndf['C'] = df['C'].str.replace('&AMP;', '&')\n\nprint(df)\n"}
+{"id": 104, "code": "df['A'] = df['A'].str.replace('&AMP;', '&')\ndf['C'] = df['C'].str.replace('&AMP;', '&')\n\nprint(df)\n"}
+{"id": 105, "code": "df['first_name'] = df['name'].apply(lambda x: x.split(' ')[0] if ' ' in x else x)\ndf['last_name'] = df['name'].apply(lambda x: x.split(' ')[1] if ' ' in x else None)\n\nprint(df)\n"}
+{"id": 106, "code": "df['1_name'] = df['name'].apply(lambda x: x.split(' ')[0] if ' ' in x else x)\ndf['2_name'] = df['name'].apply(lambda x: x.split(' ')[1] if ' ' in x else '')\n\nprint(df)\n"}
+{"id": 107, "code": "def validate_single_space_name(name: str) -> str:\n    pattern = re.compile(r'^.*( ){1}.*$')\n    match_obj = re.match(pattern, name)\n    if match_obj:\n        return name\n    else:\n        return None\n\ndf['name'] = df['name'].apply(validate_single_space_name)\ndf = df[df['name'].notnull()]\ndf[['first_name', 'last_name']] = df['name'].str.split(' ', 1, expand=True)\ndf['middle_name'] = df['name'].str.split(' ', 1, expand=True)[1]\ndf = df.drop('name', axis=1)\nprint(df)\n"}
+{"id": 108, "code": "result = pd.merge_asof(df2, df1, left_on='Timestamp', right_on='Timestamp', direction='backward')\nprint(result)\n"}
+{"id": 109, "code": "result = pd.merge_asof(df1, df2, left_on='Timestamp', right_on='Timestamp', direction='forward')\n\nprint(result)\n"}
+{"id": 110, "code": "df['state'] = df.apply(lambda x: x['col1'] if x['col2'] <= 50 and x['col3'] <= 50 else max(x['col1'], x['col2'], x['col3']), axis=1)\nprint(df)\n"}
+{"id": 111, "code": "df['state'] = df.apply(lambda x: x['col1'] if x['col2'] > 50 and x['col3'] > 50 else x['col1'] + x['col2'] + x['col3'], axis=1)\n\nprint(df)\n"}
+{"id": 112, "code": "\nerror_list = []\nfor index, row in df.iterrows():\n    try:\n        int(row['Field1'])\n    except ValueError:\n        error_list.append(row['Field1'])\n\nprint(error_list)\n"}
+{"id": 113, "code": "\ndef is_int(x):\n    try:\n        int(x)\n        return True\n    except ValueError:\n        return False\n\nint_list = []\nfor index, row in df.iterrows():\n    if is_int(row['Field1']):\n        int_list.append(int(row['Field1']))\n\nprint(int_list)\n"}
+{"id": 114, "code": "    error_list = []\n    for index, row in df.iterrows():\n        try:\n            int(row['Field1'])\n        except ValueError:\n            error_list.append(row['Field1'])\n    return error_list\n\nprint(f())\n"}
+{"id": 115, "code": "df['total'] = df.sum(axis=1)\ndf = df.div(df['total'], axis=0)\ndf = df.drop('total', axis=1)\nprint(df)\n"}
+{"id": 116, "code": "df = df.set_index('cat')\ndf = df.div(df.sum(axis=1), axis=0)\ndf = df.reset_index()\nprint(df)\n"}
+{"id": 117, "code": "result = df.loc[test]\nprint(result)\n"}
+{"id": 118, "code": "result = df.loc[test]\nprint(result)\n"}
+{"id": 119, "code": "result = df.drop(test)\nprint(result)\n"}
+{"id": 120, "code": "    return df.loc[test]\n\n# df\ndf = pd.DataFrame({'alleles': ['A/C', 'A/T', 'T/A', 'C/A', 'C/T'],\n                   'chrom': [0, 0, 0, 0, 0],\n                   'pos': [3, 7, 12, 15, 18],\n                   'strand': ['+', '+', '+', '+', '+'],\n                   'assembly#': [None, None, None, None, None],\n                   'center': [None, None, None, None, None],\n                   'protLSID': [None, None, None, None, None],\n                   'assayLSID': [None, None, None, None, None]},\n                  index=['TP3', 'TP7', 'TP12', 'TP15', 'TP18'])\n\ntest = ['TP3','TP12','TP18', 'TP3']\n\nprint(f(df, test))\n"}
+{"id": 121, "code": "\n# Calculate pairwise distances\ndf['distance'] = df.groupby('time')['x'].transform(lambda x: x.sub(df['x']).pow(2).add(df.groupby('time')['y'].transform(lambda y: y.sub(df['y']).pow(2))))\n\n# Get the nearest neighbour for each car\ndf['nearest_neighbour'] = df.groupby('time')['distance'].transform(lambda x: x.idxmin())\n\n# Calculate the average distance for each time point\ndf_avg = df.groupby('time')['distance'].mean()\n\n# Print the results\nprint(df)\nprint(df_avg)\n"}
+{"id": 122, "code": "\n# Calculate pairwise distances\ndf['distance'] = df.groupby('time')['x'].transform(lambda x: x.sub(df['x']).pow(2).add(df.groupby('time')['y'].transform(lambda y: y.sub(df['y']).pow(2))))\n\n# Get the car with the minimum distance for each time\ndf['farmost_neighbour'] = df.groupby('time')['distance'].transform(lambda x: x.idxmin())\n\n# Calculate the average distance for each time\ndf_avg = df.groupby('time')['distance'].mean()\n\n# Print the results\nprint(df)\nprint(df_avg)\n"}
+{"id": 123, "code": "cols = [df.keywords_0, df.keywords_1, df.keywords_2, df.keywords_3]\ndf[\"keywords_all\"] = df[cols].apply(lambda row: \", \".join(row.dropna().astype(str)), axis=1)\n\nprint(df)\n"}
+{"id": 124, "code": "cols = [df.keywords_0, df.keywords_1, df.keywords_2, df.keywords_3]\ndf[\"keywords_all\"] = df[cols].apply(lambda row: \"-\".join(row.dropna().astype(str)), axis=1)\n\nprint(df)\n"}
+{"id": 125, "code": "df[\"keywords_all\"] = df.apply(lambda row: \"-\".join(row[1:].dropna().astype(str)), axis=1)\n\nprint(df)\n"}
+{"id": 126, "code": "cols = [df.keywords_0, df.keywords_1, df.keywords_2, df.keywords_3]\ndf[\"keywords_all\"] = df[cols].apply(lambda row: \"-\".join(row.dropna().values), axis=1)\n\nprint(df)\n"}
+{"id": 127, "code": "\n# Select 20% of rows\nsample_df = df.sample(frac=0.2, random_state=0)\n\n# Set Quantity to 0\nsample_df['Quantity'] = 0\n\n# Merge the original DataFrame with the sample DataFrame\nresult_df = df.merge(sample_df, how='left', on=['UserId', 'ProductId'])\n\n# Fill NaN values with original Quantity\nresult_df['Quantity'] = result_df['Quantity_x'].fillna(result_df['Quantity_y'])\n\n# Drop the temporary columns\nresult_df.drop(['Quantity_x', 'Quantity_y'], axis=1, inplace=True)\n\nprint(result_df)\n"}
+{"id": 128, "code": "\n# Select 20% of rows\ndf_sample = df.sample(frac=0.2, random_state=0)\n\n# Set ProductId to 0\ndf_sample['ProductId'] = 0\n\n# Merge the original DataFrame with the sampled DataFrame\ndf_result = pd.concat([df, df_sample]).drop_duplicates(keep=False)\n\nprint(df_result)\n"}
+{"id": 129, "code": "\n# Group by UserId and sample 20% of each group\ndf_sample = df.groupby('UserId').apply(lambda x: x.sample(frac=0.2, random_state=0))\n\n# Set Quantity to 0 for the sampled rows\ndf_sample.loc[df_sample.index, 'Quantity'] = 0\n\n# Reset index\ndf_sample = df_sample.reset_index(drop=True)\n\nprint(df_sample)\n"}
+{"id": 130, "code": "df['index_original'] = df.duplicated(subset=['col1','col2'], keep='first').cumsum()\n\nprint(df)\n"}
+{"id": 131, "code": "df['index_original'] = df.groupby(['col1', 'col2']).cumcount()\nprint(df)\n"}
+{"id": 132, "code": "    df['index_original'] = df.index\n    df['index_original'] = df.groupby(['col1', 'col2'])['index_original'].transform('first')\n    return df\n\nprint(f())\n"}
+{"id": 133, "code": "\n# Find duplicates\nduplicate_bool = df.duplicated(subset=['col1','col2', '3col'], keep='first')\n\n# Add index_original column\ndf['index_original'] = df.index\n\n# Filter duplicates\nduplicate = df.loc[duplicate_bool == True]\n\nprint(duplicate)\n"}
+{"id": 134, "code": "result = df.loc[df.duplicated(subset=['col1','col2'], keep='last')]\nresult['index_original'] = result.index\n\nprint(result)\n"}
+{"id": 135, "code": "result = df.loc[df.groupby(['Sp', 'Mt'])['count'].idxmax()]\nprint(result)\n"}
+{"id": 136, "code": "result = df.groupby(['Sp','Mt']).apply(lambda x: x[x['count'] == x['count'].max()])\nprint(result)\n"}
+{"id": 137, "code": "result = df.loc[df.groupby(['Sp', 'Mt'])['count'].idxmin()]\nprint(result)\n"}
+{"id": 138, "code": "result = df.loc[df.groupby(['Sp','Value'])['count'].idxmax()]\nprint(result)\n"}
+{"id": 139, "code": "result = df.query(\"Category in @filter_list\")\nprint(result)\n"}
+{"id": 140, "code": "result = df.query(\"Category not in @filter_list\")\nprint(result)\n"}
+{"id": 141, "code": "\n# Get all column levels\ncolumn_levels = df.columns.levels\n\n# Create a list of tuples where each tuple contains the first, second, and third column levels\nvalue_vars = [(column_levels[0][i], column_levels[1][j], column_levels[2][k])\n              for i in range(len(column_levels[0]))\n              for j in range(len(column_levels[1]))\n              for k in range(len(column_levels[2]))]\n\n# Melt the dataframe\nresult = pd.melt(df, value_vars=value_vars)\n\nprint(result)\n"}
+{"id": 142, "code": "\n# Create a list of tuples where each tuple is a column level\ncolumn_levels = [(col1, col2, col3) for col1, col2, col3 in zip(df.columns[0], df.columns[1], df.columns[2])]\n\n# Melt the dataframe\nresult = pd.melt(df.reset_index(), id_vars='index', value_vars=column_levels)\n\n# Rename the columns\nresult.columns = ['index', 'variable_0', 'variable_1', 'variable_2', 'value']\n\nprint(result)\n"}
+{"id": 143, "code": "df['cumsum'] = df.groupby('id')['val'].cumsum()\nprint(df)\n"}
+{"id": 144, "code": "df['cumsum'] = df.groupby('id')['val'].cumsum()\nprint(df)\n"}
+{"id": 145, "code": "df['cumsum'] = df.groupby('id')['val'].cumsum()\nprint(df)\n"}
+{"id": 146, "code": "df['cummax'] = df.groupby('id')['val'].cummax()\nprint(df)\n"}
+{"id": 147, "code": "df['cumsum'] = df.groupby('id')['val'].cumsum()\ndf.loc[df['cumsum'] < 0, 'cumsum'] = 0\n\nprint(df)\n"}
+{"id": 148, "code": "result = df.groupby('l')['v'].apply(lambda x: np.nansum(x) if np.isnan(np.nansum(x)) else np.nansum(x))\nprint(result)\n"}
+{"id": 149, "code": "result = df.groupby('r')['v'].apply(lambda x: x.sum(skipna=False))\nprint(result)\n"}
+{"id": 150, "code": "result = df.groupby('l')['v'].apply(lambda x: x.sum(skipna=False))\nprint(result)\n"}
+{"id": 151, "code": "result = []\nfor i in range(len(df.columns)):\n    for j in range(i+1, len(df.columns)):\n        if df.iloc[:, i].nunique() == df.iloc[:, j].nunique():\n            result.append(f\"{df.columns[i]} {df.columns[j]} one-to-one\")\n        elif df.iloc[:, i].nunique() == 1:\n            result.append(f\"{df.columns[i]} {df.columns[j]} one-to-many\")\n        elif df.iloc[:, j].nunique() == 1:\n            result.append(f\"{df.columns[i]} {df.columns[j]} many-to-one\")\n        else:\n            result.append(f\"{df.columns[i]} {df.columns[j]} many-to-many\")\n\nprint(result)\n"}
+{"id": 152, "code": "result = []\nfor i in range(len(df.columns)):\n    for j in range(i+1, len(df.columns)):\n        if df.iloc[:, i].nunique() == 1:\n            if df.iloc[:, j].nunique() == 1:\n                result.append(f\"{df.columns[i]} {df.columns[j]} one-2-one\")\n            else:\n                result.append(f\"{df.columns[i]} {df.columns[j]} one-2-many\")\n        else:\n            if df.iloc[:, j].nunique() == 1:\n                result.append(f\"{df.columns[i]} {df.columns[j]} many-2-one\")\n            else:\n                result.append(f\"{df.columns[i]} {df.columns[j]} many-2-many\")\n\nprint(result)\n"}
+{"id": 153, "code": "result = df.corr()\nresult = result.applymap(lambda x: 'one-to-one' if x == 1 else 'one-to-many' if x > 0 else 'many-to-one' if x < 0 else 'many-to-many')\nprint(result)\n"}
+{"id": 154, "code": "result = df.corr().applymap(lambda x: 'one-2-one' if x == 1 else 'many-2-many' if x == -1 else 'one-2-many' if x == 0 else 'many-2-one')\n\nprint(result)\n"}
+{"id": 155, "code": "result = df[df['bank'].notna()]\nprint(result)\n"}
+{"id": 156, "code": "result = pd.to_numeric(s.str.replace(',',''), errors='coerce')\nprint(result)\n"}
+{"id": 157, "code": "\n# Create a new column 'HasFamily' based on the conditions\ndf['HasFamily'] = ((df['SibSp'] > 0) | (df['Parch'] > 0)).astype(int)\n\n# Group by 'HasFamily' and calculate the mean of 'Survived'\nresult = df.groupby('HasFamily')['Survived'].mean()\n\nprint(result)\n"}
+{"id": 158, "code": "\n# Create a new column 'Family' based on the conditions\ndf['Family'] = ((df['Survived'] > 0) | (df['Parch'] > 0)).astype(int)\n\n# Group by 'Family' and calculate the mean of 'SibSp'\nresult = df.groupby('Family')['SibSp'].mean()\n\nprint(result)\n"}
+{"id": 159, "code": "\n# Create a new column 'Family' based on the conditions\ndf['Family'] = 'No Family'\ndf.loc[(df['SibSp'] == 1) & (df['Parch'] == 1), 'Family'] = 'Has Family'\ndf.loc[(df['SibSp'] == 0) & (df['Parch'] == 1), 'Family'] = 'New Family'\ndf.loc[(df['SibSp'] == 1) & (df['Parch'] == 0), 'Family'] = 'Old Family'\n\n# Group by 'Family' and calculate the mean of 'Survived'\nresult = df.groupby('Family')['Survived'].mean()\n\nprint(result)\n"}
+{"id": 160, "code": "result = df.groupby('cokey').apply(lambda x: x.sort_values('A'))\nprint(result)\n"}
+{"id": 161, "code": "result = df.groupby('cokey').apply(lambda x: x.sort_values('A', ascending=False)).reset_index(drop=True)\nprint(result)\n"}
+{"id": 162, "code": "df.columns = pd.MultiIndex.from_tuples(df.columns)\ndf = df.stack()\ndf = df.unstack(level=0)\ndf = df.unstack(level=0)\nprint(df)\n"}
+{"id": 163, "code": "df.columns = pd.MultiIndex.from_tuples(df.columns)\ndf = df.stack(level=0).unstack(level=1)\ndf.columns = pd.MultiIndex.from_product([['Caps', 'Middle', 'Lower'], ['A', 'B']])\ndf = df.stack(level=0).unstack(level=1)\ndf = df.stack(level=0).unstack(level=1)\nprint(df)\n"}
+{"id": 164, "code": "df.columns = pd.MultiIndex.from_tuples(df.columns)\ndf = df.stack(level=0).unstack(level=1)\ndf.columns = pd.MultiIndex.from_tuples(df.columns)\ndf = df.stack(level=0).unstack(level=1)\nprint(df)\n"}
+{"id": 165, "code": "result = pd.DataFrame({'birdType': someTuple[0], 'birdCount': someTuple[1]})\nprint(result)\n"}
+{"id": 166, "code": "result = df.groupby('a')['b'].agg(['mean', 'std'])\nprint(result)\n"}
+{"id": 167, "code": "result = df.groupby('b').agg({'a': ['mean', 'std']})\nprint(result)\n"}
+{"id": 168, "code": "\n# Softmax normalization\ndf['softmax'] = df.groupby('a')['b'].transform(lambda x: x / x.sum())\n\n# Min-max normalization\ndf['min-max'] = df.groupby('a')['b'].transform(lambda x: (x - x.min()) / (x.max() - x.min()))\n\nprint(df)\n"}
+{"id": 169, "code": "result = df[(df.A != 0) | (df.B != 0) | (df.D != 0)]\nprint(result)\n"}
+{"id": 170, "code": "result = df[(df.A != 0) | (df.B != 0) | (df.D != 0)]\nprint(result)\n"}
+{"id": 171, "code": "result = df[(df.max(axis=1) < 2)]\nprint(result)\n"}
+{"id": 172, "code": "result = df.applymap(lambda x: 0 if x == 2 else x)\n\nprint(result)\n"}
+{"id": 173, "code": "result = s.sort_values(ascending=False)\nprint(result)\n"}
+{"id": 174, "code": "df = pd.DataFrame(s.sort_values(ascending=False).reset_index())\ndf.columns = ['index', '1']\nprint(df)\n"}
+{"id": 175, "code": "result = df[df['A'].apply(lambda x: isinstance(x, (int, float)))]\n\nprint(result)\n"}
+{"id": 176, "code": "result = df[df['A'].apply(lambda x: isinstance(x, str))]\nprint(result)\n"}
+{"id": 177, "code": "result = df.loc[df.groupby(['Sp', 'Mt'])['count'].idxmax()]\nprint(result)\n"}
+{"id": 178, "code": "result = df.loc[df.groupby(['Sp','Mt'])['count'].idxmax()]\nprint(result)\n"}
+{"id": 179, "code": "result = df.loc[df.groupby(['Sp', 'Mt'])['count'].idxmin()]\nprint(result)\n"}
+{"id": 180, "code": "result = df.loc[df.groupby(['Sp','Value'])['count'].idxmax()]\nprint(result)\n"}
+{"id": 181, "code": "df['Date'] = df['Member'].map(dict).fillna(df['Date'])\nprint(df)\n"}
+{"id": 182, "code": "df['Date'] = df['Member'].map(dict).fillna(df['Date'])\nprint(df)\n"}
+{"id": 183, "code": "    df['Date'] = df['Member'].map(dict)\n    df['Date'] = df['Date'].fillna(df['Member'])\n    return df\n\nprint(f())\n"}
+{"id": 184, "code": "df['Date'] = df['Member'].map(dict).fillna('17/8/1926')\ndf['Date'] = pd.to_datetime(df['Date'], format='%d/%m/%Y').dt.strftime('%d-%b-%Y')\nprint(df)\n"}
+{"id": 185, "code": "df['Date'] = pd.to_datetime(df['Date'], format= '%d/%m/%y')\ndf['Count_d'] = df.Date.map(df.groupby('Date').size())\ndf['Count_m'] = df.Date.map(df.groupby(df['Date'].dt.to_period('M')).size())\ndf['Count_y'] = df.Date.map(df.groupby(df['Date'].dt.to_period('Y')).size())\n\nprint(df)\n"}
+{"id": 186, "code": "df['Date'] = pd.to_datetime(df['Date'], format= '%d/%m/%y')\ndf['Count_d'] = df.Date.map(df.groupby('Date').size())\ndf['Count_m'] = df.Date.map(df.groupby(df['Date'].dt.to_period('M')).size())\ndf['Count_y'] = df.Date.map(df.groupby(df['Date'].dt.to_period('Y')).size())\ndf['Count_Val'] = df.groupby(['Date', 'Val']).size()\n\nprint(df)\n"}
+{"id": 187, "code": "df['Date'] = pd.to_datetime(df['Date'], format='%d/%m/%y')\ndf['Count_d'] = df.groupby('Date').size()\ndf['Count_m'] = df.groupby([df['Date'].dt.year, df['Date'].dt.month]).size()\ndf['Count_y'] = df.groupby(df['Date'].dt.year).size()\ndf['Count_w'] = df.groupby(df['Date'].dt.weekday).size()\ndf['Count_Val'] = df.groupby(['Date', 'Val']).size()\n\nprint(df)\n"}
+{"id": 188, "code": "result1 = df.groupby('Date').apply(lambda x: x.eq(0).sum())\nresult2 = df.groupby('Date').apply(lambda x: x.ne(0).sum())\n\nprint(result1)\nprint(result2)\n"}
+{"id": 189, "code": "result1 = df.groupby('Date').apply(lambda x: x.mod(2).eq(0).sum())\nresult2 = df.groupby('Date').apply(lambda x: x.mod(2).ne(0).sum())\n\nprint(result1)\nprint(result2)\n"}
+{"id": 190, "code": "result = pd.pivot_table(df, values=['D','E'], index=['B'], aggfunc={'D': np.sum, 'E': np.mean})\nprint(result)\n"}
+{"id": 191, "code": "result = pd.pivot_table(df, values=['D','E'], index=['B'], aggfunc={'D': np.sum, 'E': np.mean})\nprint(result)\n"}
+{"id": 192, "code": "result = pd.pivot_table(df, values=['D','E'], index=['B'], aggfunc={'D': np.sum, 'E': np.mean})\nprint(result)\n"}
+{"id": 193, "code": "result = pd.pivot_table(df, values=['D','E'], index=['B'], aggfunc={'D': np.max, 'E': np.min})\nprint(result)\n"}
+{"id": 194, "code": "result = df.assign(var2=df['var2'].str.split(',')).explode('var2')\n\nprint(result)\n"}
+{"id": 195, "code": "result = df.var2.str.split(',', expand=True).stack().reset_index(level=1, drop=True).to_frame('var2').join(df.var1).reset_index(drop=True)\n\nprint(result)\n"}
+{"id": 196, "code": "result = df.var2.str.split('-', expand=True).stack().reset_index(level=1, drop=True).to_frame('var2').join(df.var1)\n\nprint(result)\n"}
+{"id": 197, "code": "def count_special_char(string):\n    special_char = 0\n    for i in range(len(string)):\n        if(string[i].isalpha()):\n            continue\n        else:\n            special_char = special_char + 1\n    return special_char\n\ndf[\"new\"] = df[\"str\"].apply(count_special_char)\nprint(df)\n"}
+{"id": 198, "code": "def count_special_char(string):\n    special_char = 0\n    for i in range(len(string)):\n        if(string[i].isalpha()):\n            continue\n        else:\n            special_char = special_char + 1\n    return special_char\n\ndf[\"new\"] = df[\"str\"].apply(count_special_char)\nprint(df)\n"}
+{"id": 199, "code": "df['fips'] = df['row'].str[:5]\ndf['row'] = df['row'].str[6:]\n\nprint(df)\n"}
+{"id": 200, "code": "df['fips'] = df['row'].str[:3]\ndf['row'] = df['row'].str[4:]\n\nprint(df)\n"}
+{"id": 201, "code": "df[['fips', 'medi', 'row']] = df['row'].str.split(' ', expand=True)\nprint(df)\n"}
+{"id": 202, "code": "df['2001'] = df['2001'].cumsum() / (df['2001'] != 0).cumsum()\ndf['2002'] = df['2002'].cumsum() / (df['2002'] != 0).cumsum()\ndf['2003'] = df['2003'].cumsum() / (df['2003'] != 0).cumsum()\ndf['2004'] = df['2004'].cumsum() / (df['2004'] != 0).cumsum()\ndf['2005'] = df['2005'].cumsum() / (df['2005'] != 0).cumsum()\ndf['2006'] = df['2006'].cumsum() / (df['2006'] != 0).cumsum()\n\nprint(df)\n"}
+{"id": 203, "code": "df['2001'] = df['2001'].cumsum()\ndf['2002'] = df['2002'].cumsum()\ndf['2003'] = df['2003'].cumsum()\ndf['2004'] = df['2004'].cumsum()\ndf['2005'] = df['2005'].cumsum()\ndf['2006'] = df['2006'].cumsum()\n\ndf['2001'] = df['2001'].div(df['2001'].count())\ndf['2002'] = df['2002'].div(df['2002'].count())\ndf['2003'] = df['2003'].div(df['2003'].count())\ndf['2004'] = df['2004'].div(df['2004'].count())\ndf['2005'] = df['2005'].div(df['2005'].count())\ndf['2006'] = df['2006'].div(df['2006'].count())\n\nprint(df)\n"}
+{"id": 204, "code": "    df['2001'] = df['2001'].cumsum() / (df['2001'] != 0).cumsum()\n    df['2002'] = df['2002'].cumsum() / (df['2002'] != 0).cumsum()\n    df['2003'] = df['2003'].cumsum() / (df['2003'] != 0).cumsum()\n    df['2004'] = df['2004'].cumsum() / (df['2004'] != 0).cumsum()\n    df['2005'] = df['2005'].cumsum() / (df['2005'] != 0).cumsum()\n    df['2006'] = df['2006'].cumsum() / (df['2006'] != 0).cumsum()\n    return df\n\nprint(f())\n"}
+{"id": 205, "code": "df['2001'] = df['2001'].cumsum()\ndf['2002'] = df['2002'].cumsum()\ndf['2003'] = df['2003'].cumsum()\ndf['2004'] = df['2004'].cumsum()\ndf['2005'] = df['2005'].cumsum()\ndf['2006'] = df['2006'].cumsum()\n\ndf['2001'] = df['2001'].div(df.index + 1)\ndf['2002'] = df['2002'].div(df.index + 1)\ndf['2003'] = df['2003'].div(df.index + 1)\ndf['2004'] = df['2004'].div(df.index + 1)\ndf['2005'] = df['2005'].div(df.index + 1)\ndf['2006'] = df['2006'].div(df.index + 1)\n\nprint(df)\n"}
+{"id": 206, "code": "df['label'] = df['Close'].diff().gt(0).astype(int)\ndf.loc[0, 'label'] = 1\n\nprint(df)\n"}
+{"id": 207, "code": "df['label'] = df['Close'].diff().apply(lambda x: 1 if x > 0 else 0 if x == 0 else -1)\ndf.loc[0, 'label'] = 1\n\nprint(df)\n"}
+{"id": 208, "code": "df['label'] = df['Close'].diff().apply(lambda x: 1 if x > 0 else -1 if x < 0 else 0)\ndf['DateTime'] = df['DateTime'].dt.strftime('%d-%b-%Y')\n\nprint(df)\n"}
+{"id": 209, "code": "df['arrival_time'] = pd.to_datetime(df['arrival_time'])\ndf['departure_time'] = pd.to_datetime(df['departure_time'])\ndf['Duration'] = df['departure_time'] - df['arrival_time']\nprint(df)\n"}
+{"id": 210, "code": "df['arrival_time'] = pd.to_datetime(df['arrival_time'])\ndf['departure_time'] = pd.to_datetime(df['departure_time'])\ndf['Duration'] = df['departure_time'] - df['arrival_time']\ndf['Duration'] = df['Duration'].dt.total_seconds()\nprint(df)\n"}
+{"id": 211, "code": "df['arrival_time'] = pd.to_datetime(df['arrival_time'])\ndf['departure_time'] = pd.to_datetime(df['departure_time'])\ndf['Duration'] = df['departure_time'] - df['arrival_time']\ndf['Duration'] = df['Duration'].dt.total_seconds()\ndf['arrival_time'] = df['arrival_time'].dt.strftime('%d-%b-%Y %H:%M:%S')\ndf['departure_time'] = df['departure_time'].dt.strftime('%d-%b-%Y %H:%M:%S')\nprint(df)\n"}
+{"id": 212, "code": "result = df.groupby('key1')['key2'].apply(lambda x: (x == 'one').sum()).reset_index(name='count')\n\nprint(result)\n"}
+{"id": 213, "code": "result = df.groupby('key1')['key2'].apply(lambda x: (x == 'two').sum()).reset_index(name='count')\n\nprint(result)\n"}
+{"id": 214, "code": "result = df.groupby('key1')['key2'].apply(lambda x: x.str.endswith('e').sum()).reset_index(name='count')\n\nprint(result)\n"}
+{"id": 215, "code": "max_result = df.index.max()\nmin_result = df.index.min()\n\nprint(f\"Min date: {min_result}\")\nprint(f\"Max date: {max_result}\")\n"}
+{"id": 216, "code": "mode_result = df.mode(axis=0)\nmedian_result = df.median(axis=0)\n\nprint(mode_result)\nprint(median_result)\n"}
+{"id": 217, "code": "result = df[(df['closing_price'] >= 99) & (df['closing_price'] <= 101)]\n\nprint(result)\n"}
+{"id": 218, "code": "result = df[~((99 <= df['closing_price']) & (df['closing_price'] <= 101))]\n\nprint(result)\n"}
+{"id": 219, "code": "result = df.groupby(\"item\", as_index=False).agg({\"diff\": \"min\", \"otherstuff\": \"first\"})\n\nprint(result)\n"}
+{"id": 220, "code": "df['SOURCE_NAME'] = df['SOURCE_NAME'].str.split('_').str[0]\nprint(df)\n"}
+{"id": 221, "code": "df['SOURCE_NAME'] = df['SOURCE_NAME'].str.split('_').str[-1]\nprint(df)\n"}
+{"id": 222, "code": "    df['SOURCE_NAME'] = df['SOURCE_NAME'].str.split('_').str[0]\n    return df\n\nprint(f())\n"}
+{"id": 223, "code": "\n# Calculate the number of NaN values\nnum_nan = df['Column_x'].isna().sum()\n\n# Calculate the number of values to fill with 0\nnum_to_fill_0 = int(num_nan * 0.5)\n\n# Calculate the number of values to fill with 1\nnum_to_fill_1 = num_nan - num_to_fill_0\n\n# Fill the NaN values with 0\ndf['Column_x'].fillna(0, inplace=True, limit=num_to_fill_0)\n\n# Fill the remaining NaN values with 1\ndf['Column_x'].fillna(1, inplace=True, limit=num_to_fill_1)\n\nprint(df)\n"}
+{"id": 224, "code": "\n# Calculate the number of NaN values\nnum_nan = df['Column_x'].isna().sum()\n\n# Calculate the number of values to fill with 0\nnum_0 = int(num_nan * 0.3)\n\n# Calculate the number of values to fill with 0.5\nnum_05 = int(num_nan * 0.3)\n\n# Calculate the number of values to fill with 1\nnum_1 = num_nan - num_0 - num_05\n\n# Fill the NaN values\ndf['Column_x'] = df['Column_x'].fillna(0, limit=num_0)\ndf['Column_x'] = df['Column_x'].fillna(0.5, limit=num_05)\ndf['Column_x'] = df['Column_x'].fillna(1, limit=num_1)\n\nprint(df)\n"}
+{"id": 225, "code": "\n# Calculate the number of NaN values\nnum_nan = df['Column_x'].isna().sum()\n\n# Calculate the number of 0s and 1s\nnum_zeros = (df['Column_x'] == 0).sum()\nnum_ones = (df['Column_x'] == 1).sum()\n\n# Calculate the number of 0s and 1s to fill\nnum_zeros_to_fill = num_nan // 2\nnum_ones_to_fill = num_nan // 2\n\n# Fill the NaN values with 0s\ndf['Column_x'].fillna(0, inplace=True)\n\n# Fill the remaining NaN values with 1s\ndf['Column_x'].fillna(1, inplace=True)\n\n# Fill the first num_zeros_to_fill NaN values with 0s\ndf['Column_x'].iloc[:num_zeros_to_fill] = 0\n\n# Fill the remaining num_ones_to_fill NaN values with 1s\ndf['Column_x'].iloc[num_zeros:] = 1\n\nprint(df)\n"}
+{"id": 226, "code": "result = pd.DataFrame(list(zip(a.values, b.values)), columns=['one', 'two'])\nprint(result)\n"}
+{"id": 227, "code": "result = pd.concat([a, b, c], axis=1)\nresult = result.apply(tuple, axis=1)\nresult = pd.DataFrame(result.values.tolist(), columns=['one', 'two'])\nprint(result)\n"}
+{"id": 228, "code": "\n# Get the maximum number of rows from all dataframes\nmax_rows = max(len(df) for df in [a, b])\n\n# Pad all dataframes to the maximum number of rows\na = a.reindex(range(max_rows), fill_value=np.nan)\nb = b.reindex(range(max_rows), fill_value=np.nan)\n\n# Create a new dataframe with tuples\nresult = pd.DataFrame({'one': list(zip(a['one'], b['one'])),\n                       'two': list(zip(a['two'], b['two']))})\n\nprint(result)\n"}
+{"id": 229, "code": "result = df.groupby(['username', pd.cut(df['views'], bins)])['views'].count().unstack(fill_value=0)\nprint(result)\n"}
+{"id": 230, "code": "result = df.groupby(['username', pd.cut(df.views, bins)])['views'].count().unstack(fill_value=0)\nprint(result)\n"}
+{"id": 231, "code": "result = df.groupby(['username', pd.cut(df['views'], bins)])['views'].count().unstack(fill_value=0)\nprint(result)\n"}
+{"id": 232, "code": "result = pd.DataFrame({'text': [', '.join(df['text'])]})\n\nprint(result)\n"}
+{"id": 233, "code": "result = pd.DataFrame({'text': [\"-\".join(df['text'])]})\n\nprint(result)\n"}
+{"id": 234, "code": "result = pd.DataFrame({'text': [', '.join(df['text'])]})\n\nprint(result)\n"}
+{"id": 235, "code": "result = df['text'].str.cat(sep=', ')\n\nprint(result)\n"}
+{"id": 236, "code": "result = df['text'].str.cat(sep='-')\n\nprint(result)\n"}
+{"id": 237, "code": "result = pd.concat([df1, df2], axis=0)\nresult['city'] = result['city'].fillna(method='ffill')\nresult['district'] = result['district'].fillna(method='ffill')\nprint(result)\n"}
+{"id": 238, "code": "result = pd.concat([df1, df2], axis=0)\nresult['date'] = pd.to_datetime(result['date'], format='%Y/%m/%d').dt.strftime('%d-%b-%Y')\nresult = result.sort_values(['id', 'date'])\nprint(result)\n"}
+{"id": 239, "code": "result = pd.concat([df1, df2], axis=0)\nresult = result.sort_values(by=['id', 'date'])\nresult = result.reset_index(drop=True)\nprint(result)\n"}
+{"id": 240, "code": "result = pd.concat([C, D]).drop_duplicates(subset='A', keep='last')\nprint(result)\n"}
+{"id": 241, "code": "result = pd.concat([C, D]).drop_duplicates(subset='A', keep='first')\nprint(result)\n"}
+{"id": 242, "code": "result = pd.merge(C, D, how='outer', on='A')\nresult['duplicated'] = result['B_x'].notnull() & result['B_y'].notnull()\nresult = result.drop(['B_x', 'B_y'], axis=1)\nresult = result.rename(columns={'B_x': 'B'})\n\nprint(result)\n"}
+{"id": 243, "code": "result = df.groupby('user').agg(lambda x: list(zip(x['time'], x['amount'])))\n\nprint(result)\n"}
+{"id": 244, "code": "result = df.groupby('user').agg(lambda x: list(zip(x['time'], x['amount'])))\n\nprint(result)\n"}
+{"id": 245, "code": "result = df.groupby('user').agg(lambda x: list(zip(x['time'], x['amount'])))\n\n# Print the result\nprint(result)\n"}
+{"id": 246, "code": "df = pd.DataFrame(series.values.tolist(), index=series.index)\nprint(df)\n"}
+{"id": 247, "code": "df = pd.DataFrame(series.values.tolist(), index=series.index)\n\nprint(df)\n"}
+{"id": 248, "code": "result = [col for col in df.columns if s in col and col != s]\nprint(result)\n"}
+{"id": 249, "code": "result = df.filter(regex='spike', axis=1)\nprint(result)\n"}
+{"id": 250, "code": "result = df.filter(like=s, axis=1)\n\n# Rename columns\nresult.columns = [f'{s}{i}' for i in range(1, len(result.columns)+1)]\n\nprint(result)\n"}
+{"id": 251, "code": "result = pd.DataFrame(df['codes'].tolist(), index=df.index).add_prefix('code_')\nprint(result)\n"}
+{"id": 252, "code": "result = pd.DataFrame(df['codes'].tolist(), index=df.index).add_prefix('code_')\nprint(result)\n"}
+{"id": 253, "code": "result = pd.DataFrame(df['codes'].tolist(), index=df.index).add_prefix('code_')\nprint(result)\n"}
+{"id": 254, "code": "result = [item for sublist in df['col1'].tolist() for item in sublist]\nprint(result)\n"}
+{"id": 255, "code": "result = ','.join(str(x) for x in df['col1'].explode().tolist())\nprint(result)\n"}
+{"id": 256, "code": "result = ','.join(str(x) for x in df['col1'].tolist())\nprint(result)\n"}
+{"id": 257, "code": "df['Time'] = df['Time'].dt.floor('2min')\ndf = df.groupby('Time').mean()\ndf.reset_index(inplace=True)\n\nprint(df)\n"}
+{"id": 258, "code": "df = df.set_index('Time')\ndf = df.resample('3T').sum()\ndf = df.reset_index()\ndf['Time'] = df['Time'].dt.round('3T')\ndf = df.fillna(0)\nprint(df)\n"}
+{"id": 259, "code": "df['TIME'] = pd.to_datetime(df['TIME'])\ndf['RANK'] = df.groupby('ID')['TIME'].rank(ascending=True)\nprint(df)\n"}
+{"id": 260, "code": "df['TIME'] = pd.to_datetime(df['TIME'])\ndf['RANK'] = df.groupby('ID')['TIME'].rank(ascending=False)\nprint(df)\n"}
+{"id": 261, "code": "df['TIME'] = pd.to_datetime(df['TIME'])\ndf['RANK'] = df.groupby('ID')['TIME'].rank(ascending=False)\ndf['TIME'] = df['TIME'].dt.strftime('%d-%b-%Y %a %H:%M:%S')\n\nprint(df)\n"}
+{"id": 262, "code": "result = df.loc[filt.index, :]\n\nprint(result)\n"}
+{"id": 263, "code": "result = df.loc[filt.index, filt]\nprint(result)\n"}
+{"id": 264, "code": "result = df.loc[0].ne(df.loc[8]).index[df.loc[0].ne(df.loc[8])].tolist()\nprint(result)\n"}
+{"id": 265, "code": "result = df.loc[0].where(df.loc[0] == df.loc[8]).dropna().index\nprint(result)\n"}
+{"id": 266, "code": "result = df.loc[0].ne(df.loc[8]).index[df.loc[0].ne(df.loc[8])].tolist()\nprint(result)\n"}
+{"id": 267, "code": "result = [(df.iloc[0][i], df.iloc[8][i]) for i in df.columns if df.iloc[0][i] != df.iloc[8][i]]\nprint(result)\n"}
+{"id": 268, "code": "ts = pd.Series(df['Value'].values, index=df['Date'])\nprint(ts)\n"}
+{"id": 269, "code": "df = df.stack().reset_index(level=0).rename(columns={'level_0':'index',0:'value'})\ndf = df.pivot(index='index', columns='level_1', values='value')\ndf.columns = [f'{col}_{i+1}' for i, col in enumerate(df.columns)]\ndf = df.reset_index(drop=True)\nprint(df)\n"}
+{"id": 270, "code": "df_long = pd.melt(df.reset_index(), id_vars=['index'], value_vars=['A','B','C','D','E'])\ndf_long['variable'] = df_long['variable'] + '_' + df_long['index'].astype(str)\ndf_long = df_long.drop(['index'], axis=1)\ndf_long = df_long.pivot(columns='variable', values='value')\ndf_long.columns = df_long.columns.str.replace('variable_', '')\ndf_long = df_long.reset_index(drop=True)\nprint(df_long)\n"}
+{"id": 271, "code": "df['dogs'] = df['dogs'].round(2)\n\nprint(df)\n"}
+{"id": 272, "code": "df['dogs'] = df['dogs'].round(2)\ndf['cats'] = df['cats'].round(2)\n\nprint(df)\n"}
+{"id": 273, "code": "df['Sum'] = df[list_of_my_columns].sum(axis=1)\nprint(df)\n"}
+{"id": 274, "code": "df['Avg'] = df[list_of_my_columns].mean(axis=1)\nprint(df)\n"}
+{"id": 275, "code": "df['Avg'] = df[list_of_my_columns].mean(axis=1)\ndf['Min'] = df[list_of_my_columns].min(axis=1)\ndf['Max'] = df[list_of_my_columns].max(axis=1)\ndf['Median'] = df[list_of_my_columns].median(axis=1)\nprint(df)\n"}
+{"id": 276, "code": "result = df.sort_index(level='time')\nprint(result)\n"}
+{"id": 277, "code": "result = df.sort_values(by='VIM', ascending=True)\nprint(result)\n"}
+{"id": 278, "code": "result = df[(df.index < '2020-02-17 15:30:00') | (df.index > '2020-02-18 21:59:00')]\nprint(result)\n"}
+{"id": 279, "code": "result = df[(df.index < '2020-02-17 15:30:00') | (df.index > '2020-02-18 21:59:00')]\n\n# Day of the week\nresult['Day of the week'] = result.index.day_name()\n\n# Format date\nresult.index = result.index.strftime('%d-%b-%Y %A')\n\nprint(result)\n"}
+{"id": 280, "code": "result = corr[corr > 0.3]\n"}
+{"id": 281, "code": "result = corr[corr > 0.3]\nprint(result)\n"}
+{"id": 282, "code": "result = df.rename(columns={df.columns[-1]: 'Test'})\n\nprint(result)\n"}
+{"id": 283, "code": "result = df.rename(columns={df.columns[0]: 'Test'})\n\nprint(result)\n"}
+{"id": 284, "code": "\n# Create a new column 'frequent'\ndf['frequent'] = df.mode(axis=1)[0]\n\n# Create a new column 'freq_count'\ndf['freq_count'] = df.mode(axis=1)[0].value_counts()\n\nprint(df)\n"}
+{"id": 285, "code": "\n# Create a new column 'frequent'\ndf['frequent'] = df.mode(axis=1)[0]\n\n# Create a new column 'freq_count'\ndf['freq_count'] = df.apply(lambda row: row.value_counts().max(), axis=1)\n\nprint(df)\n"}
+{"id": 286, "code": "\n# Create a new column 'frequent'\ndf['frequent'] = df.apply(lambda x: x.value_counts().index.tolist(), axis=1)\n\n# Create a new column 'freq_count'\ndf['freq_count'] = df.apply(lambda x: x.value_counts().max(), axis=1)\n\nprint(df)\n"}
+{"id": 287, "code": "result = df.groupby([\"id1\",\"id2\"])[\"foo\",\"bar\"].mean()\nprint(result)\n"}
+{"id": 288, "code": "result = df.groupby([\"id1\",\"id2\"])[\"foo\",\"bar\"].mean()\nresult = result.fillna(0)\nprint(result)\n"}
+{"id": 289, "code": "result = pd.merge(df_a, df_b, on='EntityNum')\nresult = result.drop('b_col', axis=1)\n\nprint(result)\n"}
+{"id": 290, "code": "result = pd.merge(df_a, df_b, on='EntityNum', how='left')\nresult = result.drop('a_col', axis=1)\n\nprint(result)\n"}
+{"id": 291, "code": "result = a.shape\nprint(result)\n"}
+{"id": 292, "code": "x = x[~np.isnan(x)]\nprint(x)\n"}
+{"id": 293, "code": "x[np.isnan(x)] = np.inf\nprint(x)\n"}
+{"id": 294, "code": "result = x[~np.isnan(x).any(axis=1)].tolist()\nprint(result)\n"}
+{"id": 295, "code": "b = np.zeros((len(a), a.max() + 1))\nb[np.arange(len(a)), a] = 1\nprint(b)\n"}
+{"id": 296, "code": "b = np.zeros((len(a), a.max()+1))\nb[np.arange(len(a)), a] = 1\nprint(b)\n"}
+{"id": 297, "code": "b = np.zeros((len(a), a.max()+1))\nb[np.arange(len(a)), a] = 1\n"}
+{"id": 298, "code": "b = np.zeros((len(a), len(a)))\nfor i in range(len(a)):\n    b[i, np.argmin(a)] = 1\n    a[np.argmin(a)] = np.inf\n"}
+{"id": 299, "code": "b = np.zeros((a.size, a.max()+1))\nb[np.arange(a.size), a.ravel()] = 1\n"}
+{"id": 300, "code": "result = np.percentile(a, p)\nprint(result)\n"}
+{"id": 301, "code": "B = A.reshape(-1, ncol)\nprint(B)\n"}
+{"id": 302, "code": "B = A.reshape(nrow, -1)\nprint(B)\n"}
+{"id": 303, "code": "B = A.reshape(-1, ncol)\nprint(B)\n"}
+{"id": 304, "code": "B = A.reshape(-1, ncol)\nprint(B)\n"}
+{"id": 305, "code": "result = np.roll(a, shift)\nif shift > 0:\n    result[:shift] = np.nan\nelse:\n    result[shift:] = np.nan\nprint(result)\n"}
+{"id": 306, "code": "result = np.roll(a, shift, axis=1)\nprint(result)\n"}
+{"id": 307, "code": "result = np.pad(a, ((0,0), (shift[0], shift[1])), 'constant', constant_values=np.nan)\nprint(result)\n"}
+{"id": 308, "code": "np.random.seed(0)\nr_old = np.random.randint(3, size=(100, 2000)) - 1\nnp.random.seed(0)\nr_new = np.random.randint(3, size=(100, 2000)) - 1\n"}
+{"id": 309, "code": "result = np.unravel_index(np.argmax(a), a.shape)\nprint(result)\n"}
+{"id": 310, "code": "result = np.unravel_index(np.argmin(a), a.shape)\nprint(result)\n"}
+{"id": 311, "code": "result = np.unravel_index(np.argmax(a), a.shape)\nprint(result)\n"}
+{"id": 312, "code": "result = np.unravel_index(np.argmax(a), a.shape)\nprint(result)\n"}
+{"id": 313, "code": "    return np.unravel_index(np.argmax(a), a.shape)\n\nprint(f())\n"}
+{"id": 314, "code": "result = np.unravel_index(np.argsort(a.ravel())[-2], a.shape)\nprint(result)\n"}
+{"id": 315, "code": "a = a[:, ~np.isnan(a).any(axis=0)]\nprint(a)\n"}
+{"id": 316, "code": "a = a[~np.isnan(a).any(axis=1)]\nprint(a)\n"}
+{"id": 317, "code": "result = np.array(a)\n"}
+{"id": 318, "code": "a = a[:, permutation]\nprint(a)\n"}
+{"id": 319, "code": "result = a[permutation]\nprint(result)\n"}
+{"id": 320, "code": "result = np.unravel_index(np.argmin(a), a.shape)\nprint(result)\n"}
+{"id": 321, "code": "result = np.unravel_index(a.argmax(), a.shape)\nprint(result)\n"}
+{"id": 322, "code": "result = np.argwhere(a == a.min())\nprint(result)\n"}
+{"id": 323, "code": "result = np.sin(np.deg2rad(degree))\nprint(result)\n"}
+{"id": 324, "code": "result = np.cos(np.deg2rad(degree))\nprint(result)\n"}
+{"id": 325, "code": "if np.sin(number) > np.sin(np.deg2rad(number)):\n    result = 0\nelse:\n    result = 1\n\nprint(result)\n"}
+{"id": 326, "code": "result = np.arcsin(value) * 180 / np.pi\nprint(result)\n"}
+{"id": 327, "code": "result = np.pad(A, (0, length - len(A)), 'constant', constant_values=(0, 0))\nprint(result)\n"}
+{"id": 328, "code": "result = np.pad(A, (0, length - len(A)), 'constant', constant_values=(0, 0))\nprint(result)\n"}
+{"id": 329, "code": "a = np.power(a, power)\nprint(a)\n"}
+{"id": 330, "code": "    return np.power(a, power)\n\nprint(f())\n"}
+{"id": 331, "code": "result = np.array(np.gcd(numerator, denominator))\nresult = (numerator // result[0], denominator // result[0])\nprint(result)\n"}
+{"id": 332, "code": "    gcd = np.gcd(numerator, denominator)\n    return (numerator//gcd, denominator//gcd)\n\nprint(f())\n"}
+{"id": 333, "code": "if denominator == 0:\n    result = (np.nan, np.nan)\nelse:\n    result = (numerator // denominator, denominator // np.gcd(numerator, denominator))\n\nprint(result)\n"}
+{"id": 334, "code": "result = np.mean([a, b, c], axis=0)\nprint(result)\n"}
+{"id": 335, "code": "result = np.maximum(a, b, c)\nprint(result)\n"}
+{"id": 336, "code": "result = a[np.diag_indices(a.shape[0])[0], np.diag_indices(a.shape[1])[1]]\nprint(result)\n"}
+{"id": 337, "code": "result = a[np.diag_indices(a.shape[0])[0], np.diag_indices(a.shape[1])[1]]\nprint(result)\n"}
+{"id": 338, "code": "result = np.diag(a, k=-1)\nprint(result)\n"}
+{"id": 339, "code": "result = np.diag(a, k=-1)\nprint(result)\n"}
+{"id": 340, "code": "result = []\nfor row in X:\n    for element in row:\n        result.append(element)\n"}
+{"id": 341, "code": "result = []\nfor row in X:\n    for element in row:\n        result.append(element)\n"}
+{"id": 342, "code": "    result = []\n    for row in X:\n        for element in row:\n            result.append(element)\n    return result\n\nprint(f())\n"}
+{"id": 343, "code": "result = []\nfor row in X:\n    for element in row:\n        result.append(element)\n"}
+{"id": 344, "code": "result = np.array([int(i) for i in mystr])\nprint(result)\n"}
+{"id": 345, "code": "result = np.cumsum(a[:, col] * multiply_number)\nprint(result)\n"}
+{"id": 346, "code": "result = np.cumsum(a[row] * multiply_number)\nprint(result)\n"}
+{"id": 347, "code": "result = np.prod(a[row] / divide_number)\nprint(result)\n"}
+{"id": 348, "code": "result = np.linalg.qr(a)[0]\nprint(result)\n"}
+{"id": 349, "code": "result = a.shape[1]\nprint(result)\n"}
+{"id": 350, "code": "p_value = scipy.stats.ttest_ind(a, b, equal_var=False)[1]\nprint(p_value)\n"}
+{"id": 351, "code": "p_value = scipy.stats.ttest_ind(a, b, equal_var=False)[1]\nprint(p_value)\n"}
+{"id": 352, "code": "# Calculate the pooled variance\npooled_var = ((anobs - 1) * avar + (bnobs - 1) * bvar) / (anobs + bnobs - 2)\n# Calculate the t-statistic\nt_stat = (amean - bmean) / np.sqrt(pooled_var * (1 / anobs + 1 / bnobs))\n# Calculate the degrees of freedom\ndf = anobs + bnobs - 2\n# Calculate the p-value\np_value = 2 * (1 - scipy.stats.t.cdf(np.abs(t_stat), df))\nprint(p_value)\n"}
+{"id": 353, "code": "output = np.setdiff1d(A, B)\nprint(output)\n"}
+{"id": 354, "code": "output = np.concatenate((np.setdiff1d(A, B), np.setdiff1d(B, A)))\nprint(output)\n"}
+{"id": 355, "code": "sort_indices = np.argsort(a, axis=0)\nc = b[sort_indices]\nprint(c)\n"}
+{"id": 356, "code": "sort_indices = np.argsort(a, axis=0)\nc = b[sort_indices]\nprint(c)\n"}
+{"id": 357, "code": "sort_indices = np.argsort(a, axis=0)\nc = b[sort_indices]\nprint(c)\n"}
+{"id": 358, "code": "result = b[np.argsort(np.sum(a, axis=(1, 2)))]\nprint(result)\n"}
+{"id": 359, "code": "a = np.delete(a, 2, axis=1)\nprint(a)\n"}
+{"id": 360, "code": "a = np.delete(a, 2, axis=0)\nprint(a)\n"}
+{"id": 361, "code": "a = np.delete(a, [0, 2], axis=1)\nprint(a)\n"}
+{"id": 362, "code": "result = np.delete(a, del_col, axis=1)\nprint(result)\n"}
+{"id": 363, "code": "a = np.insert(a, pos, element)\nprint(a)\n"}
+{"id": 364, "code": "a = np.insert(a, pos, element, axis=0)\n\nprint(a)\n"}
+{"id": 365, "code": "    a_l = a.tolist()\n    a_l.insert(pos, element)\n    a = np.asarray(a_l)\n    return a\n\nprint(f())\n"}
+{"id": 366, "code": "a = np.insert(a, pos, element, axis=0)\nprint(a)\n"}
+{"id": 367, "code": "result = np.array([np.copy(arr) for arr in array_of_arrays])\n"}
+{"id": 368, "code": "result = np.all(np.diff(a, axis=0) == 0)\nprint(result)\n"}
+{"id": 369, "code": "result = np.all(a[:, 1:] == a[:, :-1], axis=0)\nprint(result)\n"}
+{"id": 370, "code": "    return np.all(np.diff(a, axis=0) == 0)\n\nprint(f())\n"}
+{"id": 371, "code": "def f(x, y):\n    return (np.cos(x))**4 + (np.sin(y))**2\n\ndef simpson_2d(f, x, y):\n    hx = x[1] - x[0]\n    hy = y[1] - y[0]\n    nx = len(x)\n    ny = len(y)\n    s = 0\n    for i in range(nx):\n        for j in range(ny):\n            if i == 0 or i == nx-1 or j == 0 or j == ny-1:\n                s += f(x[i], y[j])\n            elif i % 2 == 0 and j % 2 == 0:\n                s += 2 * f(x[i], y[j])\n            elif i % 2 == 1 and j % 2 == 1:\n                s += 4 * f(x[i], y[j])\n            else:\n                s += 12 * f(x[i], y[j])\n    return s * (hx * hy / 9.0)\n\nresult = simpson_2d(f, x, y)\nprint(result)\n"}
+{"id": 372, "code": "    return (np.cos(x)**4 + np.sin(y)**2)\n\n# Simpson's rule\ndef simpson_rule(f, a, b, n):\n    h = (b - a) / n\n    x = np.linspace(a, b, n + 1)\n    y = f(x)\n    return h / 3 * np.sum(y[0:-1:2] + 4 * y[1::2] + y[2::2])\n\nprint(simpson_rule(f, 0, 1, 20))\n"}
+{"id": 373, "code": "result = np.cumsum(np.sort(grades)) / np.sum(grades)\nprint(result)\n"}
+{"id": 374, "code": "def ecdf(x):\n  # normalize X to sum to 1\n  x = x / np.sum(x)\n  return np.cumsum(x)\n\necdf_grades = ecdf(grades)\nresult = ecdf_grades(eval)\nprint(result)\n"}
+{"id": 375, "code": "low = np.min(grades)\nhigh = np.max(grades)\n\ndef ecdf(x):\n  # normalize X to sum to 1\n  x = x / np.sum(x)\n  return np.cumsum(x)\n\necdf_values = ecdf(grades)\n\nfor i in range(len(ecdf_values)):\n  if ecdf_values[i] < threshold:\n    low = grades[i]\n    break\n\nfor i in range(len(ecdf_values)-1, -1, -1):\n  if ecdf_values[i] < threshold:\n    high = grades[i]\n    break\n\nprint(f\"The longest interval [{low}, {high}) that satisfies ECDF(x) < {threshold} for any x in [{low}, {high}) is [{low}, {high})\")\n"}
+{"id": 376, "code": "nums = np.random.choice([0, 1], size, p=[1-one_ratio, one_ratio])\n"}
+{"id": 377, "code": "a_np = a.numpy()\n"}
+{"id": 378, "code": "a_pt = torch.from_numpy(a)\nprint(a_pt)\n"}
+{"id": 379, "code": "a_np = a.numpy()\n"}
+{"id": 380, "code": "a_tf = tf.convert_to_tensor(a)\n"}
+{"id": 381, "code": "result = np.argsort(a)[::-1]\nprint(result)\n"}
+{"id": 382, "code": "result = np.argsort(a)\nprint(result)\n"}
+{"id": 383, "code": "result = np.argsort(a)[-N:][::-1]\nprint(result)\n"}
+{"id": 384, "code": "result = np.power(A, n)\nprint(result)\n"}
+{"id": 385, "code": "result = np.array([a[i:i+2, j:j+2] for i in range(0, a.shape[0], 2) for j in range(0, a.shape[1], 2)])\nprint(result)\n"}
+{"id": 386, "code": "result = np.lib.stride_tricks.sliding_window_view(a, (2, 2))\nprint(result)\n"}
+{"id": 387, "code": "result = a.reshape(2, 2, 2, 2)\nprint(result)\n"}
+{"id": 388, "code": "result = a.reshape(a.shape[0]//patch_size, patch_size, a.shape[1]//patch_size, patch_size).transpose(0,2,1,3).reshape(-1, patch_size, patch_size)\nprint(result)\n"}
+{"id": 389, "code": "result = np.reshape(a, (h, w))\nprint(result)\n"}
+{"id": 390, "code": "result = a.reshape(a.shape[0]//patch_size, patch_size, a.shape[1]//patch_size, patch_size).swapaxes(1,2).reshape(-1, patch_size, patch_size)\nprint(result)\n"}
+{"id": 391, "code": "result = a[:, low:high]\nprint(result)\n"}
+{"id": 392, "code": "result = a[low:high+1]\nprint(result)\n"}
+{"id": 393, "code": "result = a[:, low:high]\nprint(result)\n"}
+{"id": 394, "code": "a = np.array(eval(string))\nprint(a)\n"}
+{"id": 395, "code": "result = np.random.uniform(np.log(min), np.log(max), n)\n"}
+{"id": 396, "code": "result = np.exp(np.random.uniform(min, max, n))\n"}
+{"id": 397, "code": "    return np.exp(np.random.uniform(np.log(min), np.log(max), n))\n"}
+{"id": 398, "code": "B = A * a + B.shift(1) * b\nB.iloc[0] = A.iloc[0] * a\n"}
+{"id": 399, "code": "B = pd.Series(np.zeros(len(A)))\nB[0] = a*A[0]\nfor i in range(1, len(A)):\n    B[i] = a*A[i] + b*B[i-1] + c*B[i-2]\nprint(B)\n"}
+{"id": 400, "code": "result = np.array([])\n"}
+{"id": 401, "code": "result = np.zeros((3,0))\n"}
+{"id": 402, "code": "result = np.ravel_multi_index(index, dims, order='F')\nprint(result)\n"}
+{"id": 403, "code": "result = np.ravel_multi_index(index, dims, order='C')\nprint(result)\n"}
+{"id": 404, "code": "df = pd.DataFrame(data=np.zeros((2,3), dtype=[('a', 'int32'), ('b', 'float32')]), index=index, columns=columns)\nprint(df)\n"}
+{"id": 405, "code": "result = np.bincount(accmap, weights=a)\nprint(result)\n"}
+{"id": 406, "code": "result = np.max(a[index == np.unique(index)])\nprint(result)\n"}
+{"id": 407, "code": "result = np.bincount(accmap, a)\nprint(result)\n"}
+{"id": 408, "code": "result = np.minimum.reduceat(a, index)\nprint(result)\n"}
+{"id": 409, "code": "z = np.array([[elementwise_function(x[i][j], y[i][j]) for j in range(len(x[0]))] for i in range(len(x))])\nprint(z)\n"}
+{"id": 410, "code": "result = np.random.choice(lista_elegir, samples, p=probabilit)\nprint(result)\n"}
+{"id": 411, "code": "result = np.pad(a, ((0, 0), (0, 0)), 'constant', constant_values=0)[low_index:high_index, low_index:high_index]\nprint(result)\n"}
+{"id": 412, "code": "result = x[x >= 0]\nprint(result)\n"}
+{"id": 413, "code": "result = x[np.iscomplex(x)]\nprint(result)\n"}
+{"id": 414, "code": "bin_data = np.array_split(data, len(data)//bin_size)\nbin_data_mean = [np.mean(i) for i in bin_data]\nprint(bin_data_mean)\n"}
+{"id": 415, "code": "bin_data = np.array_split(data, len(data) // bin_size)\nbin_data_max = np.array([np.max(x) for x in bin_data])\nprint(bin_data_max)\n"}
+{"id": 416, "code": "bin_data = np.array([np.array_split(row, len(row)//bin_size) for row in data])\nbin_data_mean = np.mean(bin_data, axis=2)\nprint(bin_data_mean)\n"}
+{"id": 417, "code": "bin_data = [data[i:i+bin_size] for i in range(len(data)-bin_size+1)]\nbin_data_mean = [np.mean(b) for b in bin_data]\nprint(bin_data)\nprint(bin_data_mean)\n"}
+{"id": 418, "code": "bin_data = np.array([np.array_split(row, len(row)//bin_size) for row in data])\nbin_data_mean = np.mean(bin_data, axis=2)\nprint(bin_data_mean)\n"}
+{"id": 419, "code": "bin_data = [np.array_split(row, len(row)//bin_size) for row in data]\nbin_data_mean = [np.mean(row, axis=1) for row in bin_data]\nprint(bin_data)\nprint(bin_data_mean)\n"}
+{"id": 420, "code": "def smoothclamp(x, x_min, x_max):\n    if x < x_min:\n        return x_min\n    elif x > x_max:\n        return x_max\n    else:\n        return x\n\n# Test the function\nprint(smoothclamp(x, x_min, x_max))\n"}
+{"id": 421, "code": "def smoothclamp(x, x_min, x_max, N):\n    # Calculate the smoothstep function\n    t = np.clip((x - x_min) / (x_max - x_min), 0, 1)\n    t = t ** N\n    return t * (x_max - x_min) + x_min\n\n# Test the function\nprint(smoothclamp(x, x_min, x_max, N))\n"}
+{"id": 422, "code": "result = np.correlate(a, b, mode='full')\nprint(result)\n"}
+{"id": 423, "code": "result = df.values.reshape(4, 15, 5)\nprint(result)\n"}
+{"id": 424, "code": "result = df.values.reshape(15, 4, 5)\nprint(result)\n"}
+{"id": 425, "code": "result = np.unpackbits(np.left_shift(a, m-8).astype(np.uint8), axis=1)[:,::-1]\nprint(result)\n"}
+{"id": 426, "code": "result = np.array([np.unpackbits(np.uint8(i))[-m:] for i in a])\nprint(result)\n"}
+{"id": 427, "code": "result = np.array([np.unpackbits(np.uint8(i))[-m:] for i in a])\nprint(result)\n"}
+{"id": 428, "code": "mean = np.mean(a)\nstd = np.std(a)\nresult = (mean - 3*std, mean + 3*std)\nprint(result)\n"}
+{"id": 429, "code": "mean = np.mean(a)\nstd = np.std(a)\nresult = (mean - 2*std, mean + 2*std)\nprint(result)\n"}
+{"id": 430, "code": "    mean = np.mean(a)\n    std = np.std(a)\n    third_std = std * 3\n    lower_bound = mean - third_std\n    upper_bound = mean + third_std\n    return (lower_bound, upper_bound)\n\nprint(f())\n"}
+{"id": 431, "code": "\n# Calculate the mean and standard deviation\nmean = np.mean(a)\nstd = np.std(a)\n\n# Calculate the 2nd standard deviation\ntwo_std = std * 2\n\n# Calculate the 2nd standard deviation interval\nlower_bound = mean - two_std\nupper_bound = mean + two_std\n\n# Create a boolean array indicating whether each value is an outlier\nresult = np.logical_or(a < lower_bound, a > upper_bound)\n\nprint(result)\n"}
+{"id": 432, "code": "prob = np.percentile(DataArray, percentile)\nprint(prob)\n"}
+{"id": 433, "code": "a[zero_rows, :] = 0\na[:, zero_cols] = 0\nprint(a)\n"}
+{"id": 434, "code": "a[zero_rows, :] = 0\na[:, zero_cols] = 0\nprint(a)\n"}
+{"id": 435, "code": "a[1, :] = 0\na[:, 0] = 0\nprint(a)\n"}
+{"id": 436, "code": "mask = a == np.amax(a, axis=1)[:, None]\nprint(mask)\n"}
+{"id": 437, "code": "mask = a == a.min(axis=1, keepdims=True)\nprint(mask)\n"}
+{"id": 438, "code": "result = np.corrcoef(post, distance)\nprint(result)\n"}
+{"id": 439, "code": "result = np.einsum('ij,ik->jik', X, X)\nprint(result.shape)\n"}
+{"id": 440, "code": "X = np.zeros((4, 3))\nfor i in range(4):\n    X[i] = np.linalg.cholesky(Y[i])\nX = X.reshape(12, order='F')\nprint(X)\n"}
+{"id": 441, "code": "is_contained = (number in a)\n\nprint(is_contained)\n"}
+{"id": 442, "code": "C = np.setdiff1d(A, B)\nprint(C)\n"}
+{"id": 443, "code": "C = np.intersect1d(A, B)\nprint(C)\n"}
+{"id": 444, "code": "C = A[(A >= B[0]) & (A <= B[1]) | (A >= B[1]) & (A <= B[2])]\nprint(C)\n"}
+{"id": 445, "code": "result = len(a) - rankdata(a) + 1\nprint(result)\n"}
+{"id": 446, "code": "result = np.argsort(rankdata(a, method='dense'))[::-1]\nprint(result)\n"}
+{"id": 447, "code": "    return len(a) - rankdata(a) + 1\n\nprint(f())\n"}
+{"id": 448, "code": "dists = np.dstack((x_dists, y_dists))\nprint(dists)\n"}
+{"id": 449, "code": "dists = np.stack((x_dists, y_dists), axis=2)\nprint(dists)\n"}
+{"id": 450, "code": "result = a[:, second, third]\nprint(result.shape)\nprint(result.flatten())\n"}
+{"id": 451, "code": "arr = np.zeros((20,10,10,2))\n"}
+{"id": 452, "code": "result = X / np.linalg.norm(X, ord=1, axis=1, keepdims=True)\nprint(result)\n"}
+{"id": 453, "code": "result = X / np.linalg.norm(X, axis=1, keepdims=True)\nprint(result)\n"}
+{"id": 454, "code": "result = X / np.max(np.abs(X), axis=1, keepdims=True)\nprint(result)\n"}
+{"id": 455, "code": "conditions = [df['a'].str.contains(target)]\nresult = np.select(conditions, choices, default=np.nan)\nprint(result)\n"}
+{"id": 456, "code": "result = np.zeros((a.shape[0], a.shape[0]))\nfor i in range(a.shape[0]):\n    for j in range(a.shape[0]):\n        result[i, j] = np.linalg.norm(a[i] - a[j])\nprint(result)\n"}
+{"id": 457, "code": "result = np.zeros((a.shape[0], a.shape[0]))\nfor i in range(a.shape[0]):\n    for j in range(a.shape[0]):\n        result[i, j] = np.linalg.norm(a[i] - a[j])\n"}
+{"id": 458, "code": "result = np.zeros((a.shape[0], a.shape[0]))\nfor i in range(a.shape[0]):\n    for j in range(i, a.shape[0]):\n        result[i, j] = np.linalg.norm(a[i] - a[j])\n        result[j, i] = result[i, j]\n"}
+{"id": 459, "code": "AVG = np.mean(NA.astype(np.float64), axis=0)\nprint(AVG)\n"}
+{"id": 460, "code": "AVG = np.mean(NA, axis=0)\nprint(AVG)\n"}
+{"id": 461, "code": "AVG = np.mean(np.array(A, dtype=float), axis=0)\nprint(AVG)\n"}
+{"id": 462, "code": "result = np.unique(a[a != 0])\n\nprint(result)\n"}
+{"id": 463, "code": "result = np.unique(a[a.nonzero()])\n\nprint(result)\n"}
+{"id": 464, "code": "df = pd.DataFrame(np.concatenate((lat, lon, val), axis=1), columns=['lat', 'lon', 'val'])\nprint(df)\n"}
+{"id": 465, "code": "    df = pd.DataFrame(columns=['lat', 'lon', 'val'])\n    for i in range(len(lat)):\n        for j in range(len(lat[0])):\n            df = df.append({'lat': lat[i][j], 'lon': lon[i][j], 'val': val[i][j]}, ignore_index=True)\n    return df\n\nprint(f())\n"}
+{"id": 466, "code": "df = pd.DataFrame(np.concatenate((lat, lon, val), axis=1), columns=['lat', 'lon', 'val'])\ndf['maximum'] = df.max(axis=1)\nprint(df)\n"}
+{"id": 467, "code": "result = np.lib.stride_tricks.sliding_window_view(a, size)\n"}
+{"id": 468, "code": "result = np.lib.stride_tricks.sliding_window_view(a, size)\n"}
+{"id": 469, "code": "result = np.mean(a.real)\nprint(result)\n"}
+{"id": 470, "code": "    return np.mean(a.real) + 1j*np.mean(a.imag)\n\nprint(f())\n"}
+{"id": 471, "code": "result = Z[:,:,-1:]\n"}
+{"id": 472, "code": "result = a[-1:, :]\n"}
+{"id": 473, "code": "result = (c == CNTS[1]).all()\nprint(result)\n"}
+{"id": 474, "code": "result = np.any(np.all(c == CNTS, axis=(1, 2, 3)))\nprint(result)\n"}
+{"id": 475, "code": "f = intp.interp2d(x_new, y_new, a)\nresult = f(x_new, y_new)\nprint(result)\n"}
+{"id": 476, "code": "df = pd.DataFrame(data)\ndf[name] = df.groupby('D')['Q'].cumsum()\nprint(df)\n"}
+{"id": 477, "code": "i = np.diag(i)\nprint(i)\n"}
+{"id": 478, "code": "a[np.triu_indices(a.shape[0], k=1)] = 0\nprint(a)\n"}
+{"id": 479, "code": "start_date = pd.to_datetime(start)\nend_date = pd.to_datetime(end)\nresult = pd.date_range(start=start_date, end=end_date, periods=n)\nprint(result)\n"}
+{"id": 480, "code": "result = np.where((x == a) & (y == b))[0]\nif len(result) > 0:\n    result = result[0]\nelse:\n    result = -1\nprint(result)\n"}
+{"id": 481, "code": "result = np.where((x == a) & (y == b))[0]\nprint(result)\n"}
+{"id": 482, "code": "x_matrix = np.array([[1, x[0], x[0]**2], [1, x[1], x[1]**2], [1, x[2], x[2]**2], [1, x[3], x[3]**2]])\ny_matrix = np.array([y[0], y[1], y[2], y[3]])\nresult = np.linalg.inv(x_matrix.T @ x_matrix) @ x_matrix.T @ y_matrix\nprint(result)\n"}
+{"id": 483, "code": "x_matrix = np.array([[i**j for j in range(degree+1)] for i in x])\ncoefficients = np.linalg.inv(x_matrix.T @ x_matrix) @ x_matrix.T @ y\nresult = coefficients[::-1]\nprint(result)\n"}
+{"id": 484, "code": "df = df.apply(lambda x: x - a)\nprint(df)\n"}
+{"id": 485, "code": "result = np.einsum('ijk,kl->ijl', A, B)\nprint(result.shape)\n"}
+{"id": 486, "code": "scaler = MinMaxScaler()\nresult = scaler.fit_transform(a)\nprint(result)\n"}
+{"id": 487, "code": "scaler = MinMaxScaler()\nresult = scaler.fit_transform(arr)\nprint(result)\n"}
+{"id": 488, "code": "scaler = MinMaxScaler()\nresult = scaler.fit_transform(a.reshape(-1, a.shape[-1])).reshape(a.shape)\nprint(result)\n"}
+{"id": 489, "code": "arr_temp = arr.copy()\nmask = arr_temp < -10\nmask2 = arr_temp < 15\nmask3 = arr_temp >= 15\narr[mask] = 0\narr[mask3] = arr[mask3] + 5\narr[~mask2] = 30\n"}
+{"id": 490, "code": "for i in range(arr.shape[0]):\n    arr_temp = arr[i].copy()\n    mask = arr_temp < n1[i]\n    mask2 = arr_temp < n2[i]\n    mask3 = mask ^ mask2\n    arr[i][mask] = 0\n    arr[i][mask3] = arr_temp[mask3] + 5\n    arr[i][~mask2] = 30\n"}
+{"id": 491, "code": "result = np.sum(np.abs(s1 - s2) > 1e-10)\nprint(result)\n"}
+{"id": 492, "code": "result = np.sum(np.isnan(s1) != np.isnan(s2))\nprint(result)\n"}
+{"id": 493, "code": "result = all(np.array_equal(a[0], x) for x in a)\nprint(result)\n"}
+{"id": 494, "code": "result = all(np.isnan(arr).all() for arr in a)\nprint(result)\n"}
+{"id": 495, "code": "result = np.pad(a, ((0, shape[0] - a.shape[0]), (0, shape[1] - a.shape[1])), 'constant', constant_values=(0, 0))\nprint(result)\n"}
+{"id": 496, "code": "result = np.pad(a, ((0, shape[0] - a.shape[0]), (0, shape[1] - a.shape[1])), 'constant', constant_values=0)\nprint(result)\n"}
+{"id": 497, "code": "result = np.pad(a, ((0, shape[0] - a.shape[0]), (0, shape[1] - a.shape[1])), 'constant', constant_values=element)\nprint(result)\n"}
+{"id": 498, "code": "    # Create a new array with the desired shape\n    new_arr = np.zeros(shape)\n    # Copy the original array into the new array\n    new_arr[:arr.shape[0], :arr.shape[1]] = arr\n    return new_arr\n\nprint(f())\n"}
+{"id": 499, "code": "result = np.pad(a, ((0, shape[0] - a.shape[0]), (0, shape[1] - a.shape[1])), 'constant', constant_values=(0, 0))\nprint(result)\n"}
+{"id": 500, "code": "a = np.arange(12)\nb = a.reshape(4, 3)\nprint(b)\n"}
+{"id": 501, "code": "result = a[np.arange(a.shape[0]), np.arange(a.shape[1]), b]\nprint(result)\n"}
+{"id": 502, "code": "result = a[np.arange(a.shape[0]), np.arange(a.shape[1]), b]\nprint(result)\n"}
+{"id": 503, "code": "result = a[np.arange(a.shape[0])[:, None, None], np.arange(a.shape[1])[None, :, None], b]\nprint(result)\n"}
+{"id": 504, "code": "result = np.sum(a[np.arange(a.shape[0]), np.arange(a.shape[1]), b])\nprint(result)\n"}
+{"id": 505, "code": "result = np.sum(a[np.arange(a.shape[0]), np.arange(a.shape[1]), b])\nprint(result)\n"}
+{"id": 506, "code": "result = df.loc[(df['a'] > 1) & (df['a'] <= 4), 'b']\nprint(result)\n"}
+{"id": 507, "code": "result = im[1:-1, 1:-1]\nprint(result)\n"}
+{"id": 508, "code": "result = A[np.any(A, axis=1)]\nresult = result[:, np.any(result, axis=0)]\nprint(result)\n"}
+{"id": 509, "code": "result = im[np.any(im, axis=1)][:, np.any(im, axis=0)]\nprint(result)\n"}
+{"id": 510, "code": "result = im[1:-1, 1:-1]\nprint(result)\n"}
+{"id": 511, "code": "plt.plot(x, y, label='x-y')\nplt.xlabel('x')\nplt.ylabel('y')\nplt.legend()\nplt.show()\n"}
+{"id": 512, "code": "plt.minorticks_on()\nplt.grid(which='minor', axis='y')\nplt.show()\n"}
+{"id": 513, "code": "plt.minorticks_on()\nplt.show()\n"}
+{"id": 514, "code": "plt.minorticks_x()\nplt.show()\n"}
+{"id": 515, "code": "\n# Generate random y values\ny = np.random.rand(10)\n\n# Define line styles\nstyles = ['-', '--', '-.', ':']\n\n# Plot the lines\nfor style in styles:\n    plt.plot(x, y, style)\n\n# Show the plot\nplt.show()\n"}
+{"id": 516, "code": "\n# Generate random y values\ny = np.random.rand(10)\n\n# Define line styles\nstyles = ['-', '--', '-.', ':']\n\n# Plot the lines\nfor style in styles:\n    plt.plot(x, y, style)\n\n# Show the plot\nplt.show()\n"}
+{"id": 517, "code": "plt.plot(x, y, marker='D', linestyle='-', linewidth=1)\nplt.show()\n"}
+{"id": 518, "code": "plt.plot(x, y, marker='D', markersize=10, linestyle='-', linewidth=2)\nplt.show()\n"}
+{"id": 519, "code": "plt.ylim(0, 40)\nplt.show()\n"}
+{"id": 520, "code": "plt.axvspan(2, 4, color='red', alpha=0.2)\nplt.show()\n"}
+{"id": 521, "code": "plt.plot([0, 1], [0, 2])\nplt.show()\n"}
+{"id": 522, "code": "plt.plot([0, 1], [0, 2])\nplt.show()\n"}
+{"id": 523, "code": "seaborn.relplot(data=df, x=\"Height (cm)\", y=\"Weight (kg)\", hue=\"Gender\")\nplt.show()\n"}
+{"id": 524, "code": "sns.set_style(\"whitegrid\")\nplt.plot(x, y)\nplt.show()\n"}
+{"id": 525, "code": "\n# Create a dataframe\ndf = pd.DataFrame({'x': x, 'y': y})\n\n# Draw a line plot\nsns.lineplot(data=df, x='x', y='y')\n\n# Show the plot\nplt.show()\n"}
+{"id": 526, "code": "plt.plot(x, y, marker='+', markersize=7)\nplt.show()\n"}
+{"id": 527, "code": "plt.legend(fontsize=20)\nplt.show()\n"}
+{"id": 528, "code": "plt.plot(x, y, label='xyz')\nplt.legend(title='xyz', fontsize=20)\nplt.show()\n"}
+{"id": 529, "code": "l.set_facecolor('none')\nl.set_edgecolor('black')\nl.set_alpha(0.2)\n\nplt.show()\n"}
+{"id": 530, "code": "l.set_markeredgecolor('black')\n\nplt.show()\n"}
+{"id": 531, "code": "l.set_color('red')\nl.set_markerfacecolor('red')\n\nplt.show()\n"}
+{"id": 532, "code": "plt.xticks(rotation=45)\nplt.show()\n"}
+{"id": 533, "code": "plt.xticks(rotation=45)\nplt.show()\n"}
+{"id": 534, "code": "plt.xticks(np.arange(0, 2 * np.pi, 2 * np.pi / 5))\nplt.show()\n"}
+{"id": 535, "code": "plt.legend()\nplt.show()\n"}
+{"id": 536, "code": "plt.imshow(H, cmap='viridis')\nplt.colorbar()\nplt.show()\n"}
+{"id": 537, "code": "plt.imshow(H, cmap='gray')\nplt.show()\n"}
+{"id": 538, "code": "plt.xlabel(\"X\")\nplt.xticks(rotation=0)\nplt.show()\n"}
+{"id": 539, "code": "plt.xticks(rotation=90)\nplt.show()\n"}
+{"id": 540, "code": "\n# Split the title into multiple lines\nlines = myTitle.split(' ')\n\n# Initialize a new list to store the lines\nnew_lines = []\n\n# Initialize a variable to store the current line\ncurrent_line = ''\n\n# Iterate through the words in the title\nfor word in lines:\n    # If the current line plus the next word would exceed the maximum length, add the current line to the new list and start a new line\n    if len(current_line) + len(word) > 60:\n        new_lines.append(current_line)\n        current_line = word\n    # Otherwise, add the word to the current line\n    else:\n        current_line += ' ' + word\n\n# Add the last line to the new list\nnew_lines.append(current_line)\n\n# Join the new lines into a single string\nnew_title = '\\n'.join(new_lines)\n\n# Set the title of the plot\nplt.title(new_title)\n\n# Show the plot\nplt.show()\n"}
+{"id": 541, "code": "plt.plot(x, y)\nplt.gca().invert_yaxis()\nplt.show()\n"}
+{"id": 542, "code": "plt.xticks([0, 1.5])\nplt.show()\n"}
+{"id": 543, "code": "plt.yticks([-1, 1])\nplt.show()\n"}
+{"id": 544, "code": "plt.plot(x, label='x')\nplt.plot(y, label='y')\nplt.plot(z, label='z')\nplt.legend()\nplt.show()\n"}
+{"id": 545, "code": "plt.scatter(x, y, edgecolors='black', facecolors='blue')\nplt.show()\n"}
+{"id": 546, "code": "plt.xticks(np.arange(min(x), max(x)+1, 1.0))\nplt.yticks(np.arange(min(y), max(y)+1, 1.0))\n\nplt.plot(x, y)\nplt.show()\n"}
+{"id": 547, "code": "plt.ticklabel_format(style='plain', axis='y')\nplt.show()\n"}
+{"id": 548, "code": "# To plot a dashed line on seaborn lineplot, you can use the linestyle parameter in the seaborn.lineplot function.\n\n# For example, to plot a dashed line, you can use the linestyle parameter as follows:\n\nsns.lineplot(x=x, y=y, linestyle='--')\n\n# This will plot a dashed line on the seaborn lineplot.\n"}
+{"id": 549, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, sharex=True)\nax1.plot(x, y1)\nax1.set_title('sin(x)')\nax2.plot(x, y2)\nax2.set_title('cos(x)')\nplt.show()\n"}
+{"id": 550, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))\n\nax1.plot(x, y1)\nax1.set_title('Sine Wave')\nax1.set_xlabel('x')\nax1.set_ylabel('sin(x)')\nax1.spines['top'].set_visible(False)\nax1.spines['right'].set_visible(False)\n\nax2.plot(x, y2)\nax2.set_title('Cosine Wave')\nax2.set_xlabel('x')\nax2.set_ylabel('cos(x)')\nax2.spines['top'].set_visible(False)\nax2.spines['right'].set_visible(False)\n\nplt.show()\n"}
+{"id": 551, "code": "plt.xlabel('')\nplt.show()\n"}
+{"id": 552, "code": "plt.xticks([])\nplt.show()\n"}
+{"id": 553, "code": "plt.xticks([3, 4])\nplt.grid(axis='x')\nplt.show()\n"}
+{"id": 554, "code": "plt.yticks([3, 4])\nplt.grid(axis='y', which='both')\nplt.show()\n"}
+{"id": 555, "code": "plt.yticks([3, 4])\nplt.grid(axis='y', which='both')\nplt.xticks([1, 2])\nplt.grid(axis='x', which='both')\nplt.show()\n"}
+{"id": 556, "code": "plt.grid(True)\nplt.show()\n"}
+{"id": 557, "code": "plt.legend(loc='lower right')\nplt.show()\n"}
+{"id": 558, "code": "fig, axes = plt.subplots(ncols=2, nrows=2, figsize=(8, 6))\naxes = axes.flatten()\n\nfor ax in axes:\n    ax.set_ylabel(r\"$\\ln\\left(\\frac{x_a-x_b}{x_a-x_c}\\right)$\")\n    ax.set_xlabel(r\"$\\ln\\left(\\frac{x_a-x_d}{x_a-x_e}\\right)$\")\n\nplt.subplots_adjust(wspace=0.5, hspace=0.5)\n\nplt.show()\nplt.clf()\n"}
+{"id": 559, "code": "plt.plot(x, y, label='Y')\nplt.plot(x, z, label='Z')\nplt.legend()\nplt.show()\n"}
+{"id": 560, "code": "ax.xaxis.tick_top()\nplt.show()\n"}
+{"id": 561, "code": "plt.plot(x, y)\nplt.xlabel('X', labelpad=20)\nplt.show()\n"}
+{"id": 562, "code": "plt.plot(x, y)\nplt.xticks([])\nplt.show()\n"}
+{"id": 563, "code": "plt.plot(x, y)\nplt.yticks(rotation=0)\nplt.show()\n"}
+{"id": 564, "code": "plt.plot(x, y)\nplt.ylabel('Y')\nplt.yticks(np.arange(10), np.arange(10))\nplt.show()\n"}
+{"id": 565, "code": "sns.jointplot(x=\"total_bill\", y=\"tip\", data=tips, kind=\"reg\", color=\"green\", scatter_kws={\"color\": \"green\"}, line_kws={\"color\": \"green\"})\nplt.show()\n"}
+{"id": 566, "code": "sns.jointplot(x=\"total_bill\", y=\"tip\", data=tips, kind=\"reg\", color=\"green\", hist_kws={'color': 'blue'})\nplt.show()\n"}
+{"id": 567, "code": "sns.jointplot(x='total_bill', y='tip', data=tips, kind='reg')\nplt.show()\n"}
+{"id": 568, "code": "\n# Create a bar plot for s1 and s2\nplt.bar(df[\"celltype\"], df[\"s1\"], label=\"s1\")\nplt.bar(df[\"celltype\"], df[\"s2\"], label=\"s2\")\n\n# Set the x-axis tick labels horizontal\nplt.xticks(rotation=90)\n\n# Add a legend\nplt.legend()\n\n# Show the plot\nplt.show()\n"}
+{"id": 569, "code": "\n# Create a bar plot for s1 and s2\nplt.bar(df[\"celltype\"], df[\"s1\"], label=\"s1\")\nplt.bar(df[\"celltype\"], df[\"s2\"], label=\"s2\")\n\n# Set the x-axis tick labels to rotate 45 degrees\nplt.xticks(rotation=45)\n\n# Add a legend\nplt.legend()\n\n# Show the plot\nplt.show()\n"}
+{"id": 570, "code": "plt.plot(x, y)\nplt.xlabel('X', color='red')\nplt.xticks(color='red')\nplt.show()\n"}
+{"id": 571, "code": "plt.plot(x, y, color='red')\nplt.xlabel('X')\nplt.show()\n"}
+{"id": 572, "code": "plt.plot(x, y)\nplt.xticks(rotation='vertical')\nplt.tick_params(axis='x', labelsize=10)\nplt.show()\n"}
+{"id": 573, "code": "plt.axvline(0.22058956, color='r')\nplt.axvline(0.33088437, color='r')\nplt.axvline(2.20589566, color='r')\nplt.show()\n"}
+{"id": 574, "code": "fig, ax = plt.subplots()\nim = ax.imshow(rand_mat)\n\n# We want to show all ticks...\nax.set_xticks(numpy.arange(len(xlabels)))\nax.set_yticks(numpy.arange(len(ylabels)))\n# ... and label them with the respective list entries\nax.set_xticklabels(xlabels)\nax.set_yticklabels(ylabels[::-1])\n\n# Rotate the tick labels and set their alignment.\nplt.setp(ax.get_xticklabels(), rotation=45, ha=\"right\",\n         rotation_mode=\"anchor\")\n\n# Loop over data dimensions and create text annotations.\nfor i in range(len(xlabels)):\n    for j in range(len(ylabels)):\n        text = ax.text(j, i, rand_mat[i, j],\n                       ha=\"center\", va=\"center\", color=\"w\")\n\nax.set_title(\"Heatmap\")\nfig.tight_layout()\nplt.show()\n"}
+{"id": 575, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))\n\nax1.plot(time, Swdown, \"-\", label=\"Swdown\")\nax1.plot(time, Rn, \"-\", label=\"Rn\")\nax1.legend(loc=0)\nax1.grid()\nax1.set_xlabel(\"Time (h)\")\nax1.set_ylabel(r\"Radiation ($MJ\\,m^{-2}\\,d^{-1}$)\")\nax1.set_ylim(-20, 100)\n\nax2.plot(time, temp, \"-r\", label=\"temp\")\nax2.legend(loc=0)\nax2.grid()\nax2.set_xlabel(\"Time (h)\")\nax2.set_ylabel(r\"Temperature ($^\\circ$C)\")\nax2.set_ylim(0, 35)\n\nplt.show()\nplt.clf()\n"}
+{"id": 576, "code": "fig, (ax1, ax2) = plt.subplots(1, 2)\nax1.plot(x, y)\nax1.set_title('Y')\nax2.plot(x, y)\nax2.set_title('Y')\nplt.show()\n"}
+{"id": 577, "code": "sns.scatterplot(data=df, x=\"bill_length_mm\", y=\"bill_depth_mm\", s=30)\nplt.show()\n"}
+{"id": 578, "code": "plt.scatter(b, a)\nfor i, txt in enumerate(c):\n    plt.annotate(txt, (b[i], a[i]))\nplt.xlabel('b')\nplt.ylabel('a')\nplt.title('Scatter Plot of a over b')\nplt.show()\n"}
+{"id": 579, "code": "plt.plot(x, y, label=\"y over x\")\nplt.legend(title=\"Legend\")\nplt.show()\n"}
+{"id": 580, "code": "plt.plot(x, y, label=\"y over x\")\nplt.legend(title=\"Legend\", loc='upper left', bbox_to_anchor=(1, 1))\nplt.title(\"Legend\", fontweight='bold')\nplt.show()\n"}
+{"id": 581, "code": "plt.hist(x, edgecolor='black', linewidth=1.2)\nplt.show()\n"}
+{"id": 582, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))\n\nax1.plot(x, y)\nax1.set_title('Subplot 1')\n\nax2.plot(x, y)\nax2.set_title('Subplot 2')\n\nplt.tight_layout()\nplt.show()\n"}
+{"id": 583, "code": "fig, ax = plt.subplots()\nax.hist(x, bins=bins, alpha=0.5, label='x')\nax.hist(y, bins=bins, alpha=0.5, label='y')\nax.legend()\nplt.show()\n"}
+{"id": 584, "code": "\nfig, ax = plt.subplots()\n\nax.hist(x, alpha=0.5, label='x')\nax.hist(y, alpha=0.5, label='y')\n\nax.legend()\nplt.show()\n"}
+{"id": 585, "code": "\n# Calculate the slope of the line\nslope = (d - b) / (c - a)\n\n# Calculate the y-intercept\ny_intercept = b - slope * a\n\n# Create a list of x-values\nx_values = [0, 5]\n\n# Calculate the corresponding y-values\ny_values = [slope * x + y_intercept for x in x_values]\n\n# Plot the line\nplt.plot(x_values, y_values)\n\n# Set the xlim and ylim\nplt.xlim(0, 5)\nplt.ylim(0, 5)\n\n# Show the plot\nplt.show()\n"}
+{"id": 586, "code": "fig, (ax1, ax2) = plt.subplots(1, 2)\n\np1 = ax1.imshow(x, cmap='viridis')\np2 = ax2.imshow(y, cmap='viridis')\n\nfig.colorbar(p1, ax=ax1)\nfig.colorbar(p2, ax=ax2)\n\nplt.show()\n"}
+{"id": 587, "code": "plt.plot(x[:, 0], label='a')\nplt.plot(x[:, 1], label='b')\nplt.legend()\nplt.show()\n"}
+{"id": 588, "code": "\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))\n\nax1.plot(x, y)\nax1.set_title('Y over X')\n\nax2.plot(a, z)\nax2.set_title('Z over A')\n\nfig.suptitle('Y and Z', fontsize=16)\n\nplt.show()\n"}
+{"id": 589, "code": "\n# Convert points to numpy array\npoints = np.array(points)\n\n# Extract x and y coordinates\nx = points[:, 0]\ny = points[:, 1]\n\n# Plot the line plot\nplt.plot(x, y)\n\n# Set the y-axis to log scale\nplt.yscale('log')\n\n# Show the plot\nplt.show()\n"}
+{"id": 590, "code": "plt.plot(x, y)\nplt.title('Plot of y over x', fontsize=20)\nplt.xlabel('x', fontsize=18)\nplt.ylabel('y', fontsize=16)\nplt.show()\n"}
+{"id": 591, "code": "ax.plot(x, y)\nax.set_xticks(np.arange(1, 11))\nax.set_yticks(np.arange(1, 11))\nplt.show()\n"}
+{"id": 592, "code": "for i in range(len(lines)):\n    x = [lines[i][0][0], lines[i][1][0]]\n    y = [lines[i][0][1], lines[i][1][1]]\n    plt.plot(x, y, color=c[i])\n\nplt.show()\n"}
+{"id": 593, "code": "plt.loglog(x, y)\nplt.xticks([1, 10, 100], ['1', '10', '100'])\nplt.yticks([1, 10, 100], ['1', '10', '100'])\nplt.xlabel('x')\nplt.ylabel('y')\nplt.show()\n"}
+{"id": 594, "code": "fig, axes = plt.subplots(2, 2, figsize=(10, 10))\n\nfor i, col in enumerate(df.columns):\n    ax = axes[i//2, i%2]\n    ax.plot(df.index, df[col], 'o-')\n    ax.set_title(col)\n\nplt.show()\n"}
+{"id": 595, "code": "\n# Calculate the sum of the data\ntotal = sum(data)\n\n# Normalize the data to sum up to 1\nnormalized_data = [i/total for i in data]\n\n# Create a histogram\nplt.hist(normalized_data, bins=len(data))\n\n# Format the y tick labels into percentage and set y tick labels as 10%, 20%, etc.\nplt.yticks(np.arange(0, 1.1, 0.1))\nplt.yticklabels(['{:,.0%}'.format(x) for x in plt.gca().get_yticks()])\n\n# Show the plot\nplt.show()\n"}
+{"id": 596, "code": "plt.plot(x, y, marker='o', markersize=5, markerfacecolor='red', markeredgecolor='red', alpha=0.5, linestyle='-')\nplt.show()\n"}
+{"id": 597, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))\n\nax1.plot(x, y, label='y')\nax1.set_xlabel('x')\nax1.set_ylabel('y')\nax1.legend()\n\nax2.plot(z, a, label='a')\nax2.set_xlabel('z')\nax2.set_ylabel('a')\nax2.legend()\n\nplt.tight_layout()\nplt.show()\n"}
+{"id": 598, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))\nsns.regplot(x=\"bill_length_mm\", y=\"bill_depth_mm\", data=df, ax=ax1)\nsns.regplot(x=\"bill_length_mm\", y=\"flipper_length_mm\", data=df, ax=ax2)\nplt.show()\n"}
+{"id": 599, "code": "ax.set_xticklabels(['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'])\nplt.show()\n"}
+{"id": 600, "code": "plt.plot(x, y, label=r'$\\lambda$')\nplt.legend()\nplt.show()\n"}
+{"id": 601, "code": "plt.xticks(np.append(plt.xticks()[0], [2.1, 3, 7.6]))\n\nplt.show()\n"}
+{"id": 602, "code": "plt.xticks(rotation=-60, ha='left')\nplt.show()\n"}
+{"id": 603, "code": "plt.yticks(rotation=-60)\nplt.gca().xaxis.set_tick_params(top=True, which='both')\nplt.show()\n"}
+{"id": 604, "code": "plt.xticks(alpha=0.5)\n\nplt.show()\n"}
+{"id": 605, "code": "plt.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.4, hspace=0.4)\nplt.show()\n"}
+{"id": 606, "code": "plt.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)\nplt.show()\n"}
+{"id": 607, "code": "fig, axs = plt.subplots(1, 2)\nfig.suptitle('Figure')\naxs[0].plot(x, y)\naxs[1].plot(x, y)\nplt.show()\n"}
+{"id": 608, "code": "df.plot(kind='line')\nplt.xlabel(\"X\")\nplt.ylabel(\"Y\")\nplt.show()\n"}
+{"id": 609, "code": "plt.scatter(x, y, marker='|', hatch='|')\nplt.show()\n"}
+{"id": 610, "code": "plt.scatter(x, y, edgecolors='none', marker='|', hatch='|')\nplt.show()\n"}
+{"id": 611, "code": "plt.scatter(x, y, marker='*', edgecolors='none', s=100, hatch='*')\nplt.show()\n"}
+{"id": 612, "code": "plt.scatter(x, y, s=100, marker='$*|*$')\nplt.show()\n"}
+{"id": 613, "code": "plt.imshow(data, cmap='hot', extent=[1, 5, 1, 4])\nplt.xlim(1, 5)\nplt.ylim(1, 4)\nplt.colorbar()\nplt.show()\n"}
+{"id": 614, "code": "plt.stem(y, x, orientation='horizontal')\nplt.show()\n"}
+{"id": 615, "code": "\nplt.bar(d.keys(), d.values(), color=[c[key] for key in d.keys()])\nplt.show()\n"}
+{"id": 616, "code": "plt.axvline(x=3, color='r', label='cutoff')\nplt.legend()\nplt.show()\n"}
+{"id": 617, "code": "fig, ax = plt.subplots(subplot_kw=dict(projection=\"polar\"))\nax.bar(labels, height)\nplt.show()\n"}
+{"id": 618, "code": "fig, ax = plt.subplots()\nax.pie(data, labels=l, wedgeprops={'width': 0.4})\nplt.show()\n"}
+{"id": 619, "code": "plt.plot(x, y, 'b--')\nplt.grid(color='blue', linestyle='dashed', linewidth=0.5)\nplt.show()\n"}
+{"id": 620, "code": "plt.plot(x, y)\nplt.minorticks_on()\nplt.grid(which='minor', linestyle='--', color='gray')\nplt.grid(which='major', linestyle='-', color='black', alpha=0.2)\nplt.show()\n"}
+{"id": 621, "code": "plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)\nplt.title(\"Pie Chart\")\nplt.legend(loc=\"best\")\nplt.show()\n"}
+{"id": 622, "code": "plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)\nplt.title(\"Pie Chart\")\nplt.legend(loc=\"best\")\nplt.show()\n"}
+{"id": 623, "code": "plt.plot(x, y, marker='o', markerfacecolor='none', markeredgecolor='red', markeredgewidth=2)\nplt.show()\n"}
+{"id": 624, "code": "plt.axvline(x=55, color='green')\nplt.show()\n"}
+{"id": 625, "code": "x = np.arange(len(blue_bar))  # the label locations\nwidth = 0.35  # the width of the bars\n\nfig, ax = plt.subplots()\nrects1 = ax.bar(x - width/2, blue_bar, width, label='Blue')\nrects2 = ax.bar(x + width/2, orange_bar, width, label='Orange')\n\n# Add some text for labels, title and custom x-axis tick labels, etc.\nax.set_ylabel('Height')\nax.set_title('Blue and Orange Bars')\nax.set_xticks(x)\nax.set_xticklabels(('Group 1', 'Group 2', 'Group 3'))\nax.legend()\n\nfig.tight_layout()\n\nplt.show()\n"}
+{"id": 626, "code": "fig, ax = plt.subplots(1, 2, figsize=(10, 5))\n\n# Plot y over x in the first subplot\nax[0].plot(x, y, label='y')\n\n# Plot z over a in the second subplot\nax[1].plot(a, z, label='z')\n\n# Put them into a single legend on the first subplot\nax[0].legend()\n\nplt.show()\n"}
+{"id": 627, "code": "plt.scatter(x, y, c=y, cmap='Spectral')\nplt.colorbar()\nplt.show()\n"}
+{"id": 628, "code": "plt.plot(x, y)\nplt.xticks(np.arange(0, 10, 1))\nplt.show()\n"}
+{"id": 629, "code": "\n# Create a new column for bill_length_mm in mm\ndf['bill_length_mm'] = df['bill_length_mm'] * 10\n\n# Create a new column for bill_length_mm in cm\ndf['bill_length_cm'] = df['bill_length_mm'] / 10\n\n# Plot the barplot\nsns.catplot(x=\"sex\", y=\"bill_length_cm\", hue=\"species\", data=df, kind=\"bar\", col=\"species\", sharey=False)\n\nplt.show()\n"}
+{"id": 630, "code": "plt.figure()\nplt.axis('equal')\nplt.plot(0.5, 0.5, 'o', markersize=10)\nplt.gca().add_patch(plt.Circle((0.5, 0.5), 0.2, color='r'))\nplt.show()\n"}
+{"id": 631, "code": "plt.plot(x, y)\nplt.title(r'$\\phi$', fontweight='bold')\nplt.show()\n"}
+{"id": 632, "code": "plt.plot(x, y, label=\"Line\")\nplt.legend(loc='upper left', bbox_to_anchor=(1, 1), borderaxespad=0., labelspacing=0.1)\nplt.show()\n"}
+{"id": 633, "code": "plt.plot(x, y, label=\"Line\")\nplt.legend(handlelength=0.3)\nplt.show()\n"}
+{"id": 634, "code": "plt.legend(ncol=2)\nplt.show()\n"}
+{"id": 635, "code": "plt.legend()\nplt.show()\n"}
+{"id": 636, "code": "plt.imshow(data, cmap='viridis')\nplt.colorbar()\nplt.show()\n"}
+{"id": 637, "code": "plt.plot(x, y)\nplt.title(\"Figure 1\", fontweight='bold')\nplt.show()\n"}
+{"id": 638, "code": "sns.pairplot(data=df, x_vars=\"x\", y_vars=\"y\", hue=\"id\", legend=False)\nplt.show()\n"}
+{"id": 639, "code": "plt.plot(x, y)\nplt.gca().invert_xaxis()\nplt.show()\n"}
+{"id": 640, "code": "plt.scatter(x, y)\nplt.gca().set_clip_on(False)\nplt.show()\n"}
+{"id": 641, "code": "plt.scatter(x, y, c='r', edgecolors='k')\nplt.show()\n"}
+{"id": 642, "code": "fig, axs = plt.subplots(2, 2, figsize=(15, 15))\nfor i in range(2):\n    for j in range(2):\n        axs[i, j].plot(x, y)\nplt.show()\n"}
+{"id": 643, "code": "plt.hist(x, bins=5, range=(0, 10), width=2)\nplt.show()\n"}
+{"id": 644, "code": "plt.figure()\nplt.errorbar(x, y, yerr=error, fmt='o', color='black', ecolor='lightgray', elinewidth=3, capsize=0)\nplt.fill_between(x, y-error, y+error, color='lightgray')\nplt.show()\n"}
+{"id": 645, "code": "plt.axhline(y=0, color='w', linewidth=1)\nplt.axvline(x=0, color='w', linewidth=1)\nplt.show()\n"}
+{"id": 646, "code": "for i in range(len(box_position)):\n    ax.errorbar(box_position[i], box_height[i], yerr=box_errors[i], color=c[i], fmt='o')\n\nplt.show()\n"}
+{"id": 647, "code": "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))\n\nax1.plot(x, y)\nax1.set_title('Y')\n\nax2.plot(a, z)\nax2.set_title('Z')\n\nplt.tight_layout()\nplt.show()\n"}
+{"id": 648, "code": "fig, axs = plt.subplots(4, 4, figsize=(5, 5))\nfor i in range(4):\n    for j in range(4):\n        axs[i, j].plot(x, y)\n        axs[i, j].set_xticks(x)\n        axs[i, j].set_yticks(y)\n        axs[i, j].set_xlabel('x')\n        axs[i, j].set_ylabel('y')\n        axs[i, j].set_title('Subplot ' + str(i+1) + ',' + str(j+1))\nplt.tight_layout()\nplt.show()\n"}
+{"id": 649, "code": "plt.figure(figsize=(8, 8))\nplt.matshow(d)\nplt.show()\n"}
+{"id": 650, "code": "fig, ax = plt.subplots(figsize=(10, 5))\nax.axis('off')\nax.table(cellText=df.values, colLabels=df.columns, loc='center')\nplt.show()\n"}
+{"id": 651, "code": "plt.figure(figsize=(10, 5))\nplt.plot(x, y)\nplt.xticks(x, rotation='vertical')\nplt.xlabel('x')\nplt.ylabel('y')\nplt.title('Line Chart')\nplt.show()\n"}
+{"id": 652, "code": "plt.plot(x, y)\nplt.xticks(np.arange(0, 10, 1), rotation=90)\nplt.yticks(np.arange(0, 10, 1))\nplt.show()\n"}
+{"id": 653, "code": "plt.plot(x, y)\nplt.xticks(x)\nplt.yticks(y)\nplt.show()\n"}
+{"id": 654, "code": "\n# Create a new column \"group\" based on the \"diet\" column\ndf['group'] = df['diet'].apply(lambda x: 'Fat' if x == 'yes' else 'No Fat')\n\n# Create a catplot\ng = sns.catplot(x=\"time\", y=\"pulse\", hue=\"kind\", col=\"group\", data=df, kind=\"scatter\")\n\n# Change the subplots titles\ng.set_titles(\"{col_name}\")\n\nplt.show()\n"}
+{"id": 655, "code": "sns.catplot(x=\"time\", y=\"pulse\", hue=\"kind\", col=\"diet\", data=df, kind=\"scatter\")\nplt.xlabel(\"Exercise Time\")\nplt.ylabel(\"Exercise Time\")\nplt.show()\n"}
+{"id": 656, "code": "sns.catplot(x=\"time\", y=\"pulse\", hue=\"kind\", col=\"diet\", data=df, kind=\"scatter\", legend=False)\nplt.ylabel('')\nplt.show()\n"}
+{"id": 657, "code": "plt.plot(x, y, label=\"y\")\nplt.legend(fontsize=8)\nplt.show()\n"}
+{"id": 658, "code": "plt.figure(figsize=(5, 5), dpi=300)\nplt.plot(x, y)\nplt.show()\n"}
+{"id": 659, "code": "plt.plot(x, y, label=\"y\")\nplt.legend(frameon=False)\nplt.show()\n"}
+{"id": 660, "code": "fig, ax = plt.subplots()\nax.plot(t, a, label='a')\nax.plot(t, b, label='b')\nax.plot(t, c, label='c')\nax.legend()\nplt.show()\n"}
+{"id": 661, "code": "sns.stripplot(data=df, x=\"sex\", y=\"bill_length_mm\", hue=\"species\", dodge=True, jitter=True, legend=False)\nplt.show()\n"}
+{"id": 662, "code": "g = sns.FacetGrid(df, col=\"b\", hue=\"b\", sharex=False)\ng.map(sns.pointplot, \"a\", \"c\")\n\n# Set xticks and xtick labels\nfor ax in g.axes.flat:\n    ax.set_xticks(np.arange(1, 31, 2))\n    ax.set_xticklabels(np.arange(1, 31, 2))\n\nplt.show()\n"}
+{"id": 663, "code": "fig = plt.figure()\nax = fig.add_subplot(111, projection='3d')\nax.scatter(x, y, z)\nax.view_init(azim=100, elev=50)\nplt.show()\n"}
+{"id": 664, "code": "plt.plot(x, y)\nplt.xlabel('x')\nplt.ylabel('y')\nplt.xticks([])\nplt.yticks([])\nplt.show()\n"}
+{"id": 665, "code": "gs = gridspec.GridSpec(nrow, ncol)\nfor i in range(nrow):\n    for j in range(ncol):\n        ax = plt.subplot(gs[i, j])\n        ax.imshow(x)\n        ax.set_xticks([])\n        ax.set_yticks([])\n\nplt.tight_layout()\nplt.show()\n"}
+{"id": 666, "code": "x.assign(1)\n\n# check the value of x\nprint(x.numpy())\n"}
+{"id": 667, "code": "x.assign(114514)\n\n# get the value of x as an integer\nresult = x.numpy()\n\nprint(result)\n"}
+{"id": 668, "code": "result = tf.one_hot(labels, depth=10, dtype=tf.int32)\n"}
+{"id": 669, "code": "result = tf.one_hot(labels, depth=10, dtype=tf.int32)\n\nprint(result)\n"}
+{"id": 670, "code": "result = tf.one_hot(labels, depth=10, dtype=tf.int32)\n"}
+{"id": 671, "code": "    one_hot_labels = tf.one_hot(labels, depth=10)\n    return one_hot_labels\n\nprint(f())\n"}
+{"id": 672, "code": "result = tf.one_hot(labels, depth=10, dtype=tf.int32)\n"}
+{"id": 673, "code": "def my_map_func(i):\n  return [i, i+1, i+2]\nds = tf.data.Dataset.from_tensor_slices(input)\nds = ds.flat_map(lambda input: tf.data.Dataset.from_tensor_slices(my_map_func(input)))\nelement = tf.compat.v1.data.make_one_shot_iterator(ds).get_next()\nresult = []\nwith tf.compat.v1.Session() as sess:\n  for _ in range(9):\n    result.append(sess.run(element))\nprint(result)\n"}
+{"id": 674, "code": "    return [input[0]+1, input[0]+2, input[1]+1, input[1]+2, input[2]+1, input[2]+2]\n\nds = tf.data.Dataset.from_tensor_slices(example_input)\nds = ds.flat_map(lambda x: tf.data.Dataset.from_tensor_slices(f(x)))\n\nelement = tf.compat.v1.data.make_one_shot_iterator(ds).get_next()\nresult = []\nwith tf.compat.v1.Session() as sess:\n    for _ in range(6):\n        result.append(sess.run(element))\nprint(result)\n"}
+{"id": 675, "code": "result = tf.pad(tf.sequence_mask(lengths, maxlen=8), [[0, 0], [0, 4]])\n\nprint(result)\n"}
+{"id": 676, "code": "result = tf.pad(tf.sequence_mask(lengths, maxlen=8), [[0, 0], [0, 4]])\n\nprint(result)\n"}
+{"id": 677, "code": "result = tf.pad(tf.sequence_mask(lengths, maxlen=8), [[0, 0], [0, 0], [0, 4]])\n"}
+{"id": 678, "code": "    max_length = tf.reduce_max(lengths)\n    mask = tf.sequence_mask(lengths, max_length)\n    return mask\n\nprint(f())\n"}
+{"id": 679, "code": "result = tf.pad(tf.sequence_mask(lengths, maxlen=8), [[0, 0], [0, 0], [0, 1]])\n"}
+{"id": 680, "code": "result = tf.reshape(tf.stack(tf.meshgrid(a, b), axis=-1), (-1, 2))\n\nprint(result)\n"}
+{"id": 681, "code": "    a_shape = tf.shape(a)\n    b_shape = tf.shape(b)\n    a_indices = tf.reshape(tf.range(a_shape[0]), [a_shape[0], 1])\n    b_indices = tf.reshape(tf.range(b_shape[0]), [1, b_shape[0]])\n    a_indices = tf.tile(a_indices, [1, b_shape[0]])\n    b_indices = tf.tile(b_indices, [a_shape[0], 1])\n    a_indices = tf.reshape(a_indices, [-1])\n    b_indices = tf.reshape(b_indices, [-1])\n    a_values = tf.reshape(a, [-1])\n    b_values = tf.reshape(b, [-1])\n    return tf.data.Dataset.from_tensor_slices((a_indices, b_indices, a_values, b_values))\n\nfor a, b, a_val, b_val in f().as_numpy_iterator():\n    print(a, b, a_val, b_val)\n"}
+{"id": 682, "code": "result = tf.reshape(a, (50, 100, 512))\n\nprint(result.shape)\n"}
+{"id": 683, "code": "result = tf.expand_dims(a, axis=2)\n\nprint(result.shape)\n"}
+{"id": 684, "code": "result = tf.expand_dims(a, axis=0)\nresult = tf.expand_dims(result, axis=-1)\n\nprint(result.shape)\n"}
+{"id": 685, "code": "result = tf.reduce_sum(A, axis=1)\n"}
+{"id": 686, "code": "result = tf.reduce_prod(A, axis=1)\n"}
+{"id": 687, "code": "result = tf.math.reciprocal(A)\n"}
+{"id": 688, "code": "result = tf.reduce_sum(tf.square(tf.subtract(a, b)), axis=1)\n\nprint(result)\n"}
+{"id": 689, "code": "result = tf.reduce_sum(tf.square(tf.subtract(a, b)), axis=0)\nprint(result)\n"}
+{"id": 690, "code": "    return tf.reduce_sum(tf.square(tf.subtract(A, B)), axis=1)\n\nprint(f())\n"}
+{"id": 691, "code": "result = tf.gather_nd(x, tf.stack([y, z], axis=1))\n\nprint(result)\n"}
+{"id": 692, "code": "result = tf.gather_nd(x, tf.stack([row, col], axis=1))\n\nprint(result)\n"}
+{"id": 693, "code": "    return tf.gather_nd(x, tf.stack([y, z], axis=1))\n\nprint(f())\n"}
+{"id": 694, "code": "result = tf.einsum('bij,bjk->bik', A, B)\n\n# Check the shape\nprint(result.shape)\n"}
+{"id": 695, "code": "result = tf.einsum('bij,bjk->bik', A, B)\n\n# Check the shape\nprint(result.shape)\n"}
+{"id": 696, "code": "result = [i.decode('utf-8') for i in x]\nprint(result)\n"}
+{"id": 697, "code": "    return [i.decode('utf-8') for i in x]\n\nprint(f())\n"}
+{"id": 698, "code": "result = tf.math.divide(tf.reduce_sum(x, axis=-1), tf.reduce_sum(tf.cast(x != 0, tf.float32), axis=-1))\nprint(result)\n"}
+{"id": 699, "code": "result = tf.math.reduce_variance(x, axis=-1, keepdims=True)\n"}
+{"id": 700, "code": "    non_zero_mask = tf.math.count_nonzero(x, axis=-1)\n    non_zero_mask = tf.cast(non_zero_mask, tf.float32)\n    non_zero_mask = tf.expand_dims(non_zero_mask, axis=-1)\n    x = tf.math.divide(x, non_zero_mask)\n    x = tf.math.reduce_sum(x, axis=-2)\n    return x\n\nprint(f())\n"}
+{"id": 701, "code": "\n# Tensorflow 2.3.0\nresult = tf.reduce_sum(tf.matmul(A,B))\n\n# Tensorflow 1.5\n# result = tf.Session().run(tf.reduce_sum(tf.matmul(A,B)))\n"}
+{"id": 702, "code": "result = tf.argmax(a, axis=1)\n\nprint(result)\n"}
+{"id": 703, "code": "result = tf.argmax(a, axis=1)\n\nprint(result)\n"}
+{"id": 704, "code": "    return tf.argmax(a, axis=1)\n\nprint(f())\n"}
+{"id": 705, "code": "result = tf.argmin(a, axis=1)\n\nprint(result)\n"}
+{"id": 706, "code": "model.save('export/1')\n"}
+{"id": 707, "code": "tf.random.set_seed(seed_x)\nresult = tf.random.uniform(shape=(10,), minval=1, maxval=5, dtype=tf.int32)\n"}
+{"id": 708, "code": "tf.random.set_seed(seed_x)\nresult = tf.random.uniform(shape=(114,), minval=2, maxval=6, dtype=tf.int32)\n"}
+{"id": 709, "code": "    tf.random.set_seed(seed_x)\n    return tf.random.uniform(shape=(10,), minval=1, maxval=5, dtype=tf.int32)\n\nprint(f())\n"}
+{"id": 710, "code": "result = tf.__version__\n\nprint(result)\n"}
+{"id": 711, "code": "result = scipy.polyfit(np.log(x), y, 1)\n\nprint(result)\n"}
+{"id": 712, "code": "result = scipy.polyfit(x, y, 1)\n\nprint(result)\n"}
+{"id": 713, "code": "def func(x, a, b, c):\n    return a*np.exp(b*x) + c\n\nresult = scipy.optimize.curve_fit(func, x, y, p0)\nprint(result[0])\n"}
+{"id": 714, "code": "statistic, p_value = stats.ks_2samp(x, y)\nprint(f\"Statistic: {statistic}, p-value: {p_value}\")\n"}
+{"id": 715, "code": "result = stats.ks_2samp(x, y)\nprint(result)\n"}
+{"id": 716, "code": "def f(x):\n    a, b, c = x\n    return ((a+b-c)-2)**2 + ((3*a-b-c))**2 + sin(b) + cos(b) + 4\n\nresult = optimize.minimize(f, initial_guess)\nprint(result.x)\n"}
+{"id": 717, "code": "p_values = 1 - scipy.stats.norm.cdf(z_scores)\nprint(p_values)\n"}
+{"id": 718, "code": "p_values = scipy.stats.norm.cdf(z_scores, loc=mu, scale=sigma)\nprint(p_values)\n"}
+{"id": 719, "code": "z_scores = scipy.stats.norm.ppf(p_values)\nprint(z_scores)\n"}
+{"id": 720, "code": "result = stats.lognorm.cdf(x, s=stddev, scale=np.exp(mu))\nprint(result)\n"}
+{"id": 721, "code": "expected_value = np.exp(mu + stddev**2/2)\nmedian = np.exp(mu)\n"}
+{"id": 722, "code": "result = sa.multiply(sb)\nprint(result.toarray())\n"}
+{"id": 723, "code": "    sC = sA.multiply(sB)\n    return sC\n\nprint(f())\n"}
+{"id": 724, "code": "interpolator = scipy.interpolate.LinearNDInterpolator(points, V)\nresult = interpolator(request)\nprint(result)\n"}
+{"id": 725, "code": "interpolator = scipy.interpolate.LinearNDInterpolator(points, V)\nresult = interpolator(request)\nprint(result)\n"}
+{"id": 726, "code": "data_rot = rotate(data_orig, angle)\nxrot, yrot = np.round(np.dot(np.array([[np.cos(np.deg2rad(angle)), -np.sin(np.deg2rad(angle))], [np.sin(np.deg2rad(angle)), np.cos(np.deg2rad(angle))]]), np.array([x0, y0]))).astype(int)\n"}
+{"id": 727, "code": "result = M.diagonal()\n\nprint(result)\n"}
+{"id": 728, "code": "result = stats.kstest(times, 'uniform', args=(0, T))\nprint(result)\n"}
+{"id": 729, "code": "    # Calculate the CDF of the uniform distribution\n    uniform_cdf = lambda x: x / T\n    # Calculate the CDF of the exponential distribution\n    exponential_cdf = lambda x: 1 - np.exp(-rate * x)\n    # Calculate the CDF of the times\n    times_cdf = lambda x: np.sum(np.array(times) < x) / len(times)\n    # Calculate the Kolmogorov-Smirnov statistic\n    ks_statistic = max(np.abs(uniform_cdf(times) - times_cdf(times)))\n    return ks_statistic\nprint(f())\n"}
+{"id": 730, "code": "result = stats.kstest(times, 'uniform', args=(0, T))\nprint(result)\n"}
+{"id": 731, "code": "Feature = sparse.hstack((c1, c2))\n"}
+{"id": 732, "code": "Feature = sparse.hstack((c1, c2))\n"}
+{"id": 733, "code": "Feature = sparse.vstack([c1, c2])\nprint(Feature)\n"}
+{"id": 734, "code": "def cost(x):\n    return scipy.spatial.distance.cdist(points1[x.astype(int)], points2[x.astype(int)]).sum()\n\nresult = scipy.optimize.linear_sum_assignment(scipy.spatial.distance.cdist(points1, points2))[1]\nprint(result)\n"}
+{"id": 735, "code": "def cost(x):\n    return np.sum(np.abs(points1[x.astype(int)] - points2[x.astype(int)]))\n\nresult = scipy.optimize.linear_sum_assignment(scipy.spatial.distance.cdist(points1, points2, 'cityblock'))[1]\nprint(result)\n"}
+{"id": 736, "code": "b.setdiag(0)\n"}
+{"id": 737, "code": "result = ndimage.label(img > threshold)[0]\nprint(result)\n"}
+{"id": 738, "code": "result = ndimage.label(img < threshold)[0]\nprint(result)\n"}
+{"id": 739, "code": "    img_thresholded = img > threshold\n    labeled_array, num_features = ndimage.label(img_thresholded)\n    return num_features\n\nprint(f())\n"}
+{"id": 740, "code": "\n# Create a boolean mask where True means the value is above the threshold\nmask = img > threshold\n\n# Label the connected regions\nlabels, num_labels = ndimage.label(mask)\n\n# Calculate the center of mass for each region\ncoms = ndimage.center_of_mass(img, labels, np.arange(1, num_labels + 1))\n\n# Calculate the distance from the center of mass to the top left corner\ndistances = np.sqrt((coms[:, 0] - 0)**2 + (coms[:, 1] - 0)**2)\n\n# Print the distances\nprint(distances)\n"}
+{"id": 741, "code": "M = M + M.T - sparse.diags(M.diagonal())\n"}
+{"id": 742, "code": "    sA = sA.tocsr()\n    sA = sA + sA.T - np.diag(sA.diagonal())\n    return sA\n"}
+{"id": 743, "code": "square = scipy.ndimage.grey_erosion(square, size=(3, 3))\nsquare = scipy.ndimage.grey_dilation(square, size=(3, 3))\n"}
+{"id": 744, "code": "\n# Erode the image\neroded = scipy.ndimage.morphology.binary_erosion(square)\n\n# Dilate the image\ndilated = scipy.ndimage.morphology.binary_dilation(eroded)\n\n# Subtract the dilated image from the original image\nresult = square - dilated\n\n# Set all values that are not 0 to 0\nresult[result != 0] = 1\n\n# Print the result\nprint(result)\n"}
+{"id": 745, "code": "mean = np.mean(col.data)\nstandard_deviation = np.std(col.data)\nprint(mean, standard_deviation)\n"}
+{"id": 746, "code": "max_val = col.max()\nmin_val = col.min()\nprint(f\"Max value: {max_val}, Min value: {min_val}\")\n"}
+{"id": 747, "code": "median = np.median(col.data)\nmode = np.argmax(np.bincount(col.data))\nprint(f\"Median: {median}, Mode: {mode}\")\n"}
+{"id": 748, "code": "def fourier(x, *a):\n    return sum(a[i] * np.cos(i * np.pi / tau * x) for i in range(degree))\npopt, pcov = curve_fit(fourier, z, Ua)\n"}
+{"id": 749, "code": "result = scipy.spatial.distance.cdist(example_array.reshape(-1, 1), example_array.reshape(-1, 1), 'euclidean')\n"}
+{"id": 750, "code": "result = scipy.spatial.distance.cdist(example_array.reshape(-1, 1), example_array.reshape(-1, 1), 'cityblock')\n"}
+{"id": 751, "code": "    # Convert 2D array to 1D array\n    flat_arr = example_array.flatten()\n    # Get unique IDs\n    unique_ids = np.unique(flat_arr)\n    # Create a dictionary to store distances\n    distances = {}\n    # Loop through unique IDs\n    for i in unique_ids:\n        # Get indices of current ID\n        indices = np.where(flat_arr == i)[0]\n        # Calculate pairwise distances\n        dist = scipy.spatial.distance.pdist(indices.reshape(-1, 1))\n        # Add distances to dictionary\n        distances[i] = dist\n    return distances\n\nprint(f())\n"}
+{"id": 752, "code": "result = np.zeros((5, 100))\nfor i in range(5):\n    tck = interpolate.splrep(x[:, i], y[:, i], k = 2, s = 4)\n    result[i] = interpolate.splev(x_val, tck, der = 0)\n"}
+{"id": 753, "code": "statistic, critical_values, significance_level = ss.anderson_ksamp([x1, x2, x3, x4])\nprint(statistic, critical_values, significance_level)\n"}
+{"id": 754, "code": "result = ss.anderson_ksamp([x1, x2])\nprint(result)\n"}
+{"id": 755, "code": "def tau1(x):\n    y = np.array(df['A']) #  keep one column fix and run it in the other two\n    tau, p_value = stats.kendalltau(x, y)\n    return tau\n\ndf['AB'] = df['B'].rolling(3).apply(tau1)\ndf['AC'] = df['C'].rolling(3).apply(tau1)\ndf['BC'] = df['B'].rolling(3).apply(tau1)\n\nprint(df)\n"}
+{"id": 756, "code": "result = (sa.data == 0).all()\nprint(result)\n"}
+{"id": 757, "code": "result = (sa.data == 0).all()\nprint(result)\n"}
+{"id": 758, "code": "result = block_diag(*a)\nprint(result)\n"}
+{"id": 759, "code": "p_value = stats.ranksums(pre_course_scores, during_course_scores).pvalue\nprint(p_value)\n"}
+{"id": 760, "code": "    result = stats.ranksums(pre_course_scores, during_course_scores)\n    return result.pvalue\n\nprint(f())\n"}
+{"id": 761, "code": "kurtosis_result = np.sum((a - np.mean(a))**4) / np.sum((a - np.mean(a))**2)**2\nprint(kurtosis_result)\n"}
+{"id": 762, "code": "kurtosis_result = scipy.stats.kurtosis(a, bias=False)\nprint(kurtosis_result)\n"}
+{"id": 763, "code": "interp = scipy.interpolate.interp2d(s, t, z, kind='cubic')\nresult = interp(s, t)\n"}
+{"id": 764, "code": "    tck = scipy.interpolate.bisplrep(s, t, z, s=0)\n    return scipy.interpolate.bisplev(s, t, tck)\n"}
+{"id": 765, "code": "result = vor.point_region\nprint(result)\n"}
+{"id": 766, "code": "result = []\nfor point in extraPoints:\n    region = vor.point_region[vor.find_simplex(point)]\n    result.append(region)\nprint(result)\n"}
+{"id": 767, "code": "result = sparse.csr_matrix(np.array([np.pad(v, (0, max_vector_size - len(v)), 'constant') for v in vectors]))\nprint(result)\n"}
+{"id": 768, "code": "b = scipy.ndimage.median_filter(a, 3, origin=(0, 1))\nprint(b)\n"}
+{"id": 769, "code": "result = M[row, column]\nprint(result)\n"}
+{"id": 770, "code": "result = M[row, column].toarray().flatten()\nprint(result)\n"}
+{"id": 771, "code": "new_array = scipy.interpolate.interp1d(x, array, axis=0)(x_new)\n"}
+{"id": 772, "code": "def NormalDistro(u,o2,x):\n    dev = abs((x-u)/o2)\n    P_inner = scipy.integrate.quad(NDfx,-dev,dev)[0]\n    P_outer = 1 - P_inner\n    P = P_inner + P_outer/2\n    return(P)\n\nprob = NormalDistro(u,o2,x)\nprint(prob)\n"}
+{"id": 773, "code": "    dev = abs((x-u)/o2)\n    P_inner = scipy.integrate.quad(NDfx,-dev,dev)[0]\n    P_outer = 1 - P_inner\n    P = P_inner + P_outer/2\n    return(P)\nprint(f())\n"}
+{"id": 774, "code": "result = np.zeros((N, N))\nfor i in range(N):\n    for j in range(N):\n        result[i, j] = np.cos(np.pi * (i + 0.5) * (j + 0.5) / N)\nresult = result * np.sqrt(2 / N)\n"}
+{"id": 775, "code": "result = sparse.diags(matrix, [-1,0,1], (5, 5)).toarray()\nprint(result)\n"}
+{"id": 776, "code": "result = scipy.stats.binom.pmf(np.arange(N+1), N, p)\n"}
+{"id": 777, "code": "result = df.apply(stats.zscore)\nprint(result)\n"}
+{"id": 778, "code": "result = df.apply(stats.zscore)\nprint(result)\n"}
+{"id": 779, "code": "result = pd.DataFrame(index=df.index)\nfor col in df.columns:\n    result[col] = df[col]\n    result[col+'_zscore'] = stats.zscore(df[col])\n\nprint(result)\n"}
+{"id": 780, "code": "result = pd.DataFrame(index=df.index)\nfor col in df.columns:\n    result[col] = df[col].apply(lambda x: 'data {:.3f}'.format(x))\n    result[col + '_zscore'] = df[col].apply(lambda x: 'zscore {:.3f}'.format(stats.zscore(x)))\n\nprint(result)\n"}
+{"id": 781, "code": "result = scipy.optimize.line_search(test_func, test_grad, starting_point, direction)\nprint(result)\n"}
+{"id": 782, "code": "result = distance.cdist(np.arange(shape[0]*shape[1]).reshape(shape), np.array([shape[0]//2, shape[1]//2]), 'euclidean')\n"}
+{"id": 783, "code": "result = distance.cdist(np.arange(shape[0]*shape[1]).reshape(shape), np.array([shape[0]//2, shape[1]//2]), 'cityblock')\n"}
+{"id": 784, "code": "    mid = np.array([shape[0]/2, shape[1]/2])\n    y, x = np.mgrid[0:shape[0], 0:shape[1]]\n    return distance.cdist(np.dstack((y, x)), np.dstack((mid, mid)))\n\nprint(f())\n"}
+{"id": 785, "code": "result = scipy.ndimage.zoom(x, (shape[0] / x.shape[0], shape[1] / x.shape[1]), order=1)\nprint(result)\n"}
+{"id": 786, "code": "def func(x,a):\n    return a.dot(x**2)\ndef residual(x, a, y):\n    return (y - func(x,a)) **2\nout = scipy.optimize.minimize(residual, x0, args=(a, y))\nprint(out)\n"}
+{"id": 787, "code": "def func(x, a):\n    return a.dot(x ** 2)\n\ndef residual(x, a, y):\n    return (y - func(x, a)) ** 2\n\ndef main():\n    out = scipy.optimize.minimize(residual, x0, args=(a, y), method='L-BFGS-B', bounds=[(x_lower_bounds[i], None) for i in range(len(x_lower_bounds))])\n    print(out)\n\nif __name__ == '__main__':\n    main()\n"}
+{"id": 788, "code": "def dN1_dt_simple(t, N1):\n    return -100 * N1 + np.sin(t)\nsol = scipy.integrate.solve_ivp(fun=dN1_dt_simple, t_span=time_span, y0=[N0,])\nresult = sol.y\n"}
+{"id": 789, "code": "def dN1_dt_simple(t, N1):\n    return -100 * N1 + t - np.sin(t) if 0 < t < 2*np.pi else 2*np.pi\n\nsol = scipy.integrate.solve_ivp(fun=dN1_dt_simple, t_span=time_span, y0=[N0,])\nresult = sol.y\n"}
+{"id": 790, "code": "def dN1_dt_simple(t, N1):\n    return -100 * N1 - np.cos(t)\nsol = scipy.integrate.solve_ivp(fun=dN1_dt_simple, t_span=time_span, y0=[N0,])\nresult = sol.y\n"}
+{"id": 791, "code": "# cons=[{'type':'ineq', 'fun': lambda x: x[t]}]\n\nout=minimize(function, x0, method=\"SLSQP\", constraints=cons)\nx=out[\"x\"]\n"}
+{"id": 792, "code": "result = sparse.vstack((sa, sb))\n"}
+{"id": 793, "code": "result = sparse.vstack([sa, sb])\n"}
+{"id": 794, "code": "result, error = scipy.integrate.quad(lambda x: 2*c*x, low, high)\nprint(result)\n"}
+{"id": 795, "code": "    return 2*c*x*(high-low)\n\n# Define the range of c\nc_range = [1, 2, 3, 4, 5]\n\n# Define the limits of integration\nlow = 0\nhigh = 1\n\n# Initialize the array to store the results\nI = []\n\n# Loop over the range of c\nfor c in c_range:\n    # Integrate the function\n    result, error = scipy.integrate.quad(lambda x: f(c, low, high), low, high)\n    # Append the result to the array\n    I.append(result)\n\n# Print the results\nprint(I)\n"}
+{"id": 796, "code": "V = V.multiply(x)\n"}
+{"id": 797, "code": "V.data += x\n"}
+{"id": 798, "code": "V = V.tocsr()\nV = V + x\nV = V.tolil()\nV = V + y\nV = V.tocsr()\n"}
+{"id": 799, "code": "sa = sa.tocsc()\nfor Col in range(sa.shape[1]):\n    Column = sa[:,Col].data\n    List = [x**2 for x in Column]\n    Len = math.sqrt(sum(List))\n    sa[:,Col].data = np.array([x/Len for x in Column])\n"}
+{"id": 800, "code": "sa = sa.tocsr()\nfor Col in range(sa.shape[1]):\n    column = sa[:,Col].data\n    List = [x**2 for x in column]\n    Len = math.sqrt(sum(List))\n    sa[:,Col].data = np.array([x/Len for x in column])\n"}
+{"id": 801, "code": "a = np.where(a > 0, 1, 0)\nprint(a)\n"}
+{"id": 802, "code": "a = np.where(a > 0, 1, 0)\nprint(a)\n"}
+{"id": 803, "code": "result = np.zeros(5, dtype=int)\nfor i in range(5):\n    result[i] = np.argmin(scipy.spatial.distance.cdist(data[np.where(cluster_labels == i)], [centroids[i]]))\n"}
+{"id": 804, "code": "result = []\nfor i in range(len(centroids)):\n    distances = scipy.spatial.distance.cdist(data, [centroids[i]])\n    closest_index = np.argmin(distances)\n    result.append(data[closest_index])\n"}
+{"id": 805, "code": "result = []\nfor i in range(len(centroids)):\n    distances = scipy.spatial.distance.cdist(data, [centroids[i]])\n    sorted_indices = np.argsort(distances, axis=0)\n    result.append(sorted_indices[:k, 0])\n"}
+{"id": 806, "code": "result = np.array([fsolve(eqn, x0=0.5, args = (a,b)) for a, b in zip(xdata, bdata)])\nprint(result)\n"}
+{"id": 807, "code": "result = []\nfor x, a in zip(xdata, adata):\n    b = fsolve(lambda b: eqn(x, a, b), x0=0.5)\n    result.append(b)\n"}
+{"id": 808, "code": "def bekkers_cdf(x, a, m, d):\n    return integrate.quad(lambda x: bekkers(x, a, m, d), 0, x)[0]\n\ndef bekkers_ppf(p, a, m, d):\n    return sp.optimize.fsolve(lambda x: bekkers_cdf(x, a, m, d) - p, 1)[0]\n\ndef bekkers_rvs(a, m, d, size=1):\n    return np.array([bekkers_ppf(np.random.uniform(), a, m, d) for _ in range(size)])\n\ndef bekkers_fit(data, a, m, d):\n    return bekkers(data, a, m, d)\n\ndef bekkers_test(data, a, m, d):\n    return stats.kstest(data, lambda x: bekkers_fit(x, a, m, d))\n\nresult = bekkers_test(sample_data, estimated_a, estimated_m, estimated_d)\nprint(result)\n"}
+{"id": 809, "code": "def bekkers_cdf(x, a, m, d):\n    return integrate.quad(lambda x: bekkers(x, a, m, d), 0, x)[0]\n\ndef bekkers_ppf(p, a, m, d):\n    return sp.optimize.fsolve(lambda x: bekkers_cdf(x, a, m, d) - p, 1)[0]\n\ndef bekkers_rvs(a, m, d, size=1):\n    return bekkers_ppf(np.random.uniform(size=size), a, m, d)\n\ndef bekkers_fit(data, a, m, d):\n    return bekkers(data, a, m, d)\n\ndef bekkers_test(data, a, m, d):\n    return stats.kstest(data, lambda x: bekkers_fit(x, a, m, d))\n\nresult = bekkers_test(sample_data, estimated_a, estimated_m, estimated_d)\nprint(result)\n"}
+{"id": 810, "code": "df['Time'] = pd.to_datetime(df['Time'])\ndf = df.set_index('Time')\ndf['A_integral'] = df['A'].rolling(window=2).apply(lambda x: integrate.trapz(x, dx=1))\nprint(df)\n"}
+{"id": 811, "code": "result = scipy.interpolate.griddata(x, y, eval, method='linear')\nprint(result)\n"}
+{"id": 812, "code": "def multinomial_likelihood(weights, data):\n    return np.prod(np.power(weights, data.values))\n\ndef multinomial_log_likelihood(weights, data):\n    return np.sum(data.values * np.log(weights))\n\ndef multinomial_mle(data):\n    return sciopt.fmin(lambda w: -multinomial_log_likelihood(w, data), np.ones(data.shape[1]), disp=False)\n\nweights = multinomial_mle(a)\nprint(weights)\n"}
+{"id": 813, "code": "result = sciopt.fminbound(e, pmin, pmax, args=(x,y))\nprint(result)\n"}
+{"id": 814, "code": "result = np.where((arr[n:-n] <= arr[:-2*n]) & (arr[n:-n] <= arr[2*n:]))[0] + n\nprint(result)\n"}
+{"id": 815, "code": "result = []\nfor i in range(arr.shape[0]):\n    for j in range(n, arr.shape[1]-n):\n        if np.all(arr[i, j-n:j+n+1] <= arr[i, j]) or np.all(arr[i, j-n:j+n+1] >= arr[i, j]):\n            result.append([i, j])\nprint(result)\n"}
+{"id": 816, "code": "df = df.select_dtypes(include=['number'])\ndf = df[(np.abs(stats.zscore(df)) < 3).all(axis=1)]\n"}
+{"id": 817, "code": "data1 = pd.DataFrame(data.data, columns=data.feature_names)\ndata1['target'] = data.target\nprint(data1)\n"}
+{"id": 818, "code": "data1 = pd.DataFrame(data.data, columns=data.feature_names)\ndata1['target'] = data.target\nprint(data1)\n"}
+{"id": 819, "code": "data1 = pd.DataFrame(data.data, columns=data.feature_names)\ndata1['target'] = data.target\n"}
+{"id": 820, "code": "    df = pd.DataFrame(data.data, columns=data.feature_names)\n    df['target'] = data.target\n    return df\n\nprint(solve(data))\n"}
+{"id": 821, "code": "df_out = pd.get_dummies(df.Col3.apply(pd.Series).stack()).sum(level=0)\ndf_out.index = df.index\ndf_out = df.join(df_out)\ndf_out = df_out.drop('Col3', axis=1)\n"}
+{"id": 822, "code": "df_out = pd.get_dummies(df.Col3.apply(pd.Series).stack()).sum(level=0)\ndf_out.insert(0, 'Col1', df['Col1'])\ndf_out.insert(1, 'Col2', df['Col2'])\ndf_out = df_out.groupby(level=0).sum()\ndf_out.reset_index(inplace=True)\n"}
+{"id": 823, "code": "df_out = pd.get_dummies(df.Col4.apply(pd.Series).stack()).sum(level=0)\ndf_out = df.join(df_out)\ndf_out = df_out.drop('Col4', axis=1)\n"}
+{"id": 824, "code": "df_out = pd.get_dummies(df.iloc[:, -1].apply(pd.Series).stack()).sum(level=0)\ndf_out.index = df.index\ndf_out = df.drop(df.columns[-1], axis=1).join(df_out)\n"}
+{"id": 825, "code": "df_out = pd.get_dummies(df.Col3.apply(pd.Series).stack()).sum(level=0)\ndf_out.insert(0, 'Col1', df['Col1'])\ndf_out.insert(1, 'Col2', df['Col2'])\ndf_out = df_out.groupby(level=0).sum()\ndf_out = df_out.reset_index()\n"}
+{"id": 826, "code": "proba = 1 / (1 + np.exp(-svmmodel.decision_function(x_test)))\n"}
+{"id": 827, "code": "from sklearn.calibration import CalibratedClassifierCV\ncalibrated_model = CalibratedClassifierCV(model, method='sigmoid', cv=5)\ncalibrated_model.fit(X, y)\nproba = calibrated_model.predict_proba(x_predict)\n"}
+{"id": 828, "code": "df = pd.concat([df_origin, pd.DataFrame(transform_output.toarray())], axis=1)\n"}
+{"id": 829, "code": "df = pd.DataFrame(transform_output.toarray(), columns=['col1', 'col2', 'col3'])\ndf = pd.concat([df_origin, df], axis=1)\n"}
+{"id": 830, "code": "    # Convert the sparse matrix to a dense matrix\n    dense_matrix = transform_output.toarray()\n\n    # Create a new dataframe from the dense matrix\n    df_new = pd.DataFrame(dense_matrix, columns=['col1', 'col2', 'col3', 'col4'])\n\n    # Concatenate the original dataframe with the new dataframe\n    df_concat = pd.concat([df, df_new], axis=1)\n\n    return df_concat\n\ndf_concat = solve(df_origin, transform_output)\n"}
+{"id": 831, "code": "clf.steps.pop(1)\n"}
+{"id": 832, "code": "clf.steps.pop(1)\n"}
+{"id": 833, "code": "clf.steps.pop(1)\n"}
+{"id": 834, "code": "clf.steps.insert(1, ('poly', PolynomialFeatures()))\n"}
+{"id": 835, "code": "clf.steps.insert(1, ('new_step', PolynomialFeatures()))\n"}
+{"id": 836, "code": "clf.steps.insert(1, ('t1919810', PCA()))\n"}
+{"id": 837, "code": "gridsearch.fit(trainX, trainY, early_stopping_rounds=42, eval_metric=\"mae\", eval_set=[(testX, testY)])\n"}
+{"id": 838, "code": "model = xgb.XGBRegressor()\ngridsearch.fit(trainX, trainY, early_stopping_rounds=42, eval_metric=\"mae\", eval_set=[(testX, testY)])\n"}
+{"id": 839, "code": "proba = []\nfor train_index, test_index in cv:\n    X_train, X_test = X[train_index], X[test_index]\n    y_train, y_test = y[train_index], y[test_index]\n    logreg.fit(X_train, y_train)\n    proba.append(logreg.predict_proba(X_test))\n"}
+{"id": 840, "code": "proba = []\nfor train_index, test_index in cv:\n    X_train, X_test = X[train_index], X[test_index]\n    y_train, y_test = y[train_index], y[test_index]\n    logreg.fit(X_train, y_train)\n    proba.append(logreg.predict_proba(X_test))\n"}
+{"id": 841, "code": "inversed = scaler.inverse_transform(scaled)\n"}
+{"id": 842, "code": "    # Run regression model\n    # Check score\n    # Inverse the StandardScaler to get back the real time\n    inverse_scaled = scaler.inverse_transform(scaled)\n    return inverse_scaled\n"}
+{"id": 843, "code": "model_name = model.__class__.__name__\nprint(f'Name Model: {model_name}, Mean Score: {scores.mean()}')\n"}
+{"id": 844, "code": "model_name = model.__class__.__name__\nprint(f'Name Model: {model_name}, Mean Score: {scores.mean()}')\n"}
+{"id": 845, "code": "model_name = model.__class__.__name__\nprint(f'Name Model: {model_name}, Mean Score: {scores.mean()}')\n"}
+{"id": 846, "code": "tf_idf_out = pipe.named_steps[\"tf_idf\"].fit_transform(data.test)\n\n# nmf_in = ... # put solution in this variable\n# Solution\nnmf_in = tf_idf_out\n\nprint(tf_idf_out)\nprint(nmf_in)\n"}
+{"id": 847, "code": "tf_idf_out = pipe.named_steps['tf_idf'].fit_transform(data)\n\n# Now you can use tf_idf_out to get the intermediate result of the TfidfVectorizer\n"}
+{"id": 848, "code": "select_out = pipe.named_steps['select'].fit_transform(data, target)\n\n# Print the output\nprint(select_out)\n"}
+{"id": 849, "code": "clf = GridSearchCV(bc, param_grid, cv=5)\nclf.fit(X_train, y_train)\nproba = clf.predict_proba(X_test)\n"}
+{"id": 850, "code": "regressor = RandomForestRegressor(n_estimators=150, min_samples_split=1.0, random_state=42)\nrgr = regressor.fit(X,y)\npredict = rgr.predict(X_test)\n"}
+{"id": 851, "code": "regressor = RandomForestRegressor(n_estimators=150, min_samples_split=1.0, random_state=42)\nrgr = regressor.fit(X,y)\npredict = regressor.predict(X_test)\n"}
+{"id": 852, "code": "\n# Define the preprocessing function\ndef preprocess(s):\n    return s.upper()\n\n# Create a TfidfVectorizer object\ntfidf = TfidfVectorizer(preprocessor=preprocess)\n\n# Fit the vectorizer to some sample data\ntfidf.fit([\"hello world\", \"goodbye world\"])\n\n# Transform the data\nX = tfidf.transform([\"hello world\", \"goodbye world\"])\n\n# Print the transformed data\nprint(X.toarray())\n"}
+{"id": 853, "code": "def prePro(text):\n    return text.lower()\n\ntfidf = TfidfVectorizer(preprocessor=prePro)\n"}
+{"id": 854, "code": "df_out = pd.DataFrame(preprocessing.scale(data), columns=data.columns, index=data.index)\n"}
+{"id": 855, "code": "df_out = pd.DataFrame(preprocessing.scale(data), columns=data.columns, index=data.index)\n"}
+{"id": 856, "code": "grid.fit(X, y)\ncoef = grid.best_estimator_.named_steps['model'].coef_\nprint(coef)\n"}
+{"id": 857, "code": "grid.fit(X, y)\ncoef = grid.best_estimator_.named_steps['model'].coef_\nprint(coef)\n"}
+{"id": 858, "code": "column_names = X.columns[model.get_support()]\n"}
+{"id": 859, "code": "column_names = X.columns[clf.feature_importances_ > 0]\nprint(column_names)\n"}
+{"id": 860, "code": "column_names = X.columns[model.get_support()]\n\n# print(column_names)\n"}
+{"id": 861, "code": "column_names = X.columns[model.get_support()]\n"}
+{"id": 862, "code": "closest_50_samples = X[km.labels_ == km.cluster_centers_[p]]\n"}
+{"id": 863, "code": "closest_50_samples = X[km.labels_ == km.cluster_centers_[p].argmin()][:50]\n"}
+{"id": 864, "code": "closest_100_samples = X[km.labels_ == km.cluster_centers_[p].argmin()]\n"}
+{"id": 865, "code": "    km.fit(X)\n    centers = km.cluster_centers_\n    distances = np.linalg.norm(X - centers[p], axis=1)\n    indices = np.argsort(distances)[:50]\n    return X[indices]\n\n# Example usage\np = 2\nsamples = get_samples(p, X, km)\n"}
+{"id": 866, "code": "X_train = pd.get_dummies(X_train[0])\nX_train = X_train.join(X_train.drop(0, axis=1))\n\n# Model.\nclf = GradientBoostingClassifier(learning_rate=0.01,max_depth=8,n_estimators=50).fit(X_train, y_train)\n"}
+{"id": 867, "code": "X_train = pd.get_dummies(X_train[0])\nX_train = X_train.join(X_train.drop(columns=[0]))\n\n# train model\nclf = GradientBoostingClassifier(learning_rate=0.01,max_depth=8,n_estimators=50).fit(X_train, y_train)\n"}
+{"id": 868, "code": "from sklearn.svm import SVR\nregressor = SVR(kernel='rbf')\nregressor.fit(X, y)\npredicted = regressor.predict(X)\n"}
+{"id": 869, "code": "from sklearn.svm import SVR\nfrom sklearn.metrics import mean_squared_error\n\n# Create a SVR model with a gaussian kernel\nmodel = SVR(kernel='rbf')\n\n# Fit the model to the data\nmodel.fit(X, y)\n\n# Predict the output for the input data\ny_pred = model.predict(X)\n\n# Calculate the mean squared error\nmse = mean_squared_error(y, y_pred)\n\nprint(\"Mean Squared Error:\", mse)\n"}
+{"id": 870, "code": "from sklearn.svm import SVR\nregressor = SVR(kernel='poly', degree=2)\nregressor.fit(X, y)\npredictions = regressor.predict(X)\n"}
+{"id": 871, "code": "from sklearn.svm import SVR\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.pipeline import make_pipeline\n\n# Create a pipeline with a scaler and an SVR\nmodel = make_pipeline(StandardScaler(), SVR(kernel='poly', degree=2))\n\n# Fit the model to the data\nmodel.fit(X, y)\n\n# Predict the output\ny_pred = model.predict(X)\n"}
+{"id": 872, "code": "cosine_similarities_of_queries = []\nfor query in queries:\n    query_vector = tfidf.transform([query])\n    cosine_similarities = np.dot(query_vector, tfidf.transform(documents).T).toarray()[0]\n    cosine_similarities_of_queries.append(cosine_similarities)\n"}
+{"id": 873, "code": "cosine_similarities_of_queries = []\nfor query in queries:\n    query_vector = tfidf.transform([query])\n    cosine_similarities = np.dot(query_vector, tfidf.transform(documents).T).toarray()[0]\n    cosine_similarities_of_queries.append(cosine_similarities)\n"}
+{"id": 874, "code": "    query_vectors = tfidf.transform(queries)\n    doc_vectors = tfidf.transform(documents)\n    similarity_matrix = np.dot(query_vectors, doc_vectors.T).toarray()\n    return similarity_matrix\n\nprint(solve(queries, documents))\n"}
+{"id": 875, "code": "new_features = pd.DataFrame(features).fillna(0).values\n"}
+{"id": 876, "code": "new_f = pd.DataFrame(f)\nnew_f = new_f.fillna(0)\nnew_f = new_f.values\n"}
+{"id": 877, "code": "new_features = pd.DataFrame(features).fillna(0).values\n"}
+{"id": 878, "code": "    # Convert features to a 2D-array\n    df = pd.DataFrame(features)\n    df = pd.get_dummies(df.stack()).sum(level=0)\n    return df.values\n\n# Test\nfeatures = [\n    ['f1', 'f2', 'f3'],\n    ['f2', 'f4', 'f5', 'f6'],\n    ['f1', 'f2']\n]\nprint(solve(features))\n"}
+{"id": 879, "code": "new_features = pd.get_dummies(pd.DataFrame(features).stack()).groupby(level=0).max()\n"}
+{"id": 880, "code": "\n# Convert the data matrix to a distance matrix\ndistance_matrix = 1 - data_matrix\n\n# Perform hierarchical clustering\ncluster = sklearn.cluster.AgglomerativeClustering(n_clusters=2, affinity='precomputed', linkage='complete')\ncluster_labels = cluster.fit_predict(distance_matrix)\n\n# Print the cluster labels\nprint(cluster_labels)\n"}
+{"id": 881, "code": "\n# Convert the distance matrix to a condensed distance vector\ncondensed_distance_vector = np.triu(data_matrix, k=1).flatten()\n\n# Perform hierarchical clustering\ncluster_labels = sklearn.cluster.AgglomerativeClustering(n_clusters=2, affinity='precomputed', linkage='complete').fit_predict(condensed_distance_vector)\n\n# Print the cluster labels\nprint(cluster_labels)\n"}
+{"id": 882, "code": "\n# Convert the similarity matrix to a distance matrix\ndistM = 1 - simM\n\n# Perform hierarchical clustering\nclustering = sklearn.cluster.AgglomerativeClustering(n_clusters=2, affinity='precomputed', linkage='complete')\ncluster_labels = clustering.fit_predict(distM)\n\n# Print the cluster labels\nprint(cluster_labels)\n"}
+{"id": 883, "code": "from scipy.cluster.hierarchy import linkage, fcluster\n\n# Perform hierarchical clustering\nZ = linkage(data_matrix, 'ward')\n\n# Cluster the data into 2 clusters\ncluster_labels = fcluster(Z, 2, criterion='maxclust')\n\n# Print the cluster labels\nprint(cluster_labels)\n"}
+{"id": 884, "code": "from scipy.cluster.hierarchy import linkage, fcluster\n\n# Perform hierarchical clustering\nZ = linkage(data_matrix, 'ward')\n\n# Cut the dendrogram to obtain the clusters\ncluster_labels = fcluster(Z, 2, criterion='maxclust')\n\n# Print the cluster labels\nprint(cluster_labels)\n"}
+{"id": 885, "code": "from scipy.cluster.hierarchy import linkage, fcluster\n\n# Perform hierarchical clustering\nZ = linkage(simM, 'ward')\n\n# Cluster the data into 2 clusters\ncluster_labels = fcluster(Z, 2, criterion='maxclust')\n\n# Print the cluster labels\nprint(cluster_labels)\n"}
+{"id": 886, "code": "from sklearn.preprocessing import StandardScaler\nscaler = StandardScaler()\ncentered_scaled_data = scaler.fit_transform(data)\n"}
+{"id": 887, "code": "from sklearn.preprocessing import StandardScaler\nscaler = StandardScaler()\ncentered_scaled_data = scaler.fit_transform(data)\n"}
+{"id": 888, "code": "from sklearn.preprocessing import PowerTransformer\n\npt = PowerTransformer(method='box-cox')\nbox_cox_data = pt.fit_transform(data)\n"}
+{"id": 889, "code": "from sklearn.preprocessing import PowerTransformer\npt = PowerTransformer(method='box-cox')\nbox_cox_data = pt.fit_transform(data)\n"}
+{"id": 890, "code": "from sklearn.preprocessing import PowerTransformer\n\npt = PowerTransformer(method='yeo-johnson')\npt.fit(data)\nyeo_johnson_data = pt.transform(data)\n"}
+{"id": 891, "code": "from sklearn.preprocessing import PowerTransformer\npt = PowerTransformer(method='yeo-johnson')\nyeo_johnson_data = pt.fit_transform(data)\n"}
+{"id": 892, "code": "vectorizer = CountVectorizer(token_pattern=r\"(?u)\\b\\w\\w+\\b\", lowercase=False)\ntransformed_text = vectorizer.fit_transform([text])\n"}
+{"id": 893, "code": "from sklearn.model_selection import train_test_split\n\n# Split the data into features (x) and target (y)\nx = dataset.iloc[:, :-1]\ny = dataset.iloc[:, -1]\n\n# Split the data into training and testing sets\nx_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)\n"}
+{"id": 894, "code": "from sklearn.model_selection import train_test_split\nx_train, x_test, y_train, y_test = train_test_split(data.iloc[:,:-1], data.iloc[:,-1], test_size=0.2, random_state=42)\n"}
+{"id": 895, "code": "from sklearn.model_selection import train_test_split\n\n# Split the dataset into features (x) and target (y)\nx = dataset.iloc[:, :-1]\ny = dataset.iloc[:, -1]\n\n# Split the dataset into training and testing sets\nx_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)\n"}
+{"id": 896, "code": "    from sklearn.model_selection import train_test_split\n    X = data.iloc[:, :-1]\n    y = data.iloc[:, -1]\n    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n    return X_train, X_test, y_train, y_test\n"}
+{"id": 897, "code": "labels = KMeans(n_clusters=2, n_init=10).fit_predict(df['mse'].values.reshape(-1, 1))\n"}
+{"id": 898, "code": "X = df['mse'].values.reshape(-1, 1)\nkmeans = KMeans(n_clusters=2, n_init=10).fit(X)\nlabels = kmeans.predict(X)\ncentroids = kmeans.cluster_centers_\n"}
+{"id": 899, "code": "selected_feature_names = np.asarray(vectorizer.get_feature_names())[X.toarray().any(axis=0)]\n"}
+{"id": 900, "code": "selector = sklearn.feature_selection.SelectFromModel(LinearSVC(penalty='l1', dual=False))\nselector.fit(X, y)\nselected_feature_names = np.asarray(vectorizer.get_feature_names())[selector.get_support()]\n"}
+{"id": 901, "code": "    clf = LinearSVC(penalty='l1', dual=False).fit(X, y)\n    selected_features = np.asarray(vectorizer.get_feature_names())[clf.coef_[0] != 0]\n    return selected_features\n\nselected_features = solve(corpus, y, vectorizer, X)\nprint(selected_features)\n"}
+{"id": 902, "code": "vectorizer = CountVectorizer(stop_words=\"english\", binary=True, lowercase=False, vocabulary={'Jscript', '.Net', 'TypeScript', 'SQL', 'NodeJS', 'Angular', 'Mongo', 'CSS', 'Python', 'PHP', 'Photoshop', 'Oracle', 'Linux', 'C++', \"Java\", 'TeamCity', 'Frontend', 'Backend', 'Full stack', 'UI Design', 'Web', 'Integration', 'Database design', 'UX'})\nX = vectorizer.fit_transform(corpus)\nfeature_names = vectorizer.get_feature_names()\n\n# Print the feature names and the transformed data\nprint(feature_names)\nprint(X.toarray())\n"}
+{"id": 903, "code": "vectorizer = CountVectorizer(stop_words=\"english\", binary=True, lowercase=False, vocabulary={'Jscript', '.Net', 'TypeScript', 'NodeJS', 'Angular', 'Mongo', 'CSS', 'Python', 'PHP', 'Photoshop', 'Oracle', 'Linux', 'C++', \"Java\", 'TeamCity', 'Frontend', 'Backend', 'Full stack', 'UI Design', 'Web', 'Integration', 'Database design', 'UX'})\nX = vectorizer.fit_transform(corpus)\nfeature_names = vectorizer.get_feature_names()\n\n# Printing the results\nprint(feature_names)\nprint(X.toarray())\n"}
+{"id": 904, "code": "vectorizer = CountVectorizer(stop_words=\"english\", binary=True, lowercase=False, vocabulary={'Jscript', '.Net', 'TypeScript', 'SQL', 'NodeJS', 'Angular', 'Mongo', 'CSS', 'Python', 'PHP', 'Photoshop', 'Oracle', 'Linux', 'C++', \"Java\", 'TeamCity', 'Frontend', 'Backend', 'Full stack', 'UI Design', 'Web', 'Integration', 'Database design', 'UX'})\nX = vectorizer.fit_transform(corpus)\nfeature_names = vectorizer.get_feature_names()\n\n# Convert X to numpy array\nX = X.toarray()\n\n# Reorder X based on feature_names\nX = X[:, np.argsort(feature_names)]\n\n# Convert X back to pandas dataframe\nX = pd.DataFrame(X, columns=feature_names)\n\nprint(X)\n"}
+{"id": 905, "code": "vectorizer = CountVectorizer(stop_words=\"english\", binary=True, lowercase=False, vocabulary={'Jscript', '.Net', 'TypeScript', 'NodeJS', 'Angular', 'Mongo', 'CSS', 'Python', 'PHP', 'Photoshop', 'Oracle', 'Linux', 'C++', \"Java\", 'TeamCity', 'Frontend', 'Backend', 'Full stack', 'UI Design', 'Web', 'Integration', 'Database design', 'UX'})\nX = vectorizer.fit_transform(corpus)\nfeature_names = vectorizer.get_feature_names()\n\n# Convert X to numpy array\nX = X.toarray()\n\n# Reorder X based on feature_names\nX = X[:, np.argsort(feature_names)]\n\n# Convert X back to pandas DataFrame\nX = pd.DataFrame(X, columns=feature_names)\n\nprint(X)\n"}
+{"id": 906, "code": "slopes = []\nfor col in df1.columns:\n    df2 = df1[~np.isnan(df1[col])]\n    df3 = df2[['Time', col]]\n    npMatrix = np.matrix(df3)\n    X, Y = npMatrix[:,0], npMatrix[:,1]\n    slope = LinearRegression().fit(X,Y)\n    m = slope.coef_[0]\n    slopes.append(m)\n"}
+{"id": 907, "code": "slopes = []\nfor col in df1.columns:\n    df2 = df1[~np.isnan(df1[col])]\n    df3 = df2[[col,'Time']]\n    npMatrix = np.matrix(df3)\n    X, Y = npMatrix[:,0], npMatrix[:,1]\n    slope = LinearRegression().fit(X,Y)\n    m = slope.coef_[0]\n    slopes.append(m)\n"}
+{"id": 908, "code": "le = LabelEncoder()\ndf['Sex'] = le.fit_transform(df['Sex'])\n"}
+{"id": 909, "code": "le = LabelEncoder()\ndf['Sex'] = le.fit_transform(df['Sex'])\n"}
+{"id": 910, "code": "    le = LabelEncoder()\n    df['Sex'] = le.fit_transform(df['Sex'])\n    return df\n\ndf = Transform(df)\n"}
+{"id": 911, "code": "ElasticNet = linear_model.ElasticNet() # create a lasso instance\nElasticNet.fit(X_train, y_train) # fit data\n\nprint (\"R^2 for training set:\"),\nprint (ElasticNet.score(X_train, y_train))\n\nprint ('-'*50)\n\nprint (\"R^2 for test set:\"),\nprint (ElasticNet.score(X_test, y_test))\n"}
+{"id": 912, "code": "scaler = MinMaxScaler()\ntransformed = scaler.fit_transform(np_array)\n"}
+{"id": 913, "code": "scaler = MinMaxScaler()\ntransformed = scaler.fit_transform(np_array)\n"}
+{"id": 914, "code": "    scaler = MinMaxScaler()\n    df = pd.DataFrame(a)\n    df = scaler.fit_transform(df)\n    return df\n\n# Call the function\nprint(Transform(np_array))\n"}
+{"id": 915, "code": "close_buy1 = close[:-1]\nm5 = ma_50[:-1]\nm10 = ma_100[:-1]\nma20 = ma_200[:-1]\nb = np.concatenate([close_buy1, m5, m10, ma20], axis=1)\n\npredict = clf.predict(b)\nprint(predict)\n"}
+{"id": 916, "code": "new_X = np.array(X)\nclf.fit(new_X, ['2', '3'])\n"}
+{"id": 917, "code": "new_X = np.array(X)\nclf.fit(new_X, ['2', '3'])\n"}
+{"id": 918, "code": "new_X = np.array(X)\nclf.fit(new_X, ['4', '5'])\n"}
+{"id": 919, "code": "logReg = LogisticRegression()\nX = dataframe.iloc[:, :-1].astype(float)\ny = dataframe.iloc[:, -1]\nlogReg.fit(X, y)\npredict = logReg.predict(X)\n"}
+{"id": 920, "code": "X = dataframe.iloc[:, :-1].astype(float)\ny = dataframe.iloc[:, -1]\nlogReg = LogisticRegression()\nlogReg.fit(X, y)\npredict = logReg.predict(X)\n"}
+{"id": 921, "code": "train_size = 0.2\ntrain_dataframe, test_dataframe = train_test_split(features_dataframe, train_size=train_size)\ntrain_dataframe = train_dataframe.sort_values(by=\"date\")\ntest_dataframe = test_dataframe.sort_values(by=\"date\")\n"}
+{"id": 922, "code": "train_size = 0.8\ntrain_dataframe, test_dataframe = train_test_split(features_dataframe, train_size=train_size)\ntrain_dataframe = train_dataframe.sort_values(by=\"date\")\ntest_dataframe = test_dataframe.sort_values(by=\"date\")\n"}
+{"id": 923, "code": "    train_size = 0.2\n    train_dataframe, test_dataframe = train_test_split(features_dataframe, train_size=train_size)\n    train_dataframe = train_dataframe.sort_values([\"date\"])\n    test_dataframe = test_dataframe.sort_values([\"date\"])\n    return train_dataframe, test_dataframe\n"}
+{"id": 924, "code": "cols = df.columns[2:4]\ndf[cols + '_scale'] = df.groupby('Month')[cols].apply(lambda x: scaler.fit_transform(x))\nprint(df)\n"}
+{"id": 925, "code": "cols = myData.columns[2:4]\nfor col in cols:\n    myData['new_' + col] = myData.groupby('Month')[col].transform(lambda x: scaler.fit_transform(x.values.reshape(-1, 1)))\nprint(myData)\n"}
+{"id": 926, "code": "count = CountVectorizer(lowercase = False)\nvocabulary = count.fit_transform([words])\nfeature_names = count.get_feature_names()\nprint(feature_names)\n"}
+{"id": 927, "code": "count = CountVectorizer(lowercase = False)\nvocabulary = count.fit_transform([words])\nfeature_names = count.get_feature_names_out()\nprint(feature_names)\n"}
+{"id": 928, "code": "full_results = pd.DataFrame(GridSearch_fitted.cv_results_)\nprint(full_results)\n"}
+{"id": 929, "code": "full_results = pd.DataFrame(GridSearch_fitted.cv_results_)\nfull_results.sort_values(by='mean_fit_time', ascending=False)\n"}
+{"id": 930, "code": "import pickle\nwith open('sklearn_model', 'wb') as f:\n    pickle.dump(fitted_model, f)\n"}
+{"id": 931, "code": "tfidf_matrix = tfidf.fit_transform(df['description'])\ncosine_similarity_matrix = sklearn.metrics.pairwise.cosine_similarity(tfidf_matrix)\nsimilarity_df = pd.DataFrame(cosine_similarity_matrix, index=df['items'], columns=df['items'])\nprint(similarity_df)\n"}
+{"id": 932, "code": "optim.param_groups[0]['lr'] = 0.001\n"}
+{"id": 933, "code": "optim.param_groups[0]['lr'] = 0.001\n"}
+{"id": 934, "code": "optim.param_groups[0]['lr'] = 0.0005\n"}
+{"id": 935, "code": "# 1.\n# If you want to change the learning rate after any epoch, you can do it by creating a new optimizer with the new learning rate.\n# For example:\noptim = torch.optim.SGD(..., lr=0.005)\n# 2.\n# If you want to change the learning rate after a certain number of epochs, you can use a scheduler.\n# For example:\nscheduler = torch.optim.lr_scheduler.StepLR(optim, step_size=10, gamma=0.1)\n# Here, the learning rate will be multiplied by 0.1 after every 10 epochs.\n\n# Now, you can use the scheduler to update the learning rate after each epoch.\n# For example:\nfor epoch in range(num_epochs):\n    # train the model\n    # ...\n    # update the learning rate\n    scheduler.step()\n\n# 3.\n# If you want to change the learning rate based on the loss, you can use a callback function.\n# For example:\ndef change_lr(optimizer, loss):\n    if loss > 0.5:\n        for param_group in optimizer.param_groups:\n            param_group['lr'] = 0.0005\n    else:\n        for param_group in optimizer.param_groups:\n            param_group['lr'] = 0.05\n\n# Now, you can use this function to change the learning rate after each epoch.\n# For example:\nfor epoch in range(num_epochs):\n    # train the model\n    # ...\n    # get the loss\n    loss = get_loss()\n    # change the learning rate\n    change_lr(optimizer, loss)\n"}
+{"id": 936, "code": "embedding_weights = torch.FloatTensor(word2vec.wv.vectors)\nembedding_layer = torch.nn.Embedding.from_pretrained(embedding_weights)\nembedded_input = embedding_layer(input_Tensor)\n"}
+{"id": 937, "code": "    # Get the word2vec model's vocabulary\n    vocab = word2vec.wv.vocab\n    # Get the embedding weights from the word2vec model\n    embedding_weights = word2vec.wv.vectors\n    # Create a PyTorch embedding layer with the same vocabulary and embedding weights\n    embedding_layer = torch.nn.Embedding.from_pretrained(torch.from_numpy(embedding_weights), freeze=False)\n    # Use the embedding layer to embed the input data\n    embedded_input = embedding_layer(input_Tensor)\n    return embedded_input\n"}
+{"id": 938, "code": "px = pd.DataFrame(x.numpy())\n"}
+{"id": 939, "code": "px = pd.DataFrame(x.numpy())\n"}
+{"id": 940, "code": "px = pd.DataFrame(x.numpy())\n"}
+{"id": 941, "code": "C = B[:, A_log.numpy()]\n"}
+{"id": 942, "code": "C = B[:, A_logical.numpy()]\n"}
+{"id": 943, "code": "C = B[:, A_log.numpy()]\n"}
+{"id": 944, "code": "C = B[:, A_log.numpy()]\n"}
+{"id": 945, "code": "    A_log = A_log.numpy()\n    B = B.numpy()\n    C = B[:, A_log]\n    return torch.from_numpy(C)\n"}
+{"id": 946, "code": "C = B[:, A_log.numpy()]\n"}
+{"id": 947, "code": "C = B[:, idx]\nprint(C)\n"}
+{"id": 948, "code": "x_tensor = torch.tensor(x_array)\n"}
+{"id": 949, "code": "x_tensor = torch.tensor(x_array)\n"}
+{"id": 950, "code": "    return torch.from_numpy(np.array(a))\n\nx_tensor = Convert(x_array)\n"}
+{"id": 951, "code": "mask = torch.zeros(len(lens), max(lens))\nfor i, l in enumerate(lens):\n    mask[i, :l] = 1\n"}
+{"id": 952, "code": "mask = torch.zeros(len(lens), max(lens))\nfor i, l in enumerate(lens):\n    mask[i, :l] = 1\n"}
+{"id": 953, "code": "mask = torch.tensor([[1 if i < j else 0 for i in range(lens[j])] for j in range(len(lens))])\nprint(mask)\n"}
+{"id": 954, "code": "    mask = torch.zeros(len(lens), max(lens))\n    for i, l in enumerate(lens):\n        mask[i, :l] = 1\n    return mask\n\n# Test\nlens = [3, 5, 4]\nmask = get_mask(lens)\nprint(mask)\n"}
+{"id": 955, "code": "Tensor_3D = torch.diag_embed(Tensor_2D)\n"}
+{"id": 956, "code": "    return torch.diag(t)\n\n# Example\nTensor_3D = Convert(Tensor_2D)\n"}
+{"id": 957, "code": "ab = torch.cat((a, b), 0)\n"}
+{"id": 958, "code": "ab = torch.cat((a, b), 0)\n"}
+{"id": 959, "code": "    if a.shape[0] == 1 and b.shape[0] == 1:\n        return torch.stack((a, b), 0)\n    elif a.shape[0] == 2 and b.shape[0] == 1:\n        return torch.cat((a, b.expand(2, -1)), 0)\n    elif a.shape[0] == 1 and b.shape[0] == 2:\n        return torch.cat((a.expand(2, -1), b), 0)\n    else:\n        raise ValueError(\"Invalid input shapes\")\n\nab = solve(a, b)\n"}
+{"id": 960, "code": "a[:, lengths:, :] = 0\n"}
+{"id": 961, "code": "a[:, lengths, :] = 2333\n"}
+{"id": 962, "code": "a[:, :lengths, :] = 0\n"}
+{"id": 963, "code": "a[:, :lengths, :] = 2333\n"}
+{"id": 964, "code": "tensor_of_tensors = torch.stack(list_of_tensors)\n"}
+{"id": 965, "code": "new_tensors = torch.stack(list)\n"}
+{"id": 966, "code": "    return torch.stack(lt)\n\ntensor_of_tensors = Convert(list_of_tensors)\n"}
+{"id": 967, "code": "tensor_of_tensors = torch.stack(list_of_tensors)\n"}
+{"id": 968, "code": "result = t[idx == 1]\nprint(result)\n"}
+{"id": 969, "code": "result = t[np.arange(len(idx)), idx]\nprint(result)\n"}
+{"id": 970, "code": "result = t[np.arange(len(idx)), idx]\nprint(result)\n"}
+{"id": 971, "code": "result = x.gather(1, ids.unsqueeze(1)).squeeze(1)\n"}
+{"id": 972, "code": "result = x.gather(1, ids.unsqueeze(1)).squeeze(1)\n"}
+{"id": 973, "code": "result = torch.gather(x, 1, ids)\n"}
+{"id": 974, "code": "y = torch.argmax(softmax_output, dim=1)\n"}
+{"id": 975, "code": "y = torch.argmax(softmax_output, dim=1)\n"}
+{"id": 976, "code": "y = torch.argmin(softmax_output, dim=1)\n"}
+{"id": 977, "code": "    # Convert the softmax output to numpy array\n    softmax_output = softmax_output.detach().numpy()\n    # Find the index of the maximum value in each row\n    max_index = np.argmax(softmax_output, axis=1)\n    # Convert the numpy array to torch tensor\n    max_index = torch.from_numpy(max_index)\n    return max_index\n"}
+{"id": 978, "code": "    y = torch.argmin(softmax_output, dim=1)\n    return y\n"}
+{"id": 979, "code": "def cross_entropy2d(input, target, weight=None, size_average=True):\n    # input: (n, c, w, z), target: (n, w, z)\n    n, c, w, z = input.size()\n    # log_p: (n, c, w, z)\n    log_p = F.log_softmax(input, dim=1)\n    # log_p: (n*w*z, c)\n    log_p = log_p.permute(0, 3, 2, 1).contiguous().view(-1, c)  # make class dimension last dimension\n    log_p = log_p[\n       target.view(n, w, z, 1).repeat(0, 0, 0, c) >= 0]  # this looks wrong -> Should rather be a one-hot vector\n    log_p = log_p.view(-1, c)\n    # target: (n*w*z,)\n    mask = target >= 0\n    target = target[mask]\n    loss = F.nll_loss(log_p, target.view(-1), weight=weight, size_average=False)\n    if size_average:\n        loss /= mask.data.sum()\n    return loss\n\nimages = Variable(torch.randn(5, 3, 4, 4))\nlabels = Variable(torch.LongTensor(5, 4, 4).random_(3))\nloss = cross_entropy2d(images, labels)\n"}
+{"id": 980, "code": "cnt_equal = (A == B).sum()\nprint(cnt_equal)\n"}
+{"id": 981, "code": "cnt_equal = (A == B).sum()\nprint(cnt_equal)\n"}
+{"id": 982, "code": "cnt_not_equal = torch.sum(A != B)\nprint(cnt_not_equal)\n"}
+{"id": 983, "code": "    return np.sum(A == B)\n\n# Example usage\nA = torch.randn(1000, 1)\nB = torch.randn(1000, 1)\nprint(Count(A, B))\n"}
+{"id": 984, "code": "cnt_equal = torch.sum(A[-x:] == B[-x:]).item()\n"}
+{"id": 985, "code": "cnt_not_equal = torch.sum(A[:, -x:] != B[:, -x:]).item()\n"}
+{"id": 986, "code": "tensors_31 = []\nfor i in range(31):\n    tensors_31.append(a[:, :, :, i*10:(i+1)*10, :])\n"}
+{"id": 987, "code": "tensors_31 = []\nfor i in range(31):\n    tensors_31.append(a[:, :, i*10:(i+1)*10, :, :])\n"}
+{"id": 988, "code": "output[mask == 1] = clean_input_spectrogram[mask == 1]\n"}
+{"id": 989, "code": "output[mask == 0] = clean_input_spectrogram[mask == 0]\n"}
+{"id": 990, "code": "sign_x = torch.sign(x)\nsign_y = torch.sign(y)\nmin_x = torch.min(torch.abs(x), torch.abs(y))\nmin_y = torch.min(torch.abs(y), torch.abs(x))\nsigned_min = torch.where(torch.abs(x) < torch.abs(y), sign_x * min_x, sign_y * min_y)\n"}
+{"id": 991, "code": "sign_x = torch.sign(x)\nsign_y = torch.sign(y)\nmax_x = torch.max(torch.abs(x), torch.abs(y))\nmax_y = torch.max(torch.abs(y), torch.abs(x))\nsigned_max = torch.where(max_x > max_y, sign_x * max_x, sign_y * max_y)\n"}
+{"id": 992, "code": "    x_sign = torch.sign(x)\n    y_sign = torch.sign(y)\n    x_abs = torch.abs(x)\n    y_abs = torch.abs(y)\n    min_abs = torch.min(x_abs, y_abs)\n    min_sign = torch.where(x_abs < y_abs, x_sign, y_sign)\n    return min_abs * min_sign\n"}
+{"id": 993, "code": "output = MyNet(input)\nconf, classes = torch.max(output.reshape(1, 3), 1)\nclass_names = '012'\nconfidence_score = conf.item()\nprint(confidence_score)\n"}
+{"id": 994, "code": "result = torch.cat((a[:, :2], (a[:, 2:].mean(dim=1, keepdim=True) + b[:, :1]), b[:, 1:]), dim=1)\n"}
+{"id": 995, "code": "    a_cols = a.shape[1]\n    b_cols = b.shape[1]\n    result = torch.zeros(a.shape[0], a_cols + b_cols - 1)\n    for i in range(a_cols):\n        result[:, i] = a[:, i]\n    for i in range(b_cols - 1):\n        result[:, a_cols + i] = b[:, i + 1]\n    for i in range(a_cols - 1):\n        result[:, a_cols + b_cols - 2] += a[:, i + 1]\n    result[:, a_cols + b_cols - 2] /= a_cols - 1\n    return result\n\nprint(solve(a, b))\n"}
+{"id": 996, "code": "result = torch.cat((torch.zeros(1,4,4), t, torch.zeros(1,4,4)), dim=0)\n"}
+{"id": 997, "code": "result = torch.cat((torch.zeros(1, 4, 4), t, torch.zeros(1, 4, 4)), dim=0)\n"}
+{"id": 998, "code": "result = torch.cat((torch.tensor([[-1, -1, -1, -1]]), t), dim=0)\nresult = torch.cat((result, torch.tensor([[-1, -1, -1, -1]])), dim=0)\n"}
+{"id": 999, "code": "result = torch.bmm(data, W.unsqueeze(1)).squeeze()\nresult = result.view(10, 2, 3)\n"}

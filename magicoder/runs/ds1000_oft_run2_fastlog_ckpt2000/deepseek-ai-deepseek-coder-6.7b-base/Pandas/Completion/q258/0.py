@@ -1,0 +1,6 @@
+df = df.set_index('Time')
+df = df.resample('3T').sum()
+df = df.reset_index()
+df['Time'] = df['Time'].dt.round('3T')
+df = df.fillna(0)
+print(df)

@@ -1,0 +1,2 @@
+result = pd.pivot_table(df, values=['D','E'], index=['B'], aggfunc={'D': np.sum, 'E': np.mean})
+print(result)

@@ -1,0 +1,5 @@
+plt.plot(x, y)
+plt.title('Plot of y over x', fontsize=20)
+plt.xlabel('x', fontsize=18)
+plt.ylabel('y', fontsize=16)
+plt.show()

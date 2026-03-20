@@ -1,0 +1,15 @@
+df['2001'] = df['2001'].cumsum()
+df['2002'] = df['2002'].cumsum()
+df['2003'] = df['2003'].cumsum()
+df['2004'] = df['2004'].cumsum()
+df['2005'] = df['2005'].cumsum()
+df['2006'] = df['2006'].cumsum()
+
+df['2001'] = df['2001'].div(df['2001'].count())
+df['2002'] = df['2002'].div(df['2002'].count())
+df['2003'] = df['2003'].div(df['2003'].count())
+df['2004'] = df['2004'].div(df['2004'].count())
+df['2005'] = df['2005'].div(df['2005'].count())
+df['2006'] = df['2006'].div(df['2006'].count())
+
+print(df)

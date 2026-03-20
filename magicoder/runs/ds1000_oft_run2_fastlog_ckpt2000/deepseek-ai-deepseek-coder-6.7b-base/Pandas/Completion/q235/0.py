@@ -1,0 +1,3 @@
+result = df['text'].str.cat(sep=', ')
+
+print(result)

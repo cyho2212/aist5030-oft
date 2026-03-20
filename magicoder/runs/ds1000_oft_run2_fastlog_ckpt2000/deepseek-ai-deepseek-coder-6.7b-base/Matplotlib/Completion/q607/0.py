@@ -1,0 +1,5 @@
+fig, axs = plt.subplots(1, 2)
+fig.suptitle('Figure')
+axs[0].plot(x, y)
+axs[1].plot(x, y)
+plt.show()

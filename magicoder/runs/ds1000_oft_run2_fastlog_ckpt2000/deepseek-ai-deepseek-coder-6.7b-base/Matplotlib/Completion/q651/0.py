@@ -1,0 +1,7 @@
+plt.figure(figsize=(10, 5))
+plt.plot(x, y)
+plt.xticks(x, rotation='vertical')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Line Chart')
+plt.show()

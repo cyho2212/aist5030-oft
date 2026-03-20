@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Convenience wrapper for the main OFT training script.
+# Defaults are tuned for the oft_run2_fastlog workflow.
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${REPO_ROOT}"
+
+GPU_ID="${GPU_ID:-1}"
+OUTPUT_DIR="${OUTPUT_DIR:-runs/oft_run2_fastlog}"
+DATAFILE="${DATAFILE:-${REPO_ROOT}/data/magicoder_75k_110k_shuffle.jsonl}"
+
+USE_FLASH_ATTENTION="${USE_FLASH_ATTENTION:-False}"
+DISABLE_TQDM="${DISABLE_TQDM:-True}"
+LOGGING_STEPS="${LOGGING_STEPS:-1}"
+
+LEARNING_RATE="${LEARNING_RATE:-2e-5}"
+WARMUP_STEPS="${WARMUP_STEPS:-80}"
+MAX_GRAD_NORM="${MAX_GRAD_NORM:-1.0}"
+PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-1}"
+GRADIENT_ACCUMULATION_STEPS="${GRADIENT_ACCUMULATION_STEPS:-256}"
+MAX_TRAINING_SEQ_LENGTH="${MAX_TRAINING_SEQ_LENGTH:-1024}"
+OFT_TARGET_MODULES="${OFT_TARGET_MODULES:-all-linear}"
+
+export GPU_ID
+export OUTPUT_DIR
+export DATAFILE
+export USE_FLASH_ATTENTION
+export DISABLE_TQDM
+export LOGGING_STEPS
+export LEARNING_RATE
+export WARMUP_STEPS
+export MAX_GRAD_NORM
+export PER_DEVICE_TRAIN_BATCH_SIZE
+export GRADIENT_ACCUMULATION_STEPS
+export MAX_TRAINING_SEQ_LENGTH
+export OFT_TARGET_MODULES
+
+bash scripts/run_oft_train_ds1p3b.sh

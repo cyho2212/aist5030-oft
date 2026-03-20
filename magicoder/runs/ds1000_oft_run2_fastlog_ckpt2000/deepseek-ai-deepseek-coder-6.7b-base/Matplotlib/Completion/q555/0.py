@@ -1,0 +1,5 @@
+plt.yticks([3, 4])
+plt.grid(axis='y', which='both')
+plt.xticks([1, 2])
+plt.grid(axis='x', which='both')
+plt.show()

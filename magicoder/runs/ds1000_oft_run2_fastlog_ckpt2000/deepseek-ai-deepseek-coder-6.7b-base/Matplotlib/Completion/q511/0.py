@@ -1,0 +1,5 @@
+plt.plot(x, y, label='x-y')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()

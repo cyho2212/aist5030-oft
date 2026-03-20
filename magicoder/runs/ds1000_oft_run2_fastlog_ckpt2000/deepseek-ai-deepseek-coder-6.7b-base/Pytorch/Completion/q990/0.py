@@ -1,0 +1,5 @@
+sign_x = torch.sign(x)
+sign_y = torch.sign(y)
+min_x = torch.min(torch.abs(x), torch.abs(y))
+min_y = torch.min(torch.abs(y), torch.abs(x))
+signed_min = torch.where(torch.abs(x) < torch.abs(y), sign_x * min_x, sign_y * min_y)

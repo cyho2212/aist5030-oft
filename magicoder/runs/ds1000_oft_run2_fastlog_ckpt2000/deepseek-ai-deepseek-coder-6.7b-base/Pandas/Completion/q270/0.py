@@ -1,0 +1,7 @@
+df_long = pd.melt(df.reset_index(), id_vars=['index'], value_vars=['A','B','C','D','E'])
+df_long['variable'] = df_long['variable'] + '_' + df_long['index'].astype(str)
+df_long = df_long.drop(['index'], axis=1)
+df_long = df_long.pivot(columns='variable', values='value')
+df_long.columns = df_long.columns.str.replace('variable_', '')
+df_long = df_long.reset_index(drop=True)
+print(df_long)

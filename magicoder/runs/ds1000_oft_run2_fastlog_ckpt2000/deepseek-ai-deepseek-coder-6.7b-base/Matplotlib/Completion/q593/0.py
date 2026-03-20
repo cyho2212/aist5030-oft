@@ -1,0 +1,6 @@
+plt.loglog(x, y)
+plt.xticks([1, 10, 100], ['1', '10', '100'])
+plt.yticks([1, 10, 100], ['1', '10', '100'])
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()

@@ -1,0 +1,5 @@
+fig, ax = plt.subplots()
+ax.hist(x, bins=bins, alpha=0.5, label='x')
+ax.hist(y, bins=bins, alpha=0.5, label='y')
+ax.legend()
+plt.show()

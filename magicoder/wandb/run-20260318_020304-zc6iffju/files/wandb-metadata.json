@@ -1,0 +1,107 @@
+{
+  "os":  "Linux-6.8.0-60-generic-x86_64-with-glibc2.39",
+  "python":  "CPython 3.13.5",
+  "startedAt":  "2026-03-17T18:03:04.266361Z",
+  "args":  [
+    "--model_key",
+    "deepseek-ai/deepseek-coder-6.7b-base",
+    "--model_name_or_path",
+    "deepseek-ai/deepseek-coder-6.7b-base",
+    "--use_flash_attention",
+    "False",
+    "--max_training_seq_length",
+    "1024",
+    "--datafile_paths",
+    "/mnt/raid1/mzyu/CSY/cy/magicoder/data/magicoder_75k_110k_shuffle.jsonl",
+    "--output_dir",
+    "runs/oft_run1",
+    "--bf16",
+    "True",
+    "--num_train_epochs",
+    "1",
+    "--per_device_train_batch_size",
+    "2",
+    "--gradient_accumulation_steps",
+    "128",
+    "--group_by_length",
+    "False",
+    "--ddp_find_unused_parameters",
+    "False",
+    "--logging_steps",
+    "1",
+    "--log_level",
+    "info",
+    "--optim",
+    "adafactor",
+    "--max_grad_norm",
+    "-1",
+    "--warmup_steps",
+    "15",
+    "--learning_rate",
+    "5e-5",
+    "--lr_scheduler_type",
+    "linear",
+    "--use_oft",
+    "True",
+    "--oft_block_size",
+    "32",
+    "--oft_target_modules",
+    "all-linear",
+    "--oft_module_dropout",
+    "0.0"
+  ],
+  "program":  "-m magicoder.train",
+  "git":  {
+    "remote":  "https://github.com/ise-uiuc/magicoder.git",
+    "commit":  "3ef43f0feaa2a48c3bb86d0b1f0d4482912d2e18"
+  },
+  "email":  "mingzhe.yu.2025@phdcs.smu.edu.sg",
+  "root":  "/mnt/raid1/mzyu/CSY/cy/magicoder",
+  "host":  "LMF-L40S-1",
+  "executable":  "/mnt/raid1/mzyu/anaconda3/bin/python",
+  "cpu_count":  64,
+  "cpu_count_logical":  128,
+  "gpu":  "NVIDIA L40S",
+  "gpu_count":  4,
+  "disk":  {
+    "/":  {
+      "total":  "941289119744",
+      "used":  "78225936384"
+    }
+  },
+  "memory":  {
+    "total":  "540504408064"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA L40S",
+      "memoryTotal":  "48305799168",
+      "cudaCores":  18176,
+      "architecture":  "Ada",
+      "uuid":  "GPU-48855ea8-8082-2c16-e888-0920ff48d2a3"
+    },
+    {
+      "name":  "NVIDIA L40S",
+      "memoryTotal":  "48305799168",
+      "cudaCores":  18176,
+      "architecture":  "Ada",
+      "uuid":  "GPU-ab61f641-8dfb-380c-a9e4-f18ae9ff6d2f"
+    },
+    {
+      "name":  "NVIDIA L40S",
+      "memoryTotal":  "48305799168",
+      "cudaCores":  18176,
+      "architecture":  "Ada",
+      "uuid":  "GPU-1b444258-8c55-f2df-95e0-bf6700ce7452"
+    },
+    {
+      "name":  "NVIDIA L40S",
+      "memoryTotal":  "48305799168",
+      "cudaCores":  18176,
+      "architecture":  "Ada",
+      "uuid":  "GPU-aadd9963-4b8b-146c-d474-d87aa281af91"
+    }
+  ],
+  "cudaVersion":  "12.8",
+  "writerId":  "9heoya3bxfjnue7z1cmn8ls216il2cmw"
+}

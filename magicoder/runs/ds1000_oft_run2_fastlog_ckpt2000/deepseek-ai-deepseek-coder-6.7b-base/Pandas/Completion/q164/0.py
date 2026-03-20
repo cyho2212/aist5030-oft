@@ -1,0 +1,5 @@
+df.columns = pd.MultiIndex.from_tuples(df.columns)
+df = df.stack(level=0).unstack(level=1)
+df.columns = pd.MultiIndex.from_tuples(df.columns)
+df = df.stack(level=0).unstack(level=1)
+print(df)

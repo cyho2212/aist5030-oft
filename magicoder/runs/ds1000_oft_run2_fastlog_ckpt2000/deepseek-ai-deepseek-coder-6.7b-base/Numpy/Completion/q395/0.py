@@ -1,0 +1,1 @@
+result = np.random.uniform(np.log(min), np.log(max), n)

@@ -1,0 +1,5 @@
+df_out = pd.get_dummies(df.Col3.apply(pd.Series).stack()).sum(level=0)
+df_out.insert(0, 'Col1', df['Col1'])
+df_out.insert(1, 'Col2', df['Col2'])
+df_out = df_out.groupby(level=0).sum()
+df_out = df_out.reset_index()

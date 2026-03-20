@@ -1,0 +1,6 @@
+fig, (ax1, ax2) = plt.subplots(1, 2, sharex=True)
+ax1.plot(x, y1)
+ax1.set_title('sin(x)')
+ax2.plot(x, y2)
+ax2.set_title('cos(x)')
+plt.show()

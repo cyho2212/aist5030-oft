@@ -1,0 +1,5 @@
+plt.figure()
+plt.axis('equal')
+plt.plot(0.5, 0.5, 'o', markersize=10)
+plt.gca().add_patch(plt.Circle((0.5, 0.5), 0.2, color='r'))
+plt.show()

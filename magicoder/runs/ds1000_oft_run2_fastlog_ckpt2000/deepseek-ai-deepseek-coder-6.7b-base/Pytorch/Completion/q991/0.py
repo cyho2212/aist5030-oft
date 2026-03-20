@@ -1,0 +1,5 @@
+sign_x = torch.sign(x)
+sign_y = torch.sign(y)
+max_x = torch.max(torch.abs(x), torch.abs(y))
+max_y = torch.max(torch.abs(y), torch.abs(x))
+signed_max = torch.where(max_x > max_y, sign_x * max_x, sign_y * max_y)
